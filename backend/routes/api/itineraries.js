@@ -21,13 +21,22 @@ router.get('/user/:userId', async (req, res, next) => {
         return next(error);
     }
     try {
-        const itineraries = await Itinerary.find({ author: user._id })
-                                        .sort({ createdAt: -1 })
-                                        .populate("author", "_id username");
+        const itineraries = await Itinerary.find({ creatorId: user._id })
+                                        .sort({ createdAt: -1 });
         return res.json(itineraries);
     }
     catch(err) {
-      return res.json([]);
+        return res.json([]);
+    }
+})
+
+router.get('/', async (req, res, next) => {
+    try {
+        const itineraries = await Itinerary.find()
+                                        .sort({createdAt: -1});
+        return res.json(itineraries);
+    } catch (err) {
+        return res.json([])
     }
 })
 

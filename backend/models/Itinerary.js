@@ -18,11 +18,11 @@ const activitySchema = new Schema({
 });
 
 const itinerarySchema = new Schema({
-        username: { // creator
+        creator: { // creator
             type: String,
             required: true
         },
-        userId: { // creator id
+        creatorId: { // creator id
             type: ObjectId,
             required: true
         },
