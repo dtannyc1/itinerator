@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Itinerary = mongoose.model('Itinerary');
-const { requireUser } = require('../../config/passport');
+const { requireUser, restoreUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateItineraryInput = require('../../validations/itinerary');
 
@@ -75,7 +75,7 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
 })
 
 // UPDATE /:id, update
-router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next) => {
+router.patch('/:id', restoreUser, validateItineraryInput, async (req, res, next) => {
     try {
         const itinerary = await Itinerary.findById(req.params.id)
         if (!itinerary) {
@@ -85,6 +85,7 @@ router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next)
             return next(err);
         } else if (req.user._id !== itinerary.creatorId) {
             const err = new Error("Itinerary Update Error");
+            console.log(req.user._id)
             err.statusCode = 422;
             err.errors = {users: "Must be original creator to update an itinerary"}
             return next(err);
