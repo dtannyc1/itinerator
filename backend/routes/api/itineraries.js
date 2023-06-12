@@ -65,8 +65,10 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
             activities: req.body.activities
         });
 
-        let itinerary = await newItinerary.save();
-        return res.json(itinerary);
+        newItinerary.save()
+            .then(itinerary => res.json(itinerary))
+            .catch(err => {throw err}); // maybe dont throw error?
+                // this should be caught in thunk action creator in frontend store
     } catch (error) {
         next(error)
     }
@@ -96,5 +98,6 @@ router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next)
 })
 
 // DELETE /:id, delete
+
 
 module.exports = router;
