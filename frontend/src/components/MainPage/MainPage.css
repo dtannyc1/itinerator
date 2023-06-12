@@ -1,3 +1,13 @@
 /* .main-wrap {
     margin: 0px 0px 0px 0px;
 } */
+
+.itinerary-grid-wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.itinerary-item-wrap, .temp-iti-item {
+    height: 40px;
+    width: 100px;
+}
