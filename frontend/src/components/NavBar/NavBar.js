@@ -31,8 +31,9 @@ function NavBar () {
 
     return (
         <>
-            <h1>Excursion Explorer</h1>
+        <div className='nav-bar'>
             { getLinks() }
+        </div>
         </>
     );
 }

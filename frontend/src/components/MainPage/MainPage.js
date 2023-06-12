@@ -1,9 +1,16 @@
-function MainPage() {
+import React from 'react';
+import './MainPage.css';
+import MainPageCarousel from './MainPageCarousel';
+
+
+const MainPage = () => {
+
+
     return (
-      <>
-        <p>Excursion Explorer</p>
-      </>
+      <div className='main-wrap'>
+        <MainPageCarousel />
+      </div>
     );
   }
 
-  export default MainPage;
+export default MainPage;

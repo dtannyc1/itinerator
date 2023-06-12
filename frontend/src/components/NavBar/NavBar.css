@@ -1,0 +1,16 @@
+.nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: end;
+    height: 50px;
+    width: 100%;
+    border-top: 1px solid #F2B366;
+    border-bottom: 1px solid #F2B366;
+    background-color: #F2D7B6;
+}
+
+.nav-bar:hover {
+    box-shadow: 0 0 20px #733702;
+}
