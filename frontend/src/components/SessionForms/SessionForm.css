@@ -21,10 +21,16 @@
     border-radius: 7px;
     display: flex;
     flex-direction: column;
+    /* transition: box-shadow 0.3s, color 0.3s, transform 0.3s; */
 }
+.session-form:hover {
+    /* box-shadow: 0 0 10px #D9CA9C; */
+}
+
 #form-button {
     width: 100px;
-    margin-left: 15px;
+    margin: 20px 0px 20px 15px;
+    /* align-self: center; */
 }
 
 .form-errors {
@@ -33,10 +39,14 @@
     font-size: 16px;
 }
 
-.input {
+.input, .input-error {
     font-size: 16px;
+    letter-spacing: .04em;;
     height: 20px;
     width: 200px;
+    padding: 5px;
+    border: 1px solid #D9BA23;
+    border-radius: 5px;
 }
 .input-error {
     border: 1px solid red;

@@ -35,13 +35,13 @@ const LoginForm = () => {
                 <div className='form-input'>
                     <div>Username / Email</div>
                     <input
-                        className={errors?.password ? 'input-error' : 'input'}
+                        className={errors ? 'input-error' : 'input'}
                         type="text"
                         value={email}
                         onChange={update('email')}
                         placeholder="Username or Email"
                     />
-                    <div className="form-errors">{errors?.email}</div>
+                    { errors && <div className="form-errors">Credential is invalid</div>}
                 </div>
 
                 <div className='form-input'>

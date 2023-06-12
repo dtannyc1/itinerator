@@ -59,6 +59,7 @@ function SignupForm () {
                 <div className='form-input'>
                     <div>Username</div>
                     <input
+                        className={errors?.username ? 'input-error' : 'input'}
                         type="text"
                         value={username}
                         onChange={update('username')}
@@ -70,6 +71,7 @@ function SignupForm () {
                 <div className='form-input'>
                     <div>Email</div>
                     <input
+                        className={errors?.email ? 'input-error' : 'input'}
                         type="text"
                         value={email}
                         onChange={update('email')}
@@ -81,6 +83,7 @@ function SignupForm () {
                 <div className='form-input'>
                     <div>Password</div>
                     <input
+                        className={errors?.password ? 'input-error' : 'input'}
                         type="password"
                         value={password}
                         onChange={update('password')}
@@ -92,12 +95,13 @@ function SignupForm () {
                 <div className='form-input'>
                     <div>Confirm Password</div>
                     <input
+                        className={errors?.password ? 'input-error' : 'input'}
                         type="password"
                         value={password2}
                         onChange={update('password2')}
                         placeholder="Confirm Password"
                     />
-                    <div className="errors">
+                    <div className="form-errors">
                         {password !== password2 && 'Confirm Password field must match'}
                     </div>
                 </div>
