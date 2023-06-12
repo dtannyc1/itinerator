@@ -16,14 +16,24 @@ function NavBar () {
         if (loggedIn) {
             return (
                 <div className="links-nav">
-                    <button onClick={logoutUser}>Logout</button>
+                    <button className='nav-button' onClick={logoutUser}>
+                        <i className="fa-solid fa-right-from-bracket"></i>
+                        &nbsp;Logout
+                    </button>
+                    
                 </div>
             );
         } else {
             return (
-                <div className="links-auth">
-                    <Link to={'/signup'}>Signup</Link>
-                    <Link to={'/login'}>Login</Link>
+                <div className="auth-buttons-wrap">
+                    <Link className='nav-button' to={'/signup'}>
+                        <i className="fa-solid fa-user-plus"></i>
+                        &nbsp;Signup
+                        </Link>
+                    <Link className='nav-button' to={'/login'}>
+                        <i className="fa-solid fa-user-large"></i>
+                        &nbsp;Login
+                        </Link>
                 </div>
             );
         }
@@ -31,8 +41,9 @@ function NavBar () {
 
     return (
         <>
-            <h1>Excursion Explorer</h1>
+        <div className='nav-bar'>
             { getLinks() }
+        </div>
         </>
     );
 }
