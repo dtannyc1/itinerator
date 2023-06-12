@@ -2,7 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Itinerary = mongoose.model('Itinerary');
+const { requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
+const validateItineraryInput = require('../../validations/itinerary');
 
 const router = express.Router();
 
@@ -53,7 +55,46 @@ router.get('/:id', async (req, res, next) => {
 })
 
 // POST /, create
+router.post('/', requireUser, validateItineraryInput, async (req, res, next) => {
+    try {
+        // does not validate activities?
+        // will just stop users on backend
+        const newItinerary = new Itinerary({
+            creator: req.user.username,
+            creatorId: req.user._id,
+            activities: req.body.activities
+        });
+
+        let itinerary = await newItinerary.save();
+        return res.json(itinerary);
+    } catch (error) {
+        next(error)
+    }
+})
+
 // UPDATE /:id, update
+router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else if (req.user._id !== itinerary.creatorId) {
+            const err = new Error("Itinerary Update Error");
+            err.statusCode = 422;
+            err.errors = {users: "Must be original creator to update an itinerary"}
+            return next(err);
+        }
+        itinerary.activities = req.body.activities;
+        let updatedItinerary = await itinerary.save();
+        return res.json(updatedItinerary)
+    } catch (error) {
+        next(error)
+    }
+})
+
 // DELETE /:id, delete
 
 module.exports = router;
