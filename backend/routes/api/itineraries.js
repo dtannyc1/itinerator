@@ -2,7 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Itinerary = mongoose.model('Itinerary');
+const { requireUser, restoreUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
+const validateItineraryInput = require('../../validations/itinerary');
 
 const router = express.Router();
 
@@ -53,7 +55,62 @@ router.get('/:id', async (req, res, next) => {
 })
 
 // POST /, create
+router.post('/', requireUser, validateItineraryInput, async (req, res, next) => {
+    try {
+        // does not validate activities?
+        // will just stop users on backend
+        const newItinerary = new Itinerary({
+            creator: req.user.username,
+            creatorId: req.user._id,
+            activities: req.body.activities
+        });
+
+        newItinerary.save()
+            .then(itinerary => res.json(itinerary))
+            .catch(err => {throw err}); // maybe dont throw error?
+                // this should be caught in thunk action creator in frontend store
+    } catch (error) {
+        next(error)
+    }
+})
+
 // UPDATE /:id, update
+router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else if (req.user._id.toString() !== itinerary.creatorId.toString()) {
+            const err = new Error("Itinerary Update Error");
+            err.statusCode = 422;
+            err.errors = {users: "Must be original creator to update an itinerary"}
+            return next(err);
+        }
+        itinerary.activities = req.body.activities;
+        let updatedItinerary = await itinerary.save();
+        return res.json(updatedItinerary)
+    } catch (error) {
+        next(error)
+    }
+})
+
 // DELETE /:id, delete
+router.delete('/:id', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+
+        if (itinerary && req.user._id.toString() === itinerary.creatorId.toString()) {
+            itinerary.deleteOne();
+            return res.json({msg: "Deleted Itinerary"})
+        } else {
+            return res.json({msg: "Failed to Delete Itinerary"})
+        }
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router;

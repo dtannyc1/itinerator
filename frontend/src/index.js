@@ -6,8 +6,11 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from './store/store';
+import jwtFetch from './store/jwt';
 
 let store = configureStore({});
+
+window.jwtFetch = jwtFetch;
 
 function Root() {
     return (
