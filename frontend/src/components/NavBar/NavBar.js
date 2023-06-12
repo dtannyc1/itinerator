@@ -27,11 +27,11 @@ function NavBar () {
             return (
                 <div className="auth-buttons-wrap">
                     <Link className='nav-button' to={'/signup'}>
-                        <i class="fa-solid fa-user-plus"></i>
+                        <i className="fa-solid fa-user-plus"></i>
                         &nbsp;Signup
                         </Link>
                     <Link className='nav-button' to={'/login'}>
-                        <i class="fa-solid fa-user-large"></i>
+                        <i className="fa-solid fa-user-large"></i>
                         &nbsp;Login
                         </Link>
                 </div>

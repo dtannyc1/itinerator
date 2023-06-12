@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './MainPage.css';
 import MainPageCarousel from './MainPageCarousel';
+import MainPageItineraryItem from './MainPageItineraryItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchItineraries } from '../../store/itineraries';
 
 
 const MainPage = () => {
+  const dispatch = useDispatch();
 
+  
+  useEffect(() => {
+    dispatch(fetchItineraries());
+  }, [dispatch]);
+
+  const itineraries = useSelector(store => store.itineraries ? Object.values(store.itineraries) : []);
 
   return (
     <div className='main-wrap'>
@@ -13,11 +23,9 @@ const MainPage = () => {
 
       <div className='itinerary-grid-wrap'>
 
-        <div className='temp-iti-item'></div>
-        <div className='temp-iti-item'></div>
-        <div className='temp-iti-item'></div>
-        <div className='temp-iti-item'></div>
-        <div className='temp-iti-item'></div>
+        {itineraries.map((itinerary) => {
+          return <MainPageItineraryItem itinerary={itinerary} key={itinerary._id} />
+        })}
 
       </div>
 
