@@ -7,7 +7,7 @@ const { isProduction } = require('../../config/keys');
 const router = express.Router();
 
 // GET /users/:id, index of itineraries for specific user
-router.get('/user/:userId', async (req, res, next) => {
+router.get('/users/:userId', async (req, res, next) => {
     let user;
     try {
         user = await User.findById(req.params.userId);
