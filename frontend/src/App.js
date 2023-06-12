@@ -10,6 +10,7 @@ import SignupForm from './components/SessionForms/SignupForm';
 
 import { getCurrentUser } from './store/session';
 import { Route } from 'react-router-dom';
+import Footer from './components/Footer/Footer';
 
 function App() {
     const [loaded, setLoaded] = useState(false);
@@ -21,11 +22,14 @@ function App() {
     return loaded && (
         <>
             <NavBar />
+
             <Switch>
                 <Route exact path="/" component={MainPage} />
                 <AuthRoute exact path="/login" component={LoginForm} />
                 <AuthRoute exact path="/signup" component={SignupForm} />
             </Switch>
+            
+            <Footer />
         </>
     );
   }
