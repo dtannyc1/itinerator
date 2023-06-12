@@ -11,6 +11,23 @@
     background-color: #F2D7B6;
 }
 
+.auth-buttons-wrap {
+    margin-top: 15px;
+}
+
 .nav-bar:hover {
-    box-shadow: 0 0 20px #733702;
+    /* box-shadow: 0 0 20px #733702; */
+}
+
+.nav-button {
+    background-color: transparent;
+    border: 2px solid #2862c8;
+    border-radius: 5px;
+    color: #2862c8;
+    text-decoration: none;
+    padding: 5px;
+    margin: 10px 10px 10px 10px;
+}
+.nav-button:hover {
+    box-shadow: 0 0 20px #2862c8;
 }

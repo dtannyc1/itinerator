@@ -16,14 +16,24 @@ function NavBar () {
         if (loggedIn) {
             return (
                 <div className="links-nav">
-                    <button onClick={logoutUser}>Logout</button>
+                    <button className='nav-button' onClick={logoutUser}>
+                        <i className="fa-solid fa-right-from-bracket" style={{color: '#2862c8' }}></i>
+                        Logout
+                    </button>
+                    
                 </div>
             );
         } else {
             return (
-                <div className="links-auth">
-                    <Link to={'/signup'}>Signup</Link>
-                    <Link to={'/login'}>Login</Link>
+                <div className="auth-buttons-wrap">
+                    <Link className='nav-button' to={'/signup'}>
+                        <i class="fa-solid fa-user-plus" style={{color: '#2862c8' }}></i>
+                        Signup
+                        </Link>
+                    <Link className='nav-button' to={'/login'}>
+                        <i class="fa-solid fa-user-large" style={{color: '#2862c8' }}></i>
+                        Login
+                        </Link>
                 </div>
             );
         }
