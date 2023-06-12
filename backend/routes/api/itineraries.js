@@ -55,3 +55,5 @@ router.get('/:id', async (req, res, next) => {
 // POST /, create
 // UPDATE /:id, update
 // DELETE /:id, delete
+
+module.exports = router;

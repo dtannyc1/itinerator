@@ -8,10 +8,12 @@ const { isProduction } = require('./config/keys');
 const csurf = require('csurf');
 
 require('./models/User');
+require('./models/Itinerary');
 require('./config/passport');
 const passport = require('passport');
-var usersRouter = require('./routes/api/users');
+const usersRouter = require('./routes/api/users');
 const csrfRouter = require('./routes/api/csrf');
+const itinerariesRouter = require('./routes/api/itineraries')
 
 var app = express();
 
@@ -37,6 +39,7 @@ app.use(
 
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
+app.use('/api/itineraries', itinerariesRouter);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
