@@ -1,0 +1,26 @@
+/* .main-wrap {
+    margin: 0px 0px 0px 0px;
+} */
+
+.itinerary-grid-wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    /* align-items: center; */
+    row-gap: 30px;
+    /* column-gap: 30px; */
+    margin: 50px;
+}
+
+.itinerary-item-wrap {
+    height: 300px;
+    width: 300px;
+    background-color: #034C8C;
+    border-radius: 15px;
+    box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+}
+.itinerary-item-wrap:hover {
+    box-shadow: 0 0 20px #050D26;
+    transform: scale(1.1);
+}
