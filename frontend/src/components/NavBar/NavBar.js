@@ -17,8 +17,8 @@ function NavBar () {
             return (
                 <div className="links-nav">
                     <button className='nav-button' onClick={logoutUser}>
-                        <i className="fa-solid fa-right-from-bracket" style={{color: '#2862c8' }}></i>
-                        Logout
+                        <i className="fa-solid fa-right-from-bracket"></i>
+                        &nbsp;Logout
                     </button>
                     
                 </div>
@@ -27,12 +27,12 @@ function NavBar () {
             return (
                 <div className="auth-buttons-wrap">
                     <Link className='nav-button' to={'/signup'}>
-                        <i class="fa-solid fa-user-plus" style={{color: '#2862c8' }}></i>
-                        Signup
+                        <i class="fa-solid fa-user-plus"></i>
+                        &nbsp;Signup
                         </Link>
                     <Link className='nav-button' to={'/login'}>
-                        <i class="fa-solid fa-user-large" style={{color: '#2862c8' }}></i>
-                        Login
+                        <i class="fa-solid fa-user-large"></i>
+                        &nbsp;Login
                         </Link>
                 </div>
             );
