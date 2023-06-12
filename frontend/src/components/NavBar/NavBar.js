@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './NavBar.css';
 import { logout } from '../../store/session';
+import LoginFormModal from '../SessionForms/LoginFormModal';
+import SignupFormModal from '../SessionForms/SignupFormModal';
 
 function NavBar () {
     const loggedIn = useSelector(state => !!state.session.user);
@@ -26,14 +28,8 @@ function NavBar () {
         } else {
             return (
                 <div className="auth-buttons-wrap">
-                    <Link className='nav-button' to={'/signup'}>
-                        <i className="fa-solid fa-user-plus"></i>
-                        &nbsp;Signup
-                        </Link>
-                    <Link className='nav-button' to={'/login'}>
-                        <i className="fa-solid fa-user-large"></i>
-                        &nbsp;Login
-                        </Link>
+                    <SignupFormModal />
+                    <LoginFormModal />
                 </div>
             );
         }

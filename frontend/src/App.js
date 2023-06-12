@@ -25,8 +25,6 @@ function App() {
 
             <Switch>
                 <Route exact path="/" component={MainPage} />
-                <AuthRoute exact path="/login" component={LoginForm} />
-                <AuthRoute exact path="/signup" component={SignupForm} />
             </Switch>
             
             <Footer />
