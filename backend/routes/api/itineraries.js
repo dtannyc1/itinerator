@@ -98,6 +98,19 @@ router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next)
 })
 
 // DELETE /:id, delete
+router.delete('/:id', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
 
+        if (itinerary && req.user._id.toString() === itinerary.creatorId.toString()) {
+            itinerary.deleteOne();
+            return res.json({msg: "Deleted Itinerary"})
+        } else {
+            return res.json({msg: "Failed to Delete Itinerary"})
+        }
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router;
