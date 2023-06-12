@@ -10,9 +10,16 @@ const activitySchema = new Schema({
             type: Number,
             required: true
         },
-        lng: Number,
+        lng: {
+            type: Number,
+            required: true
+        },
+        streetAddress: {
+            type: String,
+            required: true
+        },
         type: String,
-        duration: Number
+        duration: Number // in minutes?
     }, {
         timestamps: true
 });
@@ -23,7 +30,7 @@ const itinerarySchema = new Schema({
             required: true
         },
         creatorId: { // creator id
-            type: ObjectId,
+            type: Schema.Types.ObjectId,
             required: true
         },
         activities: [activitySchema] // array of activities
