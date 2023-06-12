@@ -31,6 +31,7 @@
     padding: 5px;
     margin: 10px 10px 10px 10px;
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+    cursor: pointer;
 }
 .nav-button:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
