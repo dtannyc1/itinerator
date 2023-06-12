@@ -6,9 +6,6 @@ const { isProduction } = require('../../config/keys');
 
 const router = express.Router();
 
-// GET /:id, show
-// GET /, index of most recent itineraries
-
 // GET /users/:id, index of itineraries for specific user
 router.get('/user/:userId', async (req, res, next) => {
     let user;
@@ -30,13 +27,28 @@ router.get('/user/:userId', async (req, res, next) => {
     }
 })
 
-router.get('/', async (req, res, next) => {
+// GET /, index of most recent itineraries
+router.get('/', async (req, res) => {
     try {
         const itineraries = await Itinerary.find()
                                         .sort({createdAt: -1});
         return res.json(itineraries);
     } catch (err) {
         return res.json([])
+    }
+})
+
+
+// GET /:id, show
+router.get('/:id', async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        return res.json(itinerary);
+    } catch (err) {
+        const error = new Error('Itinerary not found');
+        error.statusCode = 404;
+        error.errors = { message: "No itinerary found with that id" };
+        return next(error);
     }
 })
 
