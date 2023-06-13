@@ -24,10 +24,10 @@
 }
 
 .nav-button {
-    background-color: transparent;
+    background-color: rgba(217, 202, 156, 0.5);
     border: 2px solid #D9CA9C;
     border-radius: 5px;
-    color: #D9CA9C;
+    color: #034C8C;
     text-decoration: none;
     padding: 5px;
     margin: 10px 10px 10px 10px;
@@ -38,6 +38,6 @@
 }
 .nav-button:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
-    color: #D9BA23;
+    color: #0968bb;
     transform: scale(1.1);
 }
