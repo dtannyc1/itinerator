@@ -25,7 +25,22 @@ app.use(passport.initialize());
 
 if (!isProduction) {
     app.use(cors());
-} else {
+}
+app.use(
+    csurf({
+        cookie: {
+            secure: isProduction,
+            sameSite: isProduction && "Lax",
+            httpOnly: true
+        }
+    })
+);
+
+app.use('/api/users', usersRouter);
+app.use('/api/csrf', csrfRouter);
+app.use('/api/itineraries', itinerariesRouter);
+
+if (isProduction) {
     const path = require('path');
     // Serve the frontend's index.html file at the root route
     app.get('/', (req, res) => {
@@ -47,19 +62,6 @@ if (!isProduction) {
     });
 }
 
-app.use(
-    csurf({
-        cookie: {
-            secure: isProduction,
-            sameSite: isProduction && "Lax",
-            httpOnly: true
-        }
-    })
-);
-
-app.use('/api/users', usersRouter);
-app.use('/api/csrf', csrfRouter);
-app.use('/api/itineraries', itinerariesRouter);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
