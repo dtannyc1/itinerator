@@ -25,16 +25,6 @@ app.use(passport.initialize());
 
 if (!isProduction) {
     app.use(cors());
-
-    app.use(
-        csurf({
-            cookie: {
-                secure: isProduction,
-                sameSite: isProduction && "Lax",
-                httpOnly: true
-            }
-        })
-    );
 } else {
     const path = require('path');
     // Serve the frontend's index.html file at the root route
@@ -56,6 +46,16 @@ if (!isProduction) {
       );
     });
 }
+
+app.use(
+    csurf({
+        cookie: {
+            secure: isProduction,
+            sameSite: isProduction && "Lax",
+            httpOnly: true
+        }
+    })
+);
 
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
