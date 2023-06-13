@@ -3,7 +3,7 @@ import './MainPage.css';
 import MainPageCarousel from './MainPageCarousel';
 import MainPageItineraryItem from './MainPageItineraryItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchItineraries } from '../../store/itineraries';
+import { fetchItineraries, getItineraries } from '../../store/itineraries';
 
 
 const MainPage = () => {
@@ -14,7 +14,7 @@ const MainPage = () => {
     dispatch(fetchItineraries());
   }, [dispatch]);
 
-  const itineraries = useSelector(store => store.itineraries ? Object.values(store.itineraries) : []);
+  const itineraries = useSelector(getItineraries);
 
   return (
     <div className='main-wrap'>

@@ -66,7 +66,7 @@ function SignupForm () {
                         onChange={update('username')}
                         placeholder="Username"
                     />
-                    <div className="form-errors">{errors?.username}</div>
+                    <div className={errors?.username ? "form-errors" : "form-errors-space-holder"}>{errors?.username}</div>
                 </div>
 
                 <div className='form-input'>
@@ -78,7 +78,7 @@ function SignupForm () {
                         onChange={update('email')}
                         placeholder="Email"
                     />
-                    <div className="form-errors">{errors?.email}</div>
+                    <div className={errors?.email ? "form-errors" : "form-errors-space-holder"}>{errors?.email ? 'Credential is not valid' : ''}</div>
                 </div>
 
                 <div className='form-input'>
@@ -90,7 +90,7 @@ function SignupForm () {
                         onChange={update('password')}
                         placeholder="Password"
                     />
-                    <div className="form-errors">{errors?.password}</div>
+                    <div className={errors?.password ? "form-errors" : "form-errors-space-holder"}>{errors?.password ? 'Password must be longer' : ''}</div>
                 </div>
 
                 <div className='form-input'>
@@ -102,8 +102,8 @@ function SignupForm () {
                         onChange={update('password2')}
                         placeholder="Confirm Password"
                     />
-                    <div className="form-errors">
-                        {password !== password2 && 'Password and Confirm Password fields must match'}
+                    <div className={password !== password2 ? "form-errors" : "form-errors-space-holder"}>
+                        {password !== password2 && 'Password fields must match'}
                     </div>
                 </div>
 

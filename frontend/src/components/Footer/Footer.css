@@ -2,7 +2,7 @@
     margin: 50px 0px 50px 0px;
     width: 100%;
     min-height: 200px;
-    background: linear-gradient(to right, #0a1841, #2862C8);
+    background: linear-gradient(to left, #0a1841, #2862C8);
     border-bottom: 2px solid #D9BA23;
     border-top: 2px solid #D9BA23;
 }

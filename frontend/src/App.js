@@ -12,6 +12,7 @@ import ItineraryCreatePage from './components/ItineraryCreatePage/ItineraryCreat
 import { getCurrentUser } from './store/session';
 import { Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
+import ItineraryShowPage from './components/ItineraryShawPage/ItineraryShowPage';
 
 function App() {
     const [loaded, setLoaded] = useState(false);
@@ -25,9 +26,9 @@ function App() {
             <NavBar />
 
             <Switch>
-                <AuthRoute exact path="/" component={MainPage} />
+                <Route exact path="/" component={MainPage} />
+                <Route exact path="/itineraries/:itineraryId" component={ItineraryShowPage} />
                 <ProtectedRoute exact path="/itinerary" component={ItineraryCreatePage} />
-
             </Switch>
             
             <Footer />
