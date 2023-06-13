@@ -8,8 +8,8 @@ const LoginFormModal = () => {
     return (
         <>
             <button className='nav-button' onClick={() => setShowModal(true)}>
-                <i className="fa-solid fa-user-large"></i>
-                &nbsp;LogIn
+                <i class="fa-solid fa-id-badge"></i>
+                &nbsp;Log In
             </button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>

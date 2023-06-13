@@ -41,7 +41,7 @@ const LoginForm = () => {
                         onChange={update('email')}
                         placeholder="Username or Email"
                     />
-                    { errors && <div className="form-errors">Credential is invalid</div>}
+                    { errors && <div className="form-errors">Credential is not valid</div>}
                 </div>
 
                 <div className='form-input'>

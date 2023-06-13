@@ -54,7 +54,8 @@ function SignupForm () {
     return (
         <div className='flex-column-wrap'>
             <div className='form-header'>Sign Up Form</div>
-            <form className="session-form" onSubmit={handleSubmit}>
+
+            <form className="session-form" id='signup-form' onSubmit={handleSubmit}>
 
                 <div className='form-input'>
                     <div>Username</div>
@@ -83,7 +84,7 @@ function SignupForm () {
                 <div className='form-input'>
                     <div>Password</div>
                     <input
-                        className={errors?.password ? 'input-error' : 'input'}
+                        className={errors?.password || password !== password2 ? 'input-error' : 'input'}
                         type="password"
                         value={password}
                         onChange={update('password')}
@@ -95,14 +96,14 @@ function SignupForm () {
                 <div className='form-input'>
                     <div>Confirm Password</div>
                     <input
-                        className={errors?.password ? 'input-error' : 'input'}
+                        className={errors?.password || password !== password2 ? 'input-error' : 'input'}
                         type="password"
                         value={password2}
                         onChange={update('password2')}
                         placeholder="Confirm Password"
                     />
                     <div className="form-errors">
-                        {password !== password2 && 'Confirm Password field must match'}
+                        {password !== password2 && 'Password and Confirm Password fields must match'}
                     </div>
                 </div>
 

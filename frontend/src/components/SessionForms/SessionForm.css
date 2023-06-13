@@ -9,7 +9,7 @@
     color: #D9CA9C;
     margin: 15px 0px 0px 15px;
     font-size: 20px;
-    min-width: 300px;
+    width: 300px;
 }
 .form-input > div {
     margin-bottom: 5px;
@@ -30,6 +30,7 @@
 #form-button {
     width: 100px;
     margin: 20px 0px 20px 15px;
+    font-size: 18px;
     /* align-self: center; */
 }
 
@@ -49,5 +50,5 @@
     border-radius: 5px;
 }
 .input-error {
-    border: 1px solid red;
+    border: 2px solid red;
 }
