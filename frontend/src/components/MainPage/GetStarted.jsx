@@ -3,17 +3,17 @@ import './GetStarted.css'
 const GetStarted = () => {
     return (
         <div className="get-started-wrap">
-            <div className='circle'>Museum</div>
-            <div className='circle'>Park</div>
-            <div className='circle'>Bar</div>
-            <div className='circle'>Restaurant</div>
-            <div className='circle'>Soccer</div>
-            <div className='circle'>Basketball</div>
-            <div className='circle'>Bowling</div>
-            <div className='circle'>Pool</div>
+            <div className='circle'><i className="fa-solid fa-building-columns fa-2xl"></i></div>
+            <div className='circle'><i className="fa-solid fa-tree fa-2xl"></i></div>
+            <div className='circle'><i className="fa-solid fa-martini-glass fa-2xl"></i></div>
+            <div className='circle'><i className="fa-solid fa-utensils fa-2xl"></i></div>
+            <div className='circle'><i className="fa-solid fa-futbol fa-2xl"></i></div>
+            <div className='circle'><i className="fa-solid fa-basketball fa-2xl"></i></div>
+            <div className='circle'><i className="fa-solid fa-bowling-ball fa-2xl"></i></div>
+            <div className='circle'><i className="fa-solid fa-person-swimming fa-2xl"></i></div>
             <input 
                 className='search-bar'
-                placeholder="Location"
+                placeholder="Enter desired location"
             />
         </div>
     )
