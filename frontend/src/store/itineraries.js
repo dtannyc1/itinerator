@@ -29,18 +29,26 @@ export const fetchItineraries = () => async dispatch  => {
 export const fetchItinerary = (itineraryId) => async dispatch => {
     const response = await jwtFetch(`/api/itineraries/${itineraryId}`);
     const data = await response.json();
-    
+
     dispatch(receiveItinerary(data));
 };
 
 // ============================= get requests for frontEnd =============================
+
+export const getItineraries = (store) => {
+    if(store.itineraries) {
+        return Object.values(store.itineraries);
+    } else {
+        return [];
+    };
+};
 
 export const getItinerary = (itineraryId) => (store) => {
     if(store.itineraries[itineraryId]) {
         return store.itineraries[itineraryId];
     } else {
         return {};
-    }
+    };
 };
 
 // ============================= itineraries reducer =============================

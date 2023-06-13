@@ -1,9 +1,17 @@
-.google-map-reserve {
+.itinerary-show-map {
     margin-top: 50px;
     width: 50%;
     min-height: 500px;
+    border: 1px solid black;
 }
-.options {
+.itinerary-show-details {
     margin-top: 50px;
     width: 50%;
+    border: 1px solid black;
+}
+
+.activity-item-wrap {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
 }
