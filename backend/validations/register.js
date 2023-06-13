@@ -9,7 +9,7 @@ const validateRegisterInput = [
     check('username')
         .exists({ checkFalsy: true })
         .isLength({ min: 2, max: 30 })
-        .withMessage('Username must be between 2 and 30 characters'),
+        .withMessage('Username must be at least 2 characters'),
     check('password')
         .exists({ checkFalsy: true })
         .isLength({ min: 6, max: 30 })
