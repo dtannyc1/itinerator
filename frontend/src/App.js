@@ -26,7 +26,7 @@ function App() {
 
             <Switch>
                 <Route exact path="/" component={MainPage} />
-                <Route exact path="/itineraries/:id" component={ItineraryShowPage} />
+                <Route exact path="/itineraries/:itineraryId" component={ItineraryShowPage} />
             </Switch>
             
             <Footer />
