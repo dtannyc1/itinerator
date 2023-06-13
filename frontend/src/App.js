@@ -12,7 +12,7 @@ import ItineraryCreatePage from './components/ItineraryCreatePage/ItineraryCreat
 import { getCurrentUser } from './store/session';
 import { Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
-import ItineraryShowPage from './components/ItineraryShawPage/ItineraryShowPage';
+import ItineraryShowPage from './components/ItineraryShowPage/ItineraryShowPage';
 
 function App() {
     const [loaded, setLoaded] = useState(false);

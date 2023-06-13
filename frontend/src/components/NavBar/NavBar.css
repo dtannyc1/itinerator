@@ -1,13 +1,14 @@
 .nav-bar {
-    position: sticky;
+    position: fixed;
+    background-clip: content-box;
     top: 0;
     z-index: 100;
     display: flex;
     justify-content: end;
     height: 70px;
     width: 100%;
-    border-bottom: 2px solid #D9BA23;
-    background: linear-gradient(to right, #0a1841, #2862C8);
+    /* border-bottom: 2px solid #D9BA23; */
+    background-image: linear-gradient(to right, rgba(10, 24, 65, 1), rgba(10, 24, 65, 0) 100%);
 }
 
 .auth-buttons-wrap {
