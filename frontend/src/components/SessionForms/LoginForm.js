@@ -53,8 +53,8 @@ const LoginForm = () => {
                         onChange={update('password')}
                         placeholder="Password"
                     />
-                    <div className="form-errors">{errors?.password}</div>
                 </div>
+                    <div className="form-errors">{errors?.password}</div>
 
                 <input
                     className='nav-button'

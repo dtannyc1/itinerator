@@ -33,6 +33,7 @@
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'DM Serif Display', serif;
 }
 .nav-button:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;

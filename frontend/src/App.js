@@ -11,6 +11,7 @@ import SignupForm from './components/SessionForms/SignupForm';
 import { getCurrentUser } from './store/session';
 import { Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
+import ItineraryShowPage from './components/ItineraryShawPage/ItineraryShowPage';
 
 function App() {
     const [loaded, setLoaded] = useState(false);
@@ -25,6 +26,7 @@ function App() {
 
             <Switch>
                 <Route exact path="/" component={MainPage} />
+                <Route exact path="/itineraries/:id" component={ItineraryShowPage} />
             </Switch>
             
             <Footer />

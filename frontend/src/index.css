@@ -2,9 +2,15 @@
 body {
     background: linear-gradient(to bottom, #2862C8, #D9CA9C);
     background-repeat: no-repeat;
+    font-family: 'DM Serif Display', serif;
 }
 
 .flex-column-wrap {
     display: flex;
     flex-direction: column;
+}
+
+.flex-row-wrap {
+    display: flex;
+    flex-direction: row;
 }

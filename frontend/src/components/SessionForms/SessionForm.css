@@ -3,13 +3,16 @@
     font-size: 30px;
     letter-spacing: .055em;
     margin: 0px 0px 5px 5px;
+    font-family: 'DM Serif Display', serif;
 }
 
 .form-input {
     color: #D9CA9C;
-    margin: 15px 0px 0px 15px;
+    margin: 20px 0px 0px 0px;
     font-size: 20px;
-    width: 300px;
+    font-family: 'DM Serif Display', serif;
+    position: relative;
+    align-self: center;
 }
 .form-input > div {
     margin-bottom: 5px;
@@ -21,23 +24,27 @@
     border-radius: 7px;
     display: flex;
     flex-direction: column;
-    /* transition: box-shadow 0.3s, color 0.3s, transform 0.3s; */
+    align-items: center;
+    /* box-shadow: 0 0 10px #D9CA9C;  */
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+    width: 400px;
 }
 .session-form:hover {
-    /* box-shadow: 0 0 10px #D9CA9C; */
+    box-shadow: 0 0 10px #D9CA9C;
 }
 
 #form-button {
     width: 100px;
-    margin: 20px 0px 20px 15px;
+    margin: 20px 0px 20px 0px;
     font-size: 18px;
-    /* align-self: center; */
+    font-family: 'DM Serif Display', serif;
 }
 
 .form-errors {
-    margin: 5px 10px 0px 0px;
+    margin: 5px 0px 0px 0px;
     color: red;
     font-size: 16px;
+    font-family: 'DM Serif Display', serif;
 }
 
 .input, .input-error {
@@ -48,6 +55,7 @@
     padding: 5px;
     border: 1px solid #D9BA23;
     border-radius: 5px;
+    font-family: 'DM Serif Display', serif;
 }
 .input-error {
     border: 2px solid red;

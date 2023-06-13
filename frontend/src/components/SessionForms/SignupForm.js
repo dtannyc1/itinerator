@@ -66,8 +66,8 @@ function SignupForm () {
                         onChange={update('username')}
                         placeholder="Username"
                     />
-                    <div className="form-errors">{errors?.username}</div>
                 </div>
+                    <div className="form-errors">{errors?.username}</div>
 
                 <div className='form-input'>
                     <div>Email</div>
@@ -90,8 +90,8 @@ function SignupForm () {
                         onChange={update('password')}
                         placeholder="Password"
                     />
-                    <div className="form-errors">{errors?.password}</div>
                 </div>
+                    <div className="form-errors">{errors?.password}</div>
 
                 <div className='form-input'>
                     <div>Confirm Password</div>
@@ -102,10 +102,10 @@ function SignupForm () {
                         onChange={update('password2')}
                         placeholder="Confirm Password"
                     />
-                    <div className="form-errors">
-                        {password !== password2 && 'Password and Confirm Password fields must match'}
-                    </div>
                 </div>
+                    <div className="form-errors">
+                        {password !== password2 && 'Password fields must match'}
+                    </div>
 
                 <input
                     className='nav-button'
