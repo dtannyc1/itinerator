@@ -6,33 +6,32 @@ import './ItineraryMap.css';
 const ItineraryMap = ({ mapOptions = {} }) => {
 
     const [map, setMap] = useState(null);
-    const [location, setLocation] = useState('');
-    const [type, setType] = useState('');
-    const [number, setNumber] = useState('');
-    // const [radius, setRadius] = useState('');
+    const [location, setLocation] = useState('Manhattan');
+    const [type, setType] = useState('bar');
+    const [number, setNumber] = useState(3);
+    const [radius, setRadius] = useState(500); // meters
+    const [lat, setLat] = useState(40.736164);
+    const [lng, setLng] = useState(-73.993921)
 
     const mapRef = useRef(null);
-    const markers = useRef({});
+    const markers = useRef([]);
     const history = useHistory();
 
     const [generatedActivities, setGeneratedActivities] = useState([]);
 
     // Creates the map
     useEffect(() => {
-        console.log("hi");
         if (!map) {
             setMap(new window.google.maps.Map(mapRef.current, {
                 center: {
-                    lat: 40.736164,
-                    lng: -73.993921
+                    lat: lat,
+                    lng: lng
                 },
                 zoom: 15,
                 clickableIcons: false,
                 ...mapOptions,
             }));
-
         }
-
     }, [mapRef, map, mapOptions]);
 
     const handleLocation = (e) => {
@@ -45,11 +44,9 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const handleNumber = (e) => {
         setNumber(e.target.value);
     }
-    // const handleRadius = (e) => {
-    //     setRadius(e.target.value);
-    // }
-
-    let infowindow;
+    const handleRadius = (e) => {
+        setRadius(e.target.value);
+    }
 
     const createMarker = (place) => {
         const marker = new window.google.maps.Marker({
@@ -57,54 +54,68 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             position: place.geometry.location
         });
 
-        infowindow = new window.google.maps.InfoWindow();
+        let infowindow = new window.google.maps.InfoWindow();
 
         window.google.maps.event.addListener(marker, "click", () => {
             infowindow.setContent(place.name || "");
-            // infowindow.open(map);
+            infowindow.open(map);
         });
+
+        markers.current.push(marker);
     };
 
+    const removeMarkers = () => {
+        markers.current.forEach(marker => {
+            marker.setMap(null);
+            marker.setVisible(false);
+        })
+        markers.current = [];
+    }
 
     const handleTextSearch = (e) => {
         e.preventDefault();
 
+        removeMarkers();
         // Create PlacesService instance using the map
         const service = new window.google.maps.places.PlacesService(map);
-        console.log(service);
-        const request = {
-            query: location,
-            type: type,
-            // radius: 5000,
-        }
-        console.log(request);
-        service.textSearch(request, (results, status) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                console.log(results);
 
-                const activities = results.slice(0, number);
+        const request = {
+            keyword: type,
+            location: {lat, lng},
+            radius,
+        }
+        service.nearbySearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                // console.log(results)
+
+                let activities = [];
+                let ii = 0;
+                while (activities.length < number && ii < results.length) {
+                    if (results[ii].business_status === 'OPERATIONAL'){
+                        activities.push(results[ii]);
+                    }
+                    ii += 1;
+                }
+
                 activities.forEach(result => {
-                    console.log(result);
                     createMarker(result);
                 });
 
-
-                activities.map((result) => {
-                    console.log(result.price_level);
+                let organizedActivities = activities.map((result) => {
                     const activity = {
                         name: result.name,
                         rating: result.rating,
-                        photoUrl: result.photos[0].getUrl()
-                        // price: result.price_level,
+                        photoUrl: null,
+                        price: result.price_level,
                     }
-                    console.log(activity);
+                    if (result.photos) {
+                        activity.photoUrl = result.photos[0].getUrl();
+                    }
                     return activity
                 });
 
-                setGeneratedActivities(activities);
-
-
-                map.setCenter(results[0].geometry.location)
+                setGeneratedActivities(organizedActivities);
+                map.setCenter(activities[0].geometry.location)
             }
         })
     }
@@ -124,10 +135,10 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         Type
                         <input type="text" value={type} onChange={handleType} />
                     </div>
-                    {/* <div>
+                    <div>
                         Radius
-                        <input type="number" value={radius} min={1000} max={10000} step={1000} onChange={handleRadius} />
-                    </div> */}
+                        <input type="number" value={radius} min={500} max={10000} step={100} onChange={handleRadius} />
+                    </div>
                     <div>
                         Number
                         <input type="number" value={number} min={0} max={5} step={1} onChange={handleNumber} />
@@ -141,10 +152,9 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         <div key={index}>
                             <div>Name: {activity.name}</div>
                             <div>Rating: {activity.rating}</div>
-                            <div>PhotoUrl: {activity.photoUrl}</div>
-                            <img src={activity.photoUrl} alt="activity" />
-
-                            {/* <div>Price: {activity.price}</div> */}
+                            {activity.photoUrl ? <img src={activity.photoUrl} alt="activity" width="500px"/> : null}
+                            <div>Price: {activity.price}</div>
+                            <br/>
                         </div>
                     ))}
                 </div>
