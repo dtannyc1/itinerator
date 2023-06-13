@@ -78,7 +78,7 @@ function SignupForm () {
                         onChange={update('email')}
                         placeholder="Email"
                     />
-                    <div className={errors?.email ? "form-errors" : "form-errors-space-holder"}>{errors?.email ? 'Credential is not valid' : ''}</div>
+                    <div className={errors?.email ? "form-errors" : "form-errors-space-holder"}>{errors?.email}</div>
                 </div>
 
                 <div className='form-input'>
@@ -90,7 +90,7 @@ function SignupForm () {
                         onChange={update('password')}
                         placeholder="Password"
                     />
-                    <div className={errors?.password ? "form-errors" : "form-errors-space-holder"}>{errors?.password ? 'Password must be longer' : ''}</div>
+                    <div className={errors?.password ? "form-errors" : "form-errors-space-holder"}>{errors?.password}</div>
                 </div>
 
                 <div className='form-input'>
