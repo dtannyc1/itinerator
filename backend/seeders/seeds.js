@@ -56,7 +56,8 @@ for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
         new Itinerary ({
             creator: creator.username,
             creatorId: creator._id,
-            activities: activities
+            activities: activities,
+            title: faker.word.adjective()
         })
     )
 }
