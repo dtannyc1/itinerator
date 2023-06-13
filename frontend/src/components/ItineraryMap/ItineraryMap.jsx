@@ -86,7 +86,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         }
         service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                // console.log(results)
+                console.log(results)
 
                 let activities = [];
                 let ii = 0;
@@ -97,24 +97,54 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     ii += 1;
                 }
 
+                let detailedActivities = [];
+
                 activities.forEach(result => {
                     createMarker(result);
+
+                    const request = {
+                        placeId: result.place_id
+                    }
+
+                    service.getDetails(request, (results, status) => {
+                        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                            // console.log(results)
+                            const activity = {
+                                name: results.name,
+                                rating: results.rating,
+                                streetAddress: results.formatted_address,
+                                lat: results.geometry.location.lat(),
+                                lng: results.geometry.location.lng(),
+                                url: results.url,
+                                type
+                            }
+                            let photoURLs = [];
+                            if (results.photos) {
+                                results.photos.forEach(photo => {
+                                    photoURLs.push(photo.getUrl());
+                                })
+                            }
+                            activity.photoURLs = photoURLs;
+                            console.log(JSON.stringify(activity))
+                            detailedActivities.push(activity);
+                        }
+                    })
                 });
 
-                let organizedActivities = activities.map((result) => {
-                    const activity = {
-                        name: result.name,
-                        rating: result.rating,
-                        photoUrl: null,
-                        price: result.price_level,
-                    }
-                    if (result.photos) {
-                        activity.photoUrl = result.photos[0].getUrl();
-                    }
-                    return activity
-                });
+                // let organizedActivities = activities.map((result) => {
+                //     const activity = {
+                //         name: result.name,
+                //         rating: result.rating,
+                //         photoUrl: null,
+                //         price: result.price_level,
+                //     }
+                //     if (result.photos) {
+                //         activity.photoUrl = result.photos[0].getUrl();
+                //     }
+                //     return activity
+                // });
 
-                setGeneratedActivities(organizedActivities);
+                setGeneratedActivities(detailedActivities);
                 map.setCenter(activities[0].geometry.location)
             }
         })

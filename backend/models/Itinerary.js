@@ -19,6 +19,10 @@ const activitySchema = new Schema({
             required: true
         },
         type: String,
+        photoURLs: [String],
+        price: Number,
+        rating: Number,
+        url: String,
         duration: Number // in minutes?
     }, {
         timestamps: true

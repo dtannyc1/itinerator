@@ -4,6 +4,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 const Itinerary = require("../models/Itinerary.js");
+const activities = require("./activitiesList.js")
 
 const NUM_SEED_USERS = 10;
 const NUM_SEED_ITINERARIES = 5;
@@ -36,19 +37,31 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
 const itineraries = [];
 for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
     // Create Activities
-    const activities = [];
-    for (let i = 0; i < NUM_SEED_ACTIVITIES; i++) {
-        activities.push(
-            {
-                name: faker.word.verb(),
-                lat: faker.location.latitude(),
-                lng: faker.location.longitude(),
-                streetAddress: faker.location.streetAddress(),
-                type: "activity",
-                duration: faker.number.int({min: 10, max: 60})
-            }
-        )
+
+    // const activities = [];
+    // for (let i = 0; i < NUM_SEED_ACTIVITIES; i++) {
+    //     activities.push(
+    //         {
+    //             name: faker.word.verb(),
+    //             lat: faker.location.latitude(),
+    //             lng: faker.location.longitude(),
+    //             streetAddress: faker.location.streetAddress(),
+    //             type: "activity",
+    //             duration: faker.number.int({min: 10, max: 60})
+    //         }
+    //     )
+    // }
+
+    let activitiesIndices = [];
+    while (activitiesIndices.length < NUM_SEED_ACTIVITIES) {
+        activitiesIndices.push(Math.floor(Math.random()*activities.length));
+        activitiesIndices = [...new Set(activitiesIndices)]
     }
+
+    let newActivitiesSet = [];
+    activitiesIndices.forEach(ii => {
+        newActivitiesSet.push(activities[ii])
+    })
 
     const creator = users[Math.floor(Math.random() * NUM_SEED_USERS)];
 
@@ -56,7 +69,7 @@ for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
         new Itinerary ({
             creator: creator.username,
             creatorId: creator._id,
-            activities: activities
+            activities: newActivitiesSet
         })
     )
 }
