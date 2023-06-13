@@ -4,7 +4,7 @@ import './SessionForm.css';
 
 import { login, clearSessionErrors } from '../../store/session';
 
-function LoginForm () {
+const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const errors = useSelector(state => state.errors.session);
@@ -27,34 +27,44 @@ function LoginForm () {
     }
 
     return (
-        <form className="session-form" onSubmit={handleSubmit}>
-        <h2>Log In Form</h2>
-        <div className="errors">{errors?.email}</div>
-        <label>
-            <span>Email</span>
-            <input
-                type="text"
-                value={email}
-                onChange={update('email')}
-                placeholder="Email"
-            />
-        </label>
-        <div className="errors">{errors?.password}</div>
-        <label>
-            <span>Password</span>
-            <input
-                type="password"
-                value={password}
-                onChange={update('password')}
-                placeholder="Password"
-            />
-        </label>
-        <input
-            type="submit"
-            value="Log In"
-            disabled={!email || !password}
-        />
-        </form>
+        <div className='flex-column-wrap'>
+            <div className='form-header'>Log In</div>
+
+            <form className="session-form" onSubmit={handleSubmit}>
+
+                <div className='form-input'>
+                    <div>Username / Email</div>
+                    <input
+                        className={errors ? 'input-error' : 'input'}
+                        type="text"
+                        value={email}
+                        onChange={update('email')}
+                        placeholder="Username or Email"
+                    />
+                    { errors && <div className="form-errors">Credential is not valid</div>}
+                </div>
+
+                <div className='form-input'>
+                    <div>Password</div>
+                    <input
+                        className={errors?.password ? 'input-error' : 'input'}
+                        type="password"
+                        value={password}
+                        onChange={update('password')}
+                        placeholder="Password"
+                    />
+                    <div className="form-errors">{errors?.password}</div>
+                </div>
+
+                <input
+                    className='nav-button'
+                    id='form-button'
+                    type="submit"
+                    value="Log In"
+                    disabled={!email || !password}
+                />
+            </form>
+        </div>
     );
 }
 

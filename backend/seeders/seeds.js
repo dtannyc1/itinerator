@@ -3,16 +3,19 @@ const { mongoURI: db } = require('../config/keys.js');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
+const Itinerary = require("../models/Itinerary.js");
 
 const NUM_SEED_USERS = 10;
+const NUM_SEED_ITINERARIES = 5;
+const NUM_SEED_ACTIVITIES = 3;
 
 // Create users
 const users = [];
 
 users.push(
     new User ({
-        username: 'demo-user',
-        email: 'demo-user@appacademy.io',
+        username: 'admin',
+        email: 'admin@app.io',
         hashedPassword: bcrypt.hashSync('password', 10)
     })
 )
@@ -29,11 +32,42 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
     )
 }
 
+// Create Itineraries
+const itineraries = [];
+for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
+    // Create Activities
+    const activities = [];
+    for (let i = 0; i < NUM_SEED_ACTIVITIES; i++) {
+        activities.push(
+            {
+                name: faker.word.verb(),
+                lat: faker.location.latitude(),
+                lng: faker.location.longitude(),
+                streetAddress: faker.location.streetAddress(),
+                type: "activity",
+                duration: faker.number.int({min: 10, max: 60})
+            }
+        )
+    }
+
+    const creator = users[Math.floor(Math.random() * NUM_SEED_USERS)];
+
+    itineraries.push(
+        new Itinerary ({
+            creator: creator.username,
+            creatorId: creator._id,
+            activities: activities
+        })
+    )
+}
+
 const insertSeeds = () => {
-    console.log("Resetting db and seeding users...");
+    console.log("Resetting db and seeding users and itineraries...");
 
     User.collection.drop()
+                   .then(() => Itinerary.collection.drop())
                    .then(() => User.insertMany(users))
+                   .then(() => Itinerary.insertMany(itineraries))
                    .then(() => {
                         console.log("Done!");
                         mongoose.disconnect();
