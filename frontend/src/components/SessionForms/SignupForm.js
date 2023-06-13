@@ -102,10 +102,10 @@ function SignupForm () {
                         onChange={update('password2')}
                         placeholder="Confirm Password"
                     />
-                </div>
                     <div className="form-errors">
                         {password !== password2 && 'Password fields must match'}
                     </div>
+                </div>
 
                 <input
                     className='nav-button'

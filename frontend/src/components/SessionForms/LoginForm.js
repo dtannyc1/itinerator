@@ -41,7 +41,7 @@ const LoginForm = () => {
                         onChange={update('email')}
                         placeholder="Username or Email"
                     />
-                    { errors && <div className="form-errors">Credential is not valid</div>}
+                    <div className={errors?.email ? "form-errors" : "form-errors-space-holder"}>{errors?.email ? 'Credential is not valid' : ''}</div>
                 </div>
 
                 <div className='form-input'>
@@ -53,8 +53,8 @@ const LoginForm = () => {
                         onChange={update('password')}
                         placeholder="Password"
                     />
+                    <div className={errors?.password ? "form-errors" : "form-errors-space-holder"}>{errors?.password ? 'Password must be longer' : ''}</div>
                 </div>
-                    <div className="form-errors">{errors?.password}</div>
 
                 <input
                     className='nav-button'

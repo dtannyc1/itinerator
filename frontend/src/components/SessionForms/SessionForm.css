@@ -8,7 +8,7 @@
 
 .form-input {
     color: #D9CA9C;
-    margin: 20px 0px 0px 0px;
+    /* margin: 20px 0px 0px 0px; */
     font-size: 20px;
     font-family: 'DM Serif Display', serif;
     position: relative;
@@ -16,6 +16,9 @@
 }
 .form-input > div {
     margin-bottom: 5px;
+}
+.form-input:first-child {
+    margin-top: 20px;
 }
 
 .session-form {
@@ -35,16 +38,20 @@
 
 #form-button {
     width: 100px;
-    margin: 20px 0px 20px 0px;
+    margin: 10px 0px 20px 0px;
     font-size: 18px;
     font-family: 'DM Serif Display', serif;
 }
 
+.form-errors-space-holder {
+    height: 21px;
+}
 .form-errors {
     margin: 5px 0px 0px 0px;
     color: red;
     font-size: 16px;
     font-family: 'DM Serif Display', serif;
+    max-width: 212px;
 }
 
 .input, .input-error {
@@ -58,5 +65,6 @@
     font-family: 'DM Serif Display', serif;
 }
 .input-error {
-    border: 2px solid red;
+    border: 1px solid red;
 }
+
