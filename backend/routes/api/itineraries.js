@@ -54,6 +54,10 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
+// POST /itineraries/:id/comments/, create ----------------------------------------------
+
+// POST /itineraries/:id/likes/, create -------------------------------------------------
+
 // POST /, create
 router.post('/', requireUser, validateItineraryInput, async (req, res, next) => {
     try {
@@ -73,6 +77,8 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
         next(error)
     }
 })
+
+// UPDATE /itineraries/:id/comments/:id, update ----------------------------------------
 
 // UPDATE /:id, update
 router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next) => {
@@ -96,6 +102,10 @@ router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next)
         next(error)
     }
 })
+
+// DELETE /itineraries/:id/comments/:id, delete -----------------------------------------
+
+// DELETE /itineraries/:id/likes/:id, delete --------------------------------------------
 
 // DELETE /:id, delete
 router.delete('/:id', requireUser, async (req, res, next) => {
