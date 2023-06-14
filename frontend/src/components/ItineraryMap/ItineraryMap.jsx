@@ -2,7 +2,7 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import './ItineraryMap.css';
-import { Redirec, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
@@ -16,6 +16,18 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const typeParam = searchParams.get('type');
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0)
+
+    const [map, setMap] = useState(null);
+    const [type, setType] = useState(typeParam);
+    const [number, setNumber] = useState(3);
+    const [radius, setRadius] = useState(500); // meters
+
+    const mapRef = useRef(null);
+    const markers = useRef([]);
+    const history = useHistory();
+
+    const [selectedActivities, setSelectedActivities] = useState([]); // selected activity for itinerary
+    const [generatedActivities, setGeneratedActivities] = useState([]);
 
     // set location for search
     const geocoder = new window.google.maps.Geocoder();
@@ -41,20 +53,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 setLng(-73.9947448);
             }
         }
-
     })
-
-    const [map, setMap] = useState(null);
-    const [type, setType] = useState(typeParam);
-    const [number, setNumber] = useState(3);
-    const [radius, setRadius] = useState(500); // meters
-
-    const mapRef = useRef(null);
-    const markers = useRef([]);
-    const history = useHistory();
-
-    const [selectedActivities, setSelectedActivities] = useState([]); // selected activity for itinerary
-    const [generatedActivities, setGeneratedActivities] = useState([]);
 
     // Create the initial map ONLY after lat and lng are set after geocoding's successful callback
     useEffect(() => {
@@ -72,6 +71,15 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     useEffect(() => {
         handleTextSearch()
     }, [map])
+
+    useEffect(() => {
+        removeMarkers();
+        let prevActivity = selectedActivities[selectedActivities.length-1];
+        let randomActivityType = activityTypes[Math.floor(Math.random()*activityTypes.length)];
+        if (prevActivity) {
+            handleTextSearch(null, prevActivity, randomActivityType);
+        }
+    }, [selectedActivities])
 
     const handleType = (e) => {
         setType(e.target.value);
@@ -171,15 +179,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         })
     }
 
-    useEffect(() => {
-        removeMarkers();
-        let prevActivity = selectedActivities[selectedActivities.length-1];
-        let randomActivityType = activityTypes[Math.floor(Math.random()*activityTypes.length)];
-        if (prevActivity) {
-            handleTextSearch(null, prevActivity, randomActivityType);
-        }
-    }, [selectedActivities])
-
     const handleSelectActivity = (activity) => {
         // get more details about activity
         const service = new window.google.maps.places.PlacesService(map);
@@ -231,25 +230,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 history.push(`/itineraries/${itinerary._id}`)
             })
     }
-
-    // Create the initial map ONLY after lat and lng are set after geocoding's successful callback
-    useEffect(() => {
-        if (lat !== 0 && lng !== 0 && !map) {
-            const newMap = new window.google.maps.Map(mapRef.current, {
-                center: { lat, lng },
-                zoom: 15,
-                // clickableIcons: false,
-                ...mapOptions,
-            });
-            setMap(newMap);
-        }
-
-
-    }, [lat, lng, map, mapRef, mapOptions]);
-
-    useEffect(() => {
-        removeMarkers();
-    }, [selectedActivities])
 
     return (
         <>
