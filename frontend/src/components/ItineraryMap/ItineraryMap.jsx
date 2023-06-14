@@ -274,22 +274,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             <br />
             <br />
             <div className="section-bottom">
-                <div>
-                    {/* <div>Location
-                        <input type="text" value={location} onChange={handleLocation} placeholder="type in a city ex. brooklyn, ny" />
-                    </div> */}
-                    <div>
-                        Type
-                        <input type="text" value={type} onChange={handleType} />
-                    </div>
-                    <div>
-                        Number
-                        <input type="number" value={number} min={0} max={5} step={1} onChange={handleNumber} />
-                    </div>
-                    <div>
-                        <button onClick={handleTextSearch}>textSearch</button>
-                    </div>
-                </div>
                 <div className="activity-generated-row">
                     {generatedActivities.map((activity, index) => (
                         <div
