@@ -17,18 +17,21 @@ const ItineraryShowPage = () => {
 
     if(!itinerary.activities) return <></> // maybe change this line in future for more robust
     return (
-        <div className="flex-row-wrap">
-            <div className="itinerary-show-map">
+        <>
+            <div className='show-page-title'><p>Created by</p>{ itinerary.title }</div>
+            <div className="flex-row-wrap">
+                <div className="itinerary-show-map">
 
+                </div>
+                <div className="itinerary-show-details">
+
+                    {itinerary.activities.map((activity) => {
+                        return <ActivityItem activity={activity} key={activity._id} />
+                    })}
+
+                </div>
             </div>
-            <div className="itinerary-show-details">
-
-                {itinerary.activities.map((activity) => {
-                    return <ActivityItem activity={activity} key={activity._id} />
-                })}
-
-            </div>
-        </div>
+        </>
     )
 }
 

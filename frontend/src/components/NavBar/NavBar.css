@@ -1,14 +1,12 @@
 .nav-bar {
-    position: fixed;
-    background-clip: content-box;
+    position: sticky;
     top: 0;
     z-index: 100;
     display: flex;
     justify-content: end;
     height: 70px;
     width: 100%;
-    /* border-bottom: 2px solid #D9BA23; */
-    background-image: linear-gradient(to right, rgba(10, 24, 65, 1), rgba(10, 24, 65, 0) 100%);
+    background: linear-gradient(to right, #0a1841, #2862C8);
 }
 
 .auth-buttons-wrap {
@@ -20,21 +18,19 @@
 }
 
 .nav-button {
-    background-color: rgba(240, 242, 240, 0.7);
-    /* border: 1px solid #191E26; */
-    border: none;
+    background-color: transparent;
+    border: 2px solid #D9CA9C;
     border-radius: 5px;
-    color: #191E26;
+    color: #D9CA9C;
     text-decoration: none;
     padding: 5px;
     margin: 10px 10px 10px 10px;
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
     cursor: pointer;
     font-size: 16px;
-    font-family: 'DM Serif Display', serif;
 }
 .nav-button:hover {
-    box-shadow: 0 0 20px #D9CA9C, inset 0 0 30px #D9CA9C;
+    box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
+    color: #D9BA23;
     transform: scale(1.2);
-    background-color: rgba(240, 242, 240, 1);
 }

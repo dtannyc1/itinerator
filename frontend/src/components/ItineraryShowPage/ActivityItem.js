@@ -1,13 +1,18 @@
+// import { formatDate } from '../MainPage/MainPageItineraryItem'
 
 const ActivityItem = ({ activity }) => {
-    const {duration, name, type, createdAt} = activity;
+    const {photoURLs, name, type, createdAt, streetAddress, rating} = activity;
 
     return (
         <div className="activity-item-wrap">
-            <div>{ name }</div>
-            <div>{ type }</div>
-            <div>{ duration }</div>
-            <div>{ createdAt }</div>
+            <div>
+                <img className='activity-photo' src={photoURLs[0]}></img>
+            </div>
+
+            <div className='activity-place-name'>{ name }</div>
+            <div className='activity-place-type'>{ type }</div>
+            <div className='activity-place-type'>{ streetAddress }</div>
+            <div>{ rating }</div>
         </div>
     )
 }
