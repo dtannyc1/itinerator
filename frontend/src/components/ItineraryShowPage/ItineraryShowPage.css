@@ -1,11 +1,11 @@
 .itinerary-show-map {
-    margin-top: 70px;
+    /* margin-top: 70px; */
     width: 50%;
     min-height: 500px;
     border: 1px solid black;
 }
 .itinerary-show-details {
-    margin-top: 70px;
+    /* margin-top: 70px; */
     width: 50%;
     border: 1px solid black;
 }
@@ -15,4 +15,29 @@
     flex-direction: column;
     border: 1px solid black;
     margin: 5px;
+    font-family: 'DM Serif Display', serif;
+    color: #F2C48D;
+}
+
+.show-page-title {
+    margin: 20px 0px 20px 0px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: #F2C48D;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+}
+.show-page-title > p {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.activity-place-name {
+    margin: 5px 0px 5px 5px;
+}
+
+.activity-photo {
+    width: 150px;
+    height: 80px;
 }

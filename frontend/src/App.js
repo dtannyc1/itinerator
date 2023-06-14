@@ -28,9 +28,9 @@ function App() {
             <Switch>
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/itineraries/:itineraryId" component={ItineraryShowPage} />
-                <ProtectedRoute exact path="/itinerary" component={ItineraryCreatePage} />
+                <Route exact path="/itinerary" component={ItineraryCreatePage} />
             </Switch>
-            
+
             <Footer />
         </>
     );
