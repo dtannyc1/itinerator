@@ -8,7 +8,6 @@ import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
-
     const dispatch = useDispatch();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -29,31 +28,33 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const [selectedActivities, setSelectedActivities] = useState([]); // selected activity for itinerary
     const [generatedActivities, setGeneratedActivities] = useState([]);
 
-    // set location for search
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ 'address': locationParam }, (results, status) => {
-        if (status === 'OK') {
-            const location = results[0].geometry.location;
-            setLat(location.lat());
-            setLng(location.lng());
-        } else {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-
-                    // // Use latitude and longitude values in your application
-                    setLat(latitude);
-                    setLng(longitude);
-                });
+    // set location for search on loadup
+    useEffect(() => {
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ 'address': locationParam }, (results, status) => {
+            if (status === 'OK') {
+                const location = results[0].geometry.location;
+                setLat(location.lat());
+                setLng(location.lng());
             } else {
-                // Geolocation is not supported by the browser
-                // default to App Academy
-                setLat(40.7271066);
-                setLng(-73.9947448);
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        // // Use latitude and longitude values in your application
+                        setLat(latitude);
+                        setLng(longitude);
+                    });
+                } else {
+                    // Geolocation is not supported by the browser
+                    // default to App Academy
+                    setLat(40.7271066);
+                    setLng(-73.9947448);
+                }
             }
-        }
-    })
+        })
+    }, [])
 
     // Create the initial map ONLY after lat and lng are set after geocoding's successful callback
     useEffect(() => {
@@ -68,6 +69,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         }
     }, [lat, lng]);
 
+    // Run search after map is loaded
     useEffect(() => {
         handleTextSearch()
     }, [map])
@@ -144,7 +146,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 let ii = 0;
                 while (activities.length < number && ii < results.length) {
                     if (results[ii].business_status === 'OPERATIONAL' &&
-                        results[ii].name !== prevActivity?.name) {
+                        results[ii].name !== prevActivity?.name &&
+                        !selectedActivities.some(activity => activity.name === results[ii].name)) {
                         activities.push(results[ii]);
                     }
                     ii += 1;
