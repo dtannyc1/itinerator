@@ -2,7 +2,7 @@
     margin: 50px 0px 50px 0px;
     width: 100%;
     min-height: 150px;
-    background: linear-gradient(to top, #142b6d, #2862C8);
+    background: linear-gradient(to left, #0b3559, #3981bf, #3981bf);
     border: none;
     box-shadow: 0px 2px 15px black;
     display: flex;
@@ -12,7 +12,7 @@
 .team-member-capsule {
     width: 200px;
     height: 100px;
-    background-image: linear-gradient(to bottom, rgba(10, 24, 65, 1), rgba(93, 122, 209, 0) 140%);
+    background-image: #F2C48D;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -20,10 +20,7 @@
     margin-top: 25px;
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
 }
-.team-member-capsule:hover {
-    box-shadow: 0 0 20px #D9CA9C, inset 0 0 10px #D9CA9C;
-    background-color: #F2F2F030;
-}
+
 .team-member-capsule:hover > .footer-name-holder {
     transform: scale(1.2);
 }
@@ -31,7 +28,7 @@
 .footer-name-holder {
     font-family: 'DM Serif Display', serif;
     font-size: 20px;
-    color: #A4A698;
+    color: #F2C48D;
     display: flex;
     justify-content: center;
     cursor:default;
@@ -49,5 +46,5 @@
 }
 .footer-links-holder > a:hover {
     transform: scale(1.4);
-    color: #D9CA9C;
+    color: #F2C48D;
 }
