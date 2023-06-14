@@ -17,17 +17,22 @@ const MainPageItineraryItem = ({ itinerary }) => {
         slidesToShow: 1,
         slidesToScroll: 1,
         fade: true,
-        pauseOnHover: false,
+        pauseOnHover: true,
         autoplaySpeed: 3000,
         arrows: false
     };
 
+    const allImages = activities.map((activity) => {
+        return activity.photoURLs;
+    }).reduce((accumulator, currentArray) => {
+        return accumulator.concat(currentArray);
+    }, []);
 
     return (
         <a className='itinerary-link' href={`/itineraries/${_id}`}>
             <div className="itinerary-item-wrap">
                 <Slider {...sliderSettings}>
-                    {activities[0].photoURLs.map((photoURL, index) => (
+                    {allImages.map((photoURL, index) => (
                         <div key={index}>
                             <img className="main-activity-img" src={photoURL} alt="activity_photo" />
                         </div>
