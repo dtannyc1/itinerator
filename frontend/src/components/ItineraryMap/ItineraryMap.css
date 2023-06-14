@@ -5,9 +5,12 @@
 }
 .itinerary-show-map {
     box-shadow: 0px 2px 15px black;
+    border-radius: 10px;
 }
 #itinerary-show-map-modified {
-    height: 530px;
+    height: 540px;
+    width: 48%;
+    /* margin-left: 5px; */
 }
 
 .section-bottom {
@@ -19,7 +22,14 @@
 .section-right {
     width: 50%;
     position: relative;
-    top: -135px;
+    top: -140px;
+}
+.section-left {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0px 10px 0px 10px;
 }
 .activity-generated-row {
     display: flex;
@@ -29,6 +39,7 @@
 }
 .activity-generated-item {
     cursor: pointer;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
 }
 .activity-generated-item:hover {
     transform: scale(1.2);
@@ -87,15 +98,36 @@
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
 }
 
-/* .input-button-capsule {
-    position: relative;
-    top: -60px;
+.input-button-capsule {
     display: flex;
-    flex-direction: column;
-    align-items: end;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     margin: 10px 20px 0px 0px;
-} */
+}
 
 .instructions > div {
     margin-bottom: 10px;
+}
+
+.create-page-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(240, 242, 240, 0.6);
+    position: inherit;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    color: #191E26;
+}
+.create-page-circle:hover {
+    box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
+    color: #0b67b8;
+    background-color: rgba(240, 242, 240, 1);
+    transform: scale(1.2);
 }

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
 import ActivityItem from "../ItineraryShowPage/ActivityItem";
+import InstructionsModal from "./Insructions";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
@@ -140,7 +141,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             radius: searchRadius,
         }
 
-        if (lat !== 0 && lng !== 0) {
+        if (service && lat !== 0 && lng !== 0) {
             service.nearbySearch(request, (results, status) => {
                 if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                     let activities = [];
@@ -248,32 +249,9 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         };
         dispatch(createItinerary(itinerary))
             .then(itinerary => {
-                console.log(itinerary)
                 history.push(`/itineraries/${itinerary._id}`)
             })
     };
-
-    const instructions = (
-        <div className="instructions-holder">
-            <div className="instructions">
-                <div>Please follow these steps for a seamless experience:</div>
-
-                <p>1. Select the activity type from the left screen.</p>
-                <p>2. Choose from the selection provided above.</p>
-                <p>3. Your choices will appear in the top section above the selection.</p>
-                <p>4. When you are ready enter desired title and save your venture.</p>
-                <p>5. Follow your chosen options using the interactive Google Map on the page.</p>
-                <p>6. Enjoy your experience!</p>
-            </div>
-            <div className="input-button-capsule">
-                <input 
-                    className="title-input"
-                    placeholder="Venture name"
-                    />
-                <button id="nav-button-venture" className="nav-button" onClick={handleSaveItinerary}>Create venture</button>
-            </div>
-        </div>
-    )
 
     return (
         <>
@@ -289,7 +267,32 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             </div>
 
             <div className="section-bottom">
-                <div className="section-left"></div>
+                <div className="section-left">
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Museum', null)}>
+                        <i className="fa-solid fa-building-columns fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Bar', null)}>
+                        <i className="fa-solid fa-martini-glass fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Park', null)}>
+                        <i className="fa-solid fa-tree fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Bowling and Pool', null)}>
+                        <i className="fa-solid fa-bowling-ball fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Moovie and Theater', null)}>
+                        <i className="fa-solid fa-clapperboard fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Cafe', null)}>
+                        <i className="fa-solid fa-mug-hot fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Pool and Ice skating', null)}>
+                        <i className="fa-solid fa-person-swimming fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Restaurants', null)}>
+                        <i className="fa-solid fa-utensils fa-2xl"></i>
+                    </div>
+                </div>
                 
                 <div className="section-right">
                     <div className="activity-generated-row">
@@ -317,7 +320,17 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         ))}
                     </div>
                     
-                    
+                    <div className="input-button-capsule">
+                        <InstructionsModal />
+                        <div>
+                            <input 
+                                className="title-input"
+                                placeholder="Venture name"
+                                />
+                            <button id="nav-button-venture" className="nav-button" onClick={handleSaveItinerary}>Create venture</button>
+                        </div>
+                    </div>
+                            
                 </div>
 
                 

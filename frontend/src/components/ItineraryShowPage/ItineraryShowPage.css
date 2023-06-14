@@ -16,6 +16,7 @@
     margin: 0px 0px 0px 10px;
     font-family: 'DM Serif Display', serif;
     color: #F2C48D;
+    border-radius: 10px;
 }
 .activity-item-wrap:first-child {
     border-top: 1px solid #F2C48D;
@@ -72,6 +73,8 @@
 .activity-photo {
     width: 260px;
     height: 130px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .activity-place-rating {
