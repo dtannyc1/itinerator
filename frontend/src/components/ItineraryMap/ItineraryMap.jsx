@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
+import ActivityItem from "../ItineraryShowPage/ActivityItem";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
@@ -259,14 +260,9 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     Map
                 </div>
                 <div className="itinerary-show-details">
-                    {selectedActivities.map((activity, index) => (
-                        <div key={index}>
-                            <div>Name: {activity.name}</div>
-                            <div>Rating: {activity.rating}</div>
-                            {activity.photoUrl ? <img src={activity.photoUrl} alt="activity" height="100px" width="100px" /> : null}
-                            {activity.price ? <div>Price: {activity.price}</div> : null}
-                        </div>
-                    ))}
+                    {selectedActivities.map((activity, index) => {
+                        return <ActivityItem activity={activity} key={activity._id} />
+                    })}
                     <div>
                         <button onClick={handleSaveItinerary}>Save Itinerary</button>
                     </div>
