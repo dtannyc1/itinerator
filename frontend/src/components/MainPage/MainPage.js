@@ -54,6 +54,7 @@ const MainPage = () => {
 
   const handleLocation = (e) => {
     setLocation(e.target.value);
+
   }
 
   return (

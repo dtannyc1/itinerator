@@ -39,6 +39,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             //     position: results[0].geometry.location
             // });
         }
+
     })
 
     const [map, setMap] = useState(null);
