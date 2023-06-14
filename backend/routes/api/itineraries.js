@@ -203,6 +203,43 @@ router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next)
 })
 
 // DELETE /itineraries/:id/comments/:id, delete -----------------------------------------
+router.delete('/:id/comments/:commentId', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            let commentIdx = itinerary.comments.findIndex(comment => comment._id.toString() === req.params.commentId)
+
+            if (commentIdx !== -1){
+                let comment = itinerary.comments[commentIdx]
+
+                if (comment.authorId.toString() === req.user._id.toString()) {
+                    itinerary.comments.splice(commentIdx,1)
+
+                    itinerary.save()
+                        .then(updatedItinerary => res.json(updatedItinerary))
+                        .catch(err => {throw err})
+                } else {
+                    const err = new Error("Comment Update Error");
+                    err.statusCode = 422;
+                    err.errors = {comment: "Must be original author to update a comment"}
+                    return next(err);
+                }
+            } else {
+                const err = new Error("Comment Not Found");
+                err.statusCode = 404;
+                err.errors = {comment: "Comment not found"}
+                return next(err);
+            }
+        }
+    } catch (error) {
+        next(error)
+    }
+})
 
 // DELETE /itineraries/:id/likes/:id, delete --------------------------------------------
 
