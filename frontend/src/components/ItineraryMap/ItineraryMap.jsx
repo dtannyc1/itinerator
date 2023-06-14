@@ -52,7 +52,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     const mapRef = useRef(null);
     const markers = useRef([]);
-    // const history = useHistory();
+    const history = useHistory();
 
     const [selectedActivities, setSelectedActivities] = useState([]); // selected activity for itinerary
     const [generatedActivities, setGeneratedActivities] = useState([]);
@@ -72,73 +72,59 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             setMap(newMap);
         }
 
-        // Create PlacesService instance using the map
-        const service = new window.google.maps.places.PlacesService(map);
+        // // Create PlacesService instance using the map
+        // const service = new window.google.maps.places.PlacesService(map);
 
-        const request = {
-            keyword: type,
-            location: { lat, lng },
-            radius,
-        }
+        // const request = {
+        //     keyword: type,
+        //     location: { lat, lng },
+        //     radius,
+        // }
 
-        service.nearbySearch(request, (results, status) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                // console.log(results)
+        // service.nearbySearch(request, (results, status) => {
+        //     if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        //         // console.log(results)
 
-                let activities = [];
-                let ii = 0;
-                while (activities.length < number && ii < results.length) {
-                    if (results[ii].business_status === 'OPERATIONAL') {
-                        activities.push(results[ii]);
-                    }
-                    ii += 1;
-                }
+        //         let activities = [];
+        //         let ii = 0;
+        //         while (activities.length < number && ii < results.length) {
+        //             if (results[ii].business_status === 'OPERATIONAL') {
+        //                 activities.push(results[ii]);
+        //             }
+        //             ii += 1;
+        //         }
 
-                activities.forEach(result => {
-                    createMarker(result);
-                });
+        //         activities.forEach(result => {
+        //             createMarker(result);
+        //         });
 
-                let organizedActivities = activities.map((result) => {
-                    const activity = {
-                        name: result.name,
-                        rating: result.rating,
-                        location: result.geometry.location,
-                        photoUrl: null,
-                        price: null,
-                    }
-                    if (result.photos) {
-                        activity.photoUrl = result.photos[0].getUrl();
-                    }
-                    if (result.price_level) {
-                        activity.price = result.price_level;
-                    }
-                    return activity
-                });
+        //         let organizedActivities = activities.map((result) => {
+        //             const activity = {
+        //                 name: result.name,
+        //                 rating: result.rating,
+        //                 location: result.geometry.location,
+        //                 photoUrl: null,
+        //                 price: null,
+        //             }
+        //             if (result.photos) {
+        //                 activity.photoUrl = result.photos[0].getUrl();
+        //             }
+        //             if (result.price_level) {
+        //                 activity.price = result.price_level;
+        //             }
+        //             return activity
+        //         });
 
-                setGeneratedActivities(organizedActivities);
-                map.setCenter(activities[0].geometry.location)
-                // remove all but the selected marker
-            }
-        })
+        //         setGeneratedActivities(organizedActivities);
+        //         map.setCenter(activities[0].geometry.location)
+        //         // remove all but the selected marker
+        //     }
+        // })
     }, [lat, lng, map]);
-    // [lat, lng, map, mapRef, mapOptions]
 
-    // // Creates the map
-    // useEffect(() => {
-    //     // if (geoLat !== 0 && geoLng !== 0 && !map)
-    //     if (!map) {
-    //         setMap(new window.google.maps.Map(mapRef.current, {
-    //             center: {
-    //                 lat: lat,
-    //                 lng: lng
-    //             },
-    //             zoom: 15,
-    //             clickableIcons: false,
-    //             ...mapOptions,
-    //         }));
-    //     }
-    // }, [mapRef, map, mapOptions]);
-
+    useEffect(() => {
+        handleTextSearch()
+    }, [map])
 
     const handleType = (e) => {
         setType(e.target.value);
