@@ -2,9 +2,13 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import './ItineraryMap.css';
+import { Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createItinerary } from "../../store/itineraries";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
 
+    const dispatch = useDispatch();
     const [map, setMap] = useState(null);
     const [location, setLocation] = useState('Manhattan');
     const [type, setType] = useState('bar');
@@ -12,15 +16,39 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const [radius, setRadius] = useState(500); // meters
     const [lat, setLat] = useState(40.736164);
     const [lng, setLng] = useState(-73.993921)
+    // const [geoLat, setGeoLat] = useState(0);
+    // const [geoLng, setGeoLng] = useState(0);
+
+    // if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(function (position) {
+    //         const latitude = position.coords.latitude;
+    //         const longitude = position.coords.longitude;
+
+    //         // Use latitude and longitude values in your application
+    //         console.log("Latitude: " + latitude);
+    //         console.log("Longitude: " + longitude);
+    //         setGeoLat(latitude);
+    //         setGeoLng(longitude);
+    //     });
+    // } else {
+    //     // Geolocation is not supported by the browser
+    //     console.log("Geolocation is not supported");
+    // }
 
     const mapRef = useRef(null);
     const markers = useRef([]);
     const history = useHistory();
 
+    // const [activities, setActivities] = useState([]); // array to store activities
+    const [selectedActivities, setSelectedActivities] = useState([]); // selected activity for itinerary
+    // const [markers, setMarkers] = useState([]); // array to store markers
+
+
     const [generatedActivities, setGeneratedActivities] = useState([]);
 
     // Creates the map
     useEffect(() => {
+        // if (geoLat !== 0 && geoLng !== 0 && !map)
         if (!map) {
             setMap(new window.google.maps.Map(mapRef.current, {
                 center: {
@@ -51,7 +79,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const createMarker = (place) => {
         const marker = new window.google.maps.Marker({
             map: map,
-            position: place.geometry.location
+            position: place.geometry.location,
+            name: place.name,
         });
 
         let infowindow = new window.google.maps.InfoWindow();
@@ -64,24 +93,40 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         markers.current.push(marker);
     };
 
+    // const removeMarkers = () => {
+
+    //     markers.current.forEach(marker => {
+    //         marker.setMap(null);
+    //         marker.setVisible(false);
+    //     })
+    //     markers.current = [];
+    // }
+
     const removeMarkers = () => {
-        markers.current.forEach(marker => {
-            marker.setMap(null);
-            marker.setVisible(false);
-        })
-        markers.current = [];
-    }
+        markers.current = markers.current.filter(marker => {
+            const hasMatchingActivity = selectedActivities.some(activity => activity.name === marker.name);
+            if (!hasMatchingActivity) {
+                marker.setMap(null);
+                marker.setVisible(false);
+            }
+            return hasMatchingActivity;
+        });
+
+        return markers.current;
+    };
 
     const handleTextSearch = (e) => {
         e.preventDefault();
 
-        removeMarkers();
+        if (markers.current) {
+            removeMarkers();
+        }
         // Create PlacesService instance using the map
         const service = new window.google.maps.places.PlacesService(map);
 
         const request = {
             keyword: type,
-            location: {lat, lng},
+            location: { lat, lng },
             radius,
         }
         service.nearbySearch(request, (results, status) => {
@@ -91,7 +136,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 let activities = [];
                 let ii = 0;
                 while (activities.length < number && ii < results.length) {
-                    if (results[ii].business_status === 'OPERATIONAL'){
+                    if (results[ii].business_status === 'OPERATIONAL') {
                         activities.push(results[ii]);
                     }
                     ii += 1;
@@ -105,28 +150,68 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     const activity = {
                         name: result.name,
                         rating: result.rating,
+                        location: result.geometry.location,
                         photoUrl: null,
-                        price: result.price_level,
+                        price: null,
                     }
                     if (result.photos) {
                         activity.photoUrl = result.photos[0].getUrl();
+                    }
+                    if (result.price_level) {
+                        activity.price = result.price_level;
                     }
                     return activity
                 });
 
                 setGeneratedActivities(organizedActivities);
                 map.setCenter(activities[0].geometry.location)
+
+                // remove all but the selected marker
+
             }
         })
     }
 
+
+    useEffect(() => {
+        removeMarkers();
+    }, [selectedActivities])
+
+    const handleSelectActivity = (activity) => {
+        setSelectedActivities(prevSelectedActivities => [...prevSelectedActivities, activity])
+        map.setCenter(activity.location)
+    }
+
+    const handleSaveItinerary = () => {
+        const itinerary = {
+            activities: [...selectedActivities]
+        };
+        dispatch(createItinerary(itinerary));
+    }
+
     return (
         <>
-            <div ref={mapRef} className="map">
-                Map
+            <div className="section-top">
+                <div ref={mapRef} className="map">
+                    Map
+                </div>
+                <div className="activities-selected">
+                    {selectedActivities.map((activity, index) => (
+                        <div key={index}>
+                            <div>Name: {activity.name}</div>
+                            <div>Rating: {activity.rating}</div>
+                            {activity.photoUrl ? <img src={activity.photoUrl} alt="activity" height="100px" width="100px" /> : null}
+                            {activity.price ? <div>Price: {activity.price}</div> : null}
+                        </div>
+                    ))}
+                    <div>
+                        <button onClick={handleSaveItinerary}>Save Itinerary</button>
+                    </div>
+                </div>
             </div>
             <br />
-            <div>
+            <br />
+            <div className="section-bottom">
                 <div>
                     <div>Location
                         <input type="text" value={location} onChange={handleLocation} placeholder="type in a city ex. brooklyn, ny" />
@@ -147,14 +232,19 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         <button onClick={handleTextSearch}>textSearch</button>
                     </div>
                 </div>
-                <div>
+                <div className="activity-generated-row">
                     {generatedActivities.map((activity, index) => (
-                        <div key={index}>
+                        <div
+                            className="activity-generated-item"
+                            key={index}
+                            onClick={() => handleSelectActivity(activity)}
+
+                        >
                             <div>Name: {activity.name}</div>
                             <div>Rating: {activity.rating}</div>
-                            {activity.photoUrl ? <img src={activity.photoUrl} alt="activity" width="500px"/> : null}
-                            <div>Price: {activity.price}</div>
-                            <br/>
+                            {activity.photoUrl ? <img src={activity.photoUrl} alt="activity" height="200px" width="200px" /> : null}
+                            {activity.price ? <div>Price: {activity.price}</div> : null}
+                            <br />
                         </div>
                     ))}
                 </div>
