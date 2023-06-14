@@ -19,33 +19,36 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0)
 
+    // set location for search
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ 'address': locationParam }, (results, status) => {
         if (status === 'OK') {
-            console.log(results);
-            console.log(results[0]);
-            console.log(results[0].geometry);
             const location = results[0].geometry.location;
             const lat = location.lat();
             const lng = location.lng();
-            console.log(results[0].geometry.location);
-            console.log(lat);
-            console.log(lng);
-            console.log("in the geocode callback");
             setLat(lat);
             setLng(lng);
-            // map.setCenter(results[0].geometry.location);
-            // const marker = new google.maps.Marker({
-            //     map: map,
-            //     position: results[0].geometry.location
-            // });
+        } else {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // // Use latitude and longitude values in your application
+                    setLat(latitude);
+                    setLng(longitude);
+                });
+            } else {
+                // Geolocation is not supported by the browser
+                // default to App Academy
+                setLat(40.7271066);
+                setLng(-73.9947448);
+            }
         }
 
     })
 
     const [map, setMap] = useState(null);
-    // const [location, setLocation] = useState('Manhattan');
-    // const [type, setType] = useState('bar');
     const [type, setType] = useState(typeParam);
     const [number, setNumber] = useState(3);
     const [radius, setRadius] = useState(500); // meters
@@ -59,9 +62,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     // Create the initial map ONLY after lat and lng are set after geocoding's successful callback
     useEffect(() => {
-        console.log("in useEffect");
-        console.log(lat);
-        console.log(lng);
         if (lat !== 0 && lng !== 0 && !map) {
             const newMap = new window.google.maps.Map(mapRef.current, {
                 center: { lat, lng },
@@ -71,56 +71,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             });
             setMap(newMap);
         }
-
-        // // Create PlacesService instance using the map
-        // const service = new window.google.maps.places.PlacesService(map);
-
-        // const request = {
-        //     keyword: type,
-        //     location: { lat, lng },
-        //     radius,
-        // }
-
-        // service.nearbySearch(request, (results, status) => {
-        //     if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        //         // console.log(results)
-
-        //         let activities = [];
-        //         let ii = 0;
-        //         while (activities.length < number && ii < results.length) {
-        //             if (results[ii].business_status === 'OPERATIONAL') {
-        //                 activities.push(results[ii]);
-        //             }
-        //             ii += 1;
-        //         }
-
-        //         activities.forEach(result => {
-        //             createMarker(result);
-        //         });
-
-        //         let organizedActivities = activities.map((result) => {
-        //             const activity = {
-        //                 name: result.name,
-        //                 rating: result.rating,
-        //                 location: result.geometry.location,
-        //                 photoUrl: null,
-        //                 price: null,
-        //             }
-        //             if (result.photos) {
-        //                 activity.photoUrl = result.photos[0].getUrl();
-        //             }
-        //             if (result.price_level) {
-        //                 activity.price = result.price_level;
-        //             }
-        //             return activity
-        //         });
-
-        //         setGeneratedActivities(organizedActivities);
-        //         map.setCenter(activities[0].geometry.location)
-        //         // remove all but the selected marker
-        //     }
-        // })
-    }, [lat, lng, map]);
+    }, [lat, lng]);
 
     useEffect(() => {
         handleTextSearch()
@@ -305,10 +256,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         removeMarkers();
     }, [selectedActivities])
 
-    // if (!map) {
-    //     return <h1>Loading Map...</h1>
-    // }
-
     return (
         <>
             <div className="section-top">
@@ -382,22 +329,3 @@ const ItineraryMapWrapper = () => {
 }
 
 export default ItineraryMapWrapper;
-
-
-    // const [geoLat, setGeoLat] = useState(0);
-    // const [geoLng, setGeoLng] = useState(0);
-    // if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(function (position) {
-    //         const latitude = position.coords.latitude;
-    //         const longitude = position.coords.longitude;
-
-    //         // Use latitude and longitude values in your application
-    //         console.log("Latitude: " + latitude);
-    //         console.log("Longitude: " + longitude);
-    //         setGeoLat(latitude);
-    //         setGeoLng(longitude);
-    //     });
-    // } else {
-    //     // Geolocation is not supported by the browser
-    //     console.log("Geolocation is not supported");
-    // }
