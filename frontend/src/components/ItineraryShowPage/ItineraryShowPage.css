@@ -1,7 +1,9 @@
+
+
 .itinerary-show-map {
     /* margin-top: 70px; */
     width: 50%;
-    min-height: 500px;
+    height: 500px;
     border: 1px solid black;
 }
 .itinerary-show-details {
@@ -35,12 +37,13 @@
 .show-title-holder {
     display: flex;
     justify-content: space-evenly;
+    margin-top: 70px;
 }
 .show-page-title {
     color: #f2ae2e;
 }
 
-.activity-place-name {
+.activity-place-name, .activity-place-type, .activity-place-address, .activity-place-rating {
     margin: 5px 0px 5px 5px;
 }
 
