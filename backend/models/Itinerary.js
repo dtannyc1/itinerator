@@ -19,6 +19,10 @@ const activitySchema = new Schema({
             required: true
         },
         type: String,
+        rating: Number,
+        photoURLs: [String],
+        price: Number,
+        url: String,
         duration: Number // in minutes?
     }, {
         timestamps: true
@@ -33,6 +37,7 @@ const itinerarySchema = new Schema({
             type: Schema.Types.ObjectId,
             required: true
         },
+        title: String,
         activities: [activitySchema] // array of activities
     }, {
         timestamps: true
