@@ -94,6 +94,15 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         markers.current.push(marker);
     };
 
+    // const removeMarkers = () => {
+
+    //     markers.current.forEach(marker => {
+    //         marker.setMap(null);
+    //         marker.setVisible(false);
+    //     })
+    //     markers.current = [];
+    // }
+
     const removeMarkers = () => {
         markers.current = markers.current.filter(marker => {
             const hasMatchingActivity = selectedActivities.some(activity => activity.name === marker.name);
@@ -160,9 +169,13 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
                 setGeneratedActivities(organizedActivities);
                 map.setCenter(activities[0].geometry.location)
+
+                // remove all but the selected marker
+
             }
         })
     }
+
 
     useEffect(() => {
         removeMarkers();
@@ -212,7 +225,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 // redo search in useEffect for selectedActivities
             }
         })
-
     }
 
     const handleSaveItinerary = () => {
