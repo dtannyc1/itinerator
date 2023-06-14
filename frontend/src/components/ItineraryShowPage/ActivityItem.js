@@ -9,10 +9,12 @@ const ActivityItem = ({ activity }) => {
                 <img className='activity-photo' src={photoURLs[0]}></img>
             </div>
 
-            <div className='activity-place-name'>{ name }</div>
-            <div className='activity-place-type'>{ type }</div>
-            <div className='activity-place-type'>{ streetAddress }</div>
-            <div>{ rating }</div>
+            <div className="activity-info-holder">
+                <div className='activity-place-name'>{ name }</div>
+                <div className='activity-place-type'>{ type }</div>
+                <div className='activity-place-type'>{ streetAddress }</div>
+                <div className="activity-place-rating">{ rating }</div>
+            </div>
         </div>
     )
 }

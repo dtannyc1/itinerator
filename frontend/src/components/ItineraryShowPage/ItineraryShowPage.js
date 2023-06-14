@@ -18,7 +18,11 @@ const ItineraryShowPage = () => {
     if(!itinerary.activities) return <></> // maybe change this line in future for more robust
     return (
         <>
-            <div className='show-page-title'><p>Created by</p>{ itinerary.title }</div>
+            <div className='show-title-holder'>
+                <div className='show-page-creator'><p>Created by</p>{ itinerary.creator }</div>
+                <div className='show-page-title'>{itinerary.title}</div>
+            </div>
+
             <div className="flex-row-wrap">
                 <div className="itinerary-show-map">
 
