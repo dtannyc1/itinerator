@@ -1,4 +1,5 @@
 import Slider from 'react-slick';
+import { Link } from "react-router-dom";
 
 export function formatDate(dateString) {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -29,7 +30,7 @@ const MainPageItineraryItem = ({ itinerary }) => {
     }, []);
 
     return (
-        <a className='itinerary-link' href={`/itineraries/${_id}`}>
+        <Link className='itinerary-link' to={`/itineraries/${_id}`}>
             <div className="itinerary-item-wrap">
                 <Slider {...sliderSettings}>
                     {allImages.map((photoURL, index) => (
@@ -45,7 +46,7 @@ const MainPageItineraryItem = ({ itinerary }) => {
 
                 <div className="main-activity-date">{formatDate(createdAt)}</div>
             </div>
-        </a>
+        </Link>
     )
 }
 
