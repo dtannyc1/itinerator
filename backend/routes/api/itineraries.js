@@ -20,8 +20,12 @@ router.get('/users/:userId', async (req, res, next) => {
         return next(error);
     }
     try {
-        const itineraries = await Itinerary.find({ creatorId: user._id })
-                                        .sort({ createdAt: -1 });
+        const tmpItineraries = Object.values(await Itinerary.find({ creatorId: user._id })
+                                                            .sort({ createdAt: -1 }));
+        let itineraries = {};
+        tmpItineraries.forEach(itinerary => {
+            itineraries[itinerary._id] = itinerary;
+        })
         return res.json(itineraries);
     }
     catch(err) {
@@ -32,8 +36,12 @@ router.get('/users/:userId', async (req, res, next) => {
 // GET /, index of most recent itineraries
 router.get('/', async (req, res) => {
     try {
-        const itineraries = await Itinerary.find()
-                                        .sort({createdAt: -1});
+        const tmpItineraries = Object.values(await Itinerary.find()
+                                                .sort({createdAt: -1}));
+        let itineraries = {};
+        tmpItineraries.forEach(itinerary => {
+            itineraries[itinerary._id] = itinerary;
+        })
         return res.json(itineraries);
     } catch (err) {
         return res.json([])
