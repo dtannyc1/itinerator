@@ -132,7 +132,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             removeMarkers();
         }
         // Create PlacesService instance using the map
-        const service = new window.google.maps.places.PlacesService(map);
+        const service = map ? new window.google.maps.places.PlacesService(map) : null;
 
         const request = {
             keyword: newType ? newType : type,
@@ -140,47 +140,49 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             radius,
         }
 
-        service.nearbySearch(request, (results, status) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        if (lat !== 0 && lng !== 0) {
+            service.nearbySearch(request, (results, status) => {
+                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
 
-                let activities = [];
-                let ii = 0;
-                while (activities.length < number && ii < results.length) {
-                    if (results[ii].business_status === 'OPERATIONAL' &&
-                        results[ii].name !== prevActivity?.name &&
-                        !selectedActivities.some(activity => activity.name === results[ii].name)) {
-                        activities.push(results[ii]);
+                    let activities = [];
+                    let ii = 0;
+                    while (activities.length < number && ii < results.length) {
+                        if (results[ii].business_status === 'OPERATIONAL' &&
+                            results[ii].name !== prevActivity?.name &&
+                            !selectedActivities.some(activity => activity.name === results[ii].name)) {
+                            activities.push(results[ii]);
+                        }
+                        ii += 1;
                     }
-                    ii += 1;
+
+                    activities.forEach(result => {
+                        createMarker(result);
+                    });
+
+                    let organizedActivities = activities.map((result) => {
+                        const activity = {
+                            name: result.name,
+                            rating: result.rating,
+                            location: result.geometry.location,
+                            photoUrl: null,
+                            price: null,
+                            place_id: result.place_id
+                        }
+                        if (result.photos) {
+                            activity.photoUrl = result.photos[0].getUrl();
+                        }
+                        if (result.price_level) {
+                            activity.price = result.price_level;
+                        }
+                        return activity
+                    });
+
+                    setGeneratedActivities(organizedActivities);
+                    // map.setCenter({lat, lng})
+                    // remove all but the selected marker
                 }
-
-                activities.forEach(result => {
-                    createMarker(result);
-                });
-
-                let organizedActivities = activities.map((result) => {
-                    const activity = {
-                        name: result.name,
-                        rating: result.rating,
-                        location: result.geometry.location,
-                        photoUrl: null,
-                        price: null,
-                        place_id: result.place_id
-                    }
-                    if (result.photos) {
-                        activity.photoUrl = result.photos[0].getUrl();
-                    }
-                    if (result.price_level) {
-                        activity.price = result.price_level;
-                    }
-                    return activity
-                });
-
-                setGeneratedActivities(organizedActivities);
-                // map.setCenter({lat, lng})
-                // remove all but the selected marker
-            }
-        })
+            })
+        }
     }
 
     const handleSelectActivity = (activity) => {
