@@ -70,7 +70,7 @@ router.post('/:id/comments', requireUser, async (req, res, next) => {
             itinerary.comments.push({
                 author: req.user.username,
                 authorId: req.user._id,
-                body: req.body.comment
+                body: req.body.body
             })
 
             itinerary.save()
@@ -139,7 +139,44 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
 
 // -------------------- COMMENT UPDATE --------------------------------
 // UPDATE /itineraries/:id/comments/:commentId, update
+router.patch('/:id/comments/:commentId', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            let commentIdx = itinerary.comments.findIndex(comment => comment._id.toString() === req.params.commentId)
 
+            if (commentIdx !== -1){
+                let comment = itinerary.comments[commentIdx]
+
+                if (comment.authorId.toString() === req.user._id.toString()) {
+                    comment.body = req.body.body;
+                    itinerary.comments[commentIdx] = comment;
+
+                    itinerary.save()
+                        .then(updatedItinerary => res.json(updatedItinerary))
+                        .catch(err => {throw err})
+                } else {
+                    const err = new Error("Comment Update Error");
+                    err.statusCode = 422;
+                    err.errors = {comment: "Must be original author to update a comment"}
+                    return next(err);
+                }
+            } else {
+                const err = new Error("Comment Not Found");
+                err.statusCode = 404;
+                err.errors = {comment: "Comment not found"}
+                return next(err);
+            }
+        }
+    } catch (error) {
+        next(error)
+    }
+})
 
 
 // UPDATE /:id, update
