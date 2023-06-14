@@ -33,6 +33,17 @@ export const clearSessionErrors = () => ({
 export const signup = user => startSession(user, '/api/users/register');
 export const login = user => startSession(user, '/api/users/login');
 
+
+// ============================= get requests for frontEnd =============================
+
+export const selectCurrentUser = (store) => {
+    if (store.session.user) {
+        return store.session.user;
+    } else {
+        return null;
+    };
+};
+
 // thunk action creators
 
 const startSession = (userInfo, route) => async dispatch => {
@@ -44,7 +55,7 @@ const startSession = (userInfo, route) => async dispatch => {
         const { user, token } = await res.json();
         localStorage.setItem('jwtToken', token);
         return dispatch(receiveCurrentUser(user));
-    } catch(err) {
+    } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400) {
             return dispatch(receiveErrors(res.errors));
@@ -84,7 +95,7 @@ export default sessionReducer;
 const nullErrors = null;
 
 export const sessionErrorsReducer = (state = nullErrors, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case RECEIVE_SESSION_ERRORS:
             return action.errors;
         case RECEIVE_CURRENT_USER:
