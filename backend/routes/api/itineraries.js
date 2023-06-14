@@ -241,8 +241,8 @@ router.delete('/:id/comments/:commentId', requireUser, async (req, res, next) =>
     }
 })
 
-// DELETE /itineraries/:id/likes/:id, delete --------------------------------------------
-router.delete('/:id/likes/:likeId', requireUser, async (req, res, next) => {
+// DELETE /itineraries/:id/likes/, delete --------------------------------------------
+router.delete('/:id/likes/', requireUser, async (req, res, next) => {
     try {
         const itinerary = await Itinerary.findById(req.params.id)
         if (!itinerary) {
@@ -251,23 +251,14 @@ router.delete('/:id/likes/:likeId', requireUser, async (req, res, next) => {
             err.errors = {itinerary: "Itinerary not found"}
             return next(err);
         } else {
-            let likeIdx = itinerary.likes.findIndex(like => like._id.toString() === req.params.likeId)
+            let likeIdx = itinerary.likes.findIndex(like => like.likerId.toString() === req.user._id.toString())
 
             if (likeIdx !== -1){
-                let like = itinerary.likes[likeIdx]
+                itinerary.likes.splice(likeIdx,1)
 
-                if (like.likerId.toString() === req.user._id.toString()) {
-                    itinerary.likes.splice(likeIdx,1)
-
-                    itinerary.save()
-                        .then(updatedItinerary => res.json(updatedItinerary))
-                        .catch(err => {throw err})
-                } else {
-                    const err = new Error("Like Delete Error");
-                    err.statusCode = 422;
-                    err.errors = {like: "Must be liker to delete like"}
-                    return next(err);
-                }
+                itinerary.save()
+                    .then(updatedItinerary => res.json(updatedItinerary))
+                    .catch(err => {throw err})
             } else {
                 const err = new Error("Like Not Found");
                 err.statusCode = 404;
