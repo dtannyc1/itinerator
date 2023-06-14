@@ -14,7 +14,6 @@ const ActivityItem = ({ activity }) => {
                 <div className='activity-place-type'>{ type }</div>
                 <div className='activity-place-address'>{ streetAddress }</div>
                 <div className="activity-place-rating">
-                <div className="activity-place-rating">
                     {Array.from({ length: rating }, (_, index) => (
                         <i key={index} className="star-rating-ico"></i>
                     ))}
@@ -22,7 +21,6 @@ const ActivityItem = ({ activity }) => {
                         <i className="star-rating-ico-half"></i>
                     )}
                     {rating}
-                </div>
                 </div>
             </div>
         </div>

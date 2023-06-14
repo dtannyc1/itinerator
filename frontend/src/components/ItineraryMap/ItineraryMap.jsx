@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
 import ActivityItem from "../ItineraryShowPage/ActivityItem";
+import InstructionsModal from "./Insructions";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
@@ -140,7 +141,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             radius: searchRadius,
         }
 
-        if (lat !== 0 && lng !== 0) {
+        if (service && lat !== 0 && lng !== 0) {
             service.nearbySearch(request, (results, status) => {
                 if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                     let activities = [];
@@ -248,44 +249,91 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         };
         dispatch(createItinerary(itinerary))
             .then(itinerary => {
-                console.log(itinerary)
                 history.push(`/itineraries/${itinerary._id}`)
             })
-    }
+    };
 
     return (
         <>
             <div className="section-top">
-                <div ref={mapRef} className="itinerary-show-map">
+                <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified">
                     Map
                 </div>
-                <div className="itinerary-show-details">
+                <div className="itinerary-show-details" id="itinerary-show-details-modified">
                     {selectedActivities.map((activity, index) => {
                         return <ActivityItem activity={activity} key={activity._id} />
                     })}
-                    <div>
-                        <button onClick={handleSaveItinerary}>Save Itinerary</button>
-                    </div>
                 </div>
             </div>
-            <br />
-            <br />
+
             <div className="section-bottom">
-                <div className="activity-generated-row">
-                    {generatedActivities.map((activity, index) => (
-                        <div
-                            className="activity-generated-item"
-                            key={index}
-                            onClick={() => handleSelectActivity(activity)}
-                        >
-                            <div>Name: {activity.name}</div>
-                            <div>Rating: {activity.rating}</div>
-                            {activity.photoUrl ? <img src={activity.photoUrl} alt="activity" height="200px" width="200px" /> : null}
-                            {activity.price ? <div>Price: {activity.price}</div> : null}
-                            <br />
-                        </div>
-                    ))}
+                <div className="section-left">
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Museum', null)}>
+                        <i className="fa-solid fa-building-columns fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Bar', null)}>
+                        <i className="fa-solid fa-martini-glass fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Park', null)}>
+                        <i className="fa-solid fa-tree fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Bowling and Pool', null)}>
+                        <i className="fa-solid fa-bowling-ball fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Moovie and Theater', null)}>
+                        <i className="fa-solid fa-clapperboard fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Cafe', null)}>
+                        <i className="fa-solid fa-mug-hot fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Pool and Ice skating', null)}>
+                        <i className="fa-solid fa-person-swimming fa-2xl"></i>
+                    </div>
+                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Restaurants', null)}>
+                        <i className="fa-solid fa-utensils fa-2xl"></i>
+                    </div>
                 </div>
+                
+                <div className="section-right">
+                    <div className="activity-generated-row">
+                        {generatedActivities.map((activity, index) => (
+                            <div
+                                className="activity-generated-item"
+                                key={index}
+                                onClick={() => handleSelectActivity(activity)}
+                            >
+                                {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
+                                <div className="choice-activity-name">{activity.name}</div>
+                                <div className="activity-place-rating"  id="activity-place-rating-modified">
+
+                                        {Array.from({ length: activity.rating }, (_, index) => (
+                                            <i key={index} className="star-rating-ico"></i>
+                                        ))}
+                                        {activity.rating % 1 !== 0 && (
+                                            <i className="star-rating-ico-half"></i>
+                                        )}
+                                        {activity.rating === '0' ? <></> : activity.rating}
+                                    
+                                </div>
+
+                            </div>
+                        ))}
+                    </div>
+                    
+                    <div className="input-button-capsule">
+                        <InstructionsModal />
+                        <div>
+                            <input 
+                                className="title-input"
+                                placeholder="Venture name"
+                                />
+                            <button id="nav-button-venture" className="nav-button" onClick={handleSaveItinerary}>Create venture</button>
+                        </div>
+                    </div>
+                            
+                </div>
+
+                
             </div>
         </>
     )

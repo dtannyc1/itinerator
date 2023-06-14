@@ -3,36 +3,131 @@
     display: flex;
     justify-content: space-around;
 }
-
-.section-bottom {
-    display: flex;
-    justify-content: space-around
+.itinerary-show-map {
+    box-shadow: 0px 2px 15px black;
+    border-radius: 10px;
 }
-
-/* .section-top {
-    display: flex;
-    justify-content: space-around;
-}
-
-.map {
-    width: 500px;
-    height: 500px;
-}
-
-.activities-selected {
-    display: flex;
-    flex-direction: column;
+#itinerary-show-map-modified {
+    height: 540px;
+    width: 48%;
+    /* margin-left: 5px; */
 }
 
 .section-bottom {
     display: flex;
-    justify-content: space-around
+    flex-direction: row;
+    justify-content: end;
+    margin-top: 20px;
 }
-
+.section-right {
+    width: 50%;
+    position: relative;
+    top: -140px;
+}
+.section-left {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0px 10px 0px 10px;
+}
 .activity-generated-row {
     display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+.activity-generated-item {
+    cursor: pointer;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+}
+.activity-generated-item:hover {
+    transform: scale(1.2);
+}
+.activity-generated-item:hover > img {
+    box-shadow: 0 0 20px #D9CA9C;
 }
 
-.activity-generated-item {
+.choice-img {
+    width: 200px;
+    height: 120px;
+    box-shadow: 0px 2px 15px black;
+    border-radius: 10px;
+}
+.choice-activity-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: #f2ae2e;
+    text-align: center;
+    max-width: 200px;
+}
 
-} */
+#activity-place-rating-modified {
+    color: #feddb2;
+    font-family: 'DM Serif Display', serif;
+}
+
+#itinerary-show-details-modified {
+    height: 401.5px;
+}
+
+#nav-button-venture {
+    margin: 5px;
+    width: 130px;
+}
+.instructions {
+    margin-left: 30px;
+}
+.instructions-holder {
+    color: #0B3559;
+    font-family: 'DM Serif Display', serif;
+}
+
+.title-input {
+    width: 180px;
+    height: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    background-color: rgba(240, 242, 240, 0.8);
+    border: none;
+    padding: 5px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+}
+.title-input:hover {
+    box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
+}
+
+.input-button-capsule {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 20px 0px 0px;
+}
+
+.instructions > div {
+    margin-bottom: 10px;
+}
+
+.create-page-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(240, 242, 240, 0.6);
+    position: inherit;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    color: #191E26;
+}
+.create-page-circle:hover {
+    box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
+    color: #0b67b8;
+    background-color: rgba(240, 242, 240, 1);
+    transform: scale(1.2);
+}
