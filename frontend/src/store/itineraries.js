@@ -69,11 +69,12 @@ export const getItinerary = (itineraryId) => (store) => {
 const itinerariesReducer = (state = {}, action) => {
     Object.freeze(state);
 
-    const nextState = { ...state };
+    let nextState = { ...state };
     switch (action.type) {
         case RECEIVE_ITINERARIES:
-            return { ...state, ...action.itineraries }
+            return { ...nextState, ...action.itineraries }
         case RECEIVE_ITINERARY:
+            nextState = {};
             nextState[action.itinerary._id] = action.itinerary;
             return nextState;
         default:

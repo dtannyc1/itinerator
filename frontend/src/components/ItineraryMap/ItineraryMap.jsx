@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
