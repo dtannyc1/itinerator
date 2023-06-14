@@ -79,10 +79,13 @@
     flex-direction: row;
     align-items: flex-end;
 }
-.star-rating-ico {
-    background-image: url('../../assets/stars.png');
+.star-rating-ico, .star-rating-ico-half {
+    background-image: url('../../assets/star.png');
     height: 20px;
-    width: 110px;
-    background-position: 0px 0px;
+    width: 20px;
     margin-right: 5px;
+}
+.star-rating-ico-half {
+    margin-right: 10px;
+    width: 10px;
 }
