@@ -54,9 +54,60 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-// POST /itineraries/:id/comments/, create ----------------------------------------------
+// -------------------- COMMENT CREATE --------------------------------
+// POST /itineraries/:id/comments/, create
+router.post('/:id/comments', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
 
-// POST /itineraries/:id/likes/, create -------------------------------------------------
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            // users can post as many comments as they want
+            itinerary.comments.push(res.body.comment)
+
+            itinerary.save()
+                .then(itinerary => res.json(itinerary))
+                .catch(err => {throw err});
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+// -------------------- LIKE CREATE --------------------------------
+// POST /itineraries/:id/likes/, create
+router.post('/:id/likes', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            // users can only have one like
+            if (itinerary.likes.some(id => id.toString() === res.user.id.toString())) {
+                const err = new Error("Itinerary already liked by user");
+                err.statusCode = 422;
+                err.errors = {itinerary: "Itinerary already liked by user"}
+                return next(err)
+            } else {
+                itinerary.likes.push(res.user.id.toString())
+
+                itinerary.save()
+                    .catch(err => {throw err});
+            }
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 // POST /, create
 router.post('/', requireUser, validateItineraryInput, async (req, res, next) => {
@@ -66,7 +117,9 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
         const newItinerary = new Itinerary({
             creator: req.user.username,
             creatorId: req.user._id,
-            activities: req.body.activities
+            activities: req.body.activities,
+            comments: [],
+            likes: []
         });
 
         newItinerary.save()
