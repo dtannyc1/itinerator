@@ -224,9 +224,9 @@ router.delete('/:id/comments/:commentId', requireUser, async (req, res, next) =>
                         .then(updatedItinerary => res.json(updatedItinerary))
                         .catch(err => {throw err})
                 } else {
-                    const err = new Error("Comment Update Error");
+                    const err = new Error("Comment Delete Error");
                     err.statusCode = 422;
-                    err.errors = {comment: "Must be original author to update a comment"}
+                    err.errors = {comment: "Must be original author to delete a comment"}
                     return next(err);
                 }
             } else {
@@ -242,6 +242,43 @@ router.delete('/:id/comments/:commentId', requireUser, async (req, res, next) =>
 })
 
 // DELETE /itineraries/:id/likes/:id, delete --------------------------------------------
+router.delete('/:id/likes/:likeId', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            let likeIdx = itinerary.likes.findIndex(like => like._id.toString() === req.params.likeId)
+
+            if (likeIdx !== -1){
+                let like = itinerary.likes[likeIdx]
+
+                if (like.likerId.toString() === req.user._id.toString()) {
+                    itinerary.likes.splice(likeIdx,1)
+
+                    itinerary.save()
+                        .then(updatedItinerary => res.json(updatedItinerary))
+                        .catch(err => {throw err})
+                } else {
+                    const err = new Error("Like Delete Error");
+                    err.statusCode = 422;
+                    err.errors = {like: "Must be liker to delete like"}
+                    return next(err);
+                }
+            } else {
+                const err = new Error("Like Not Found");
+                err.statusCode = 404;
+                err.errors = {like: "Like not found"}
+                return next(err);
+            }
+        }
+    } catch (error) {
+        next(error)
+    }
+})
 
 // DELETE /:id, delete
 router.delete('/:id', requireUser, async (req, res, next) => {
