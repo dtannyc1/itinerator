@@ -14,8 +14,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const searchParams = new URLSearchParams(location.search);
     const locationParam = searchParams.get('location');
     const typeParam = searchParams.get('type');
-    console.log(locationParam);
-    console.log(typeParam);
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0)
 
@@ -24,10 +22,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     geocoder.geocode({ 'address': locationParam }, (results, status) => {
         if (status === 'OK') {
             const location = results[0].geometry.location;
-            const lat = location.lat();
-            const lng = location.lng();
-            setLat(lat);
-            setLng(lng);
+            setLat(location.lat());
+            setLng(location.lng());
         } else {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -135,7 +131,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
         service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                // console.log(results)
 
                 let activities = [];
                 let ii = 0;
@@ -170,7 +165,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 });
 
                 setGeneratedActivities(organizedActivities);
-                map.setCenter(activities[0].geometry.location)
+                // map.setCenter({lat, lng})
                 // remove all but the selected marker
             }
         })
