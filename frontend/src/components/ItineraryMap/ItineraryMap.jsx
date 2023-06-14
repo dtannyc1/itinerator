@@ -6,7 +6,6 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
@@ -20,7 +19,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const [map, setMap] = useState(null);
     const [type, setType] = useState(typeParam);
     const [number, setNumber] = useState(3);
-    const [radius, setRadius] = useState(500); // meters
 
     const mapRef = useRef(null);
     const markers = useRef([]);
@@ -78,20 +76,20 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     useEffect(() => {
         removeMarkers();
         let prevActivity = selectedActivities[selectedActivities.length-1];
-        let randomActivityType = activityTypes[Math.floor(Math.random()*activityTypes.length)];
         if (prevActivity) {
-            handleTextSearch(null, prevActivity, randomActivityType);
+            handleTextSearch(null, prevActivity, generateRandomType());
         }
     }, [selectedActivities])
+
+    const generateRandomType = () => {
+        return activityTypes[Math.floor(Math.random()*activityTypes.length)];
+    }
 
     const handleType = (e) => {
         setType(e.target.value);
     }
     const handleNumber = (e) => {
         setNumber(e.target.value);
-    }
-    const handleRadius = (e) => {
-        setRadius(e.target.value);
     }
 
     const createMarker = (place) => {
@@ -125,7 +123,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         return markers.current;
     };
 
-    const handleTextSearch = (e, prevActivity, newType) => {
+    const handleTextSearch = (e, prevActivity, newType, searchRadius) => {
         e?.preventDefault();
 
         if (markers.current) {
@@ -133,55 +131,71 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         }
         // Create PlacesService instance using the map
         const service = map ? new window.google.maps.places.PlacesService(map) : null;
-
+        searchRadius = searchRadius || 500;
         const request = {
             keyword: newType ? newType : type,
             location: prevActivity ? {lat: prevActivity.lat, lng: prevActivity.lng} : { lat, lng },
-            radius,
+            radius: searchRadius,
         }
 
         if (lat !== 0 && lng !== 0) {
             service.nearbySearch(request, (results, status) => {
                 if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-
                     let activities = [];
                     let ii = 0;
                     while (activities.length < number && ii < results.length) {
                         if (results[ii].business_status === 'OPERATIONAL' &&
                             results[ii].name !== prevActivity?.name &&
                             !selectedActivities.some(activity => activity.name === results[ii].name)) {
-                            activities.push(results[ii]);
+                                if (results[ii].photos) { // reject if no photos
+                                    activities.push(results[ii]);
+                                }
                         }
                         ii += 1;
                     }
 
-                    activities.forEach(result => {
-                        createMarker(result);
-                    });
+                    if (activities.length !== number) {
+                        // expand search radius until we find enough suggestions
+                        redoSearch(e, prevActivity, newType, searchRadius)
+                    } else {
+                        activities.forEach(result => {
+                            createMarker(result);
+                        });
 
-                    let organizedActivities = activities.map((result) => {
-                        const activity = {
-                            name: result.name,
-                            rating: result.rating,
-                            location: result.geometry.location,
-                            photoUrl: null,
-                            price: null,
-                            place_id: result.place_id
-                        }
-                        if (result.photos) {
-                            activity.photoUrl = result.photos[0].getUrl();
-                        }
-                        if (result.price_level) {
-                            activity.price = result.price_level;
-                        }
-                        return activity
-                    });
+                        let organizedActivities = activities.map((result) => {
+                            const activity = {
+                                name: result.name,
+                                rating: result.rating,
+                                location: result.geometry.location,
+                                photoUrl: null,
+                                price: null,
+                                place_id: result.place_id
+                            }
+                            if (result.photos) {
+                                activity.photoUrl = result.photos[0].getUrl();
+                            }
+                            if (result.price_level) {
+                                activity.price = result.price_level;
+                            }
+                            return activity
+                        });
 
-                    setGeneratedActivities(organizedActivities);
-                    // map.setCenter({lat, lng})
-                    // remove all but the selected marker
+                        setGeneratedActivities(organizedActivities);
+                        // map.setCenter({lat, lng})
+                        // remove all but the selected marker
+                    }
+
+
+                } else {
+                    redoSearch(e, prevActivity, newType, searchRadius)
                 }
             })
+        }
+    }
+
+    const redoSearch = (e, prevActivity, newType, searchRadius) => {
+        if (searchRadius < 10000) {
+            handleTextSearch(e, prevActivity, newType, searchRadius+500)
         }
     }
 
@@ -267,10 +281,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     <div>
                         Type
                         <input type="text" value={type} onChange={handleType} />
-                    </div>
-                    <div>
-                        Radius
-                        <input type="number" value={radius} min={500} max={10000} step={100} onChange={handleRadius} />
                     </div>
                     <div>
                         Number
