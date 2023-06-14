@@ -64,8 +64,8 @@ for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
 
         const comment = {
             body: faker.lorem.sentences(),
-            author: author,
-            authorId: author._id.toString()
+            author: author.username,
+            authorId: author._id
         }
 
         comments.push(comment)
@@ -79,7 +79,9 @@ for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
         likes = [...new Set(likes)];
     }
     likes = likes.map(likerId => {
-        return users[likerId]._id.toString()
+        return {
+            likerId: users[likerId]._id
+        }
     })
 
     const creator = users[Math.floor(Math.random() * NUM_SEED_USERS)];
