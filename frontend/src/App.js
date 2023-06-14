@@ -8,11 +8,10 @@ import MainPage from './components/MainPage/MainPage';
 import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
 import ItineraryCreatePage from './components/ItineraryCreatePage/ItineraryCreatePage';
-
+import ItineraryShowPage from './components/ItineraryShowPage/ItineraryShowPage';
 import { getCurrentUser } from './store/session';
 import { Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
-import ItineraryShowPage from './components/ItineraryShowPage/ItineraryShowPage';
 
 function App() {
     const [loaded, setLoaded] = useState(false);
