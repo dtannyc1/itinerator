@@ -13,7 +13,7 @@ const MainPageItineraryItem = ({ itinerary }) => {
         dots: false,
         infinite: true,
         autoplay: true,
-        speed: 1000,
+        speed: 1500,
         slidesToShow: 1,
         slidesToScroll: 1,
         fade: true,
