@@ -251,7 +251,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 console.log(itinerary)
                 history.push(`/itineraries/${itinerary._id}`)
             })
-    }
+    };
 
     return (
         <>
@@ -268,9 +268,10 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     </div>
                 </div>
             </div>
-            <br />
-            <br />
+
             <div className="section-bottom">
+                <div className="section-left"></div>
+                
                 <div className="activity-generated-row">
                     {generatedActivities.map((activity, index) => (
                         <div
@@ -278,14 +279,24 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                             key={index}
                             onClick={() => handleSelectActivity(activity)}
                         >
-                            <div>Name: {activity.name}</div>
-                            <div>Rating: {activity.rating}</div>
-                            {activity.photoUrl ? <img src={activity.photoUrl} alt="activity" height="200px" width="200px" /> : null}
-                            {activity.price ? <div>Price: {activity.price}</div> : null}
-                            <br />
+                            {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
+                            <div className="choice-activity-name">{activity.name}</div>
+                            <div className="activity-place-rating"  id="activity-place-rating-modified">
+
+                                    {Array.from({ length: activity.rating }, (_, index) => (
+                                        <i key={index} className="star-rating-ico"></i>
+                                    ))}
+                                    {activity.rating % 1 !== 0 && (
+                                        <i className="star-rating-ico-half"></i>
+                                    )}
+                                    {activity.rating}
+                                
+                            </div>
+
                         </div>
                     ))}
                 </div>
+                
             </div>
         </>
     )

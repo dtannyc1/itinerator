@@ -1,11 +1,11 @@
 .itinerary-show-map {
     width: 50%;
-    height: 500px;
+    height: 460px;
     /* border: 1px solid black; */
 }
 .itinerary-show-details {
     width: 50%;
-    height: 500px;
+    height: 461px;
     overflow: auto;
 }
 
