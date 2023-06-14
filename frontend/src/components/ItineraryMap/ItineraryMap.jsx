@@ -253,49 +253,73 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             })
     };
 
+    const instructions = (
+        <div className="instructions-holder">
+            <div className="instructions">
+                <div>Please follow these steps for a seamless experience:</div>
+
+                <p>1. Select the activity type from the left screen.</p>
+                <p>2. Choose from the selection provided above.</p>
+                <p>3. Your choices will appear in the top section above the selection.</p>
+                <p>4. When you are ready enter desired title and save your venture.</p>
+                <p>5. Follow your chosen options using the interactive Google Map on the page.</p>
+                <p>6. Enjoy your experience!</p>
+            </div>
+            <div className="input-button-capsule">
+                <input 
+                    className="title-input"
+                    placeholder="Venture name"
+                    />
+                <button id="nav-button-venture" className="nav-button" onClick={handleSaveItinerary}>Create venture</button>
+            </div>
+        </div>
+    )
+
     return (
         <>
             <div className="section-top">
-                <div ref={mapRef} className="itinerary-show-map">
+                <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified">
                     Map
                 </div>
-                <div className="itinerary-show-details">
+                <div className="itinerary-show-details" id="itinerary-show-details-modified">
                     {selectedActivities.map((activity, index) => {
                         return <ActivityItem activity={activity} key={activity._id} />
                     })}
-                    <div>
-                        <button onClick={handleSaveItinerary}>Save Itinerary</button>
-                    </div>
                 </div>
             </div>
 
             <div className="section-bottom">
                 <div className="section-left"></div>
                 
-                <div className="activity-generated-row">
-                    {generatedActivities.map((activity, index) => (
-                        <div
-                            className="activity-generated-item"
-                            key={index}
-                            onClick={() => handleSelectActivity(activity)}
-                        >
-                            {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
-                            <div className="choice-activity-name">{activity.name}</div>
-                            <div className="activity-place-rating"  id="activity-place-rating-modified">
+                <div className="section-right">
+                    <div className="activity-generated-row">
+                        {generatedActivities.map((activity, index) => (
+                            <div
+                                className="activity-generated-item"
+                                key={index}
+                                onClick={() => handleSelectActivity(activity)}
+                            >
+                                {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
+                                <div className="choice-activity-name">{activity.name}</div>
+                                <div className="activity-place-rating"  id="activity-place-rating-modified">
 
-                                    {Array.from({ length: activity.rating }, (_, index) => (
-                                        <i key={index} className="star-rating-ico"></i>
-                                    ))}
-                                    {activity.rating % 1 !== 0 && (
-                                        <i className="star-rating-ico-half"></i>
-                                    )}
-                                    {activity.rating}
-                                
+                                        {Array.from({ length: activity.rating }, (_, index) => (
+                                            <i key={index} className="star-rating-ico"></i>
+                                        ))}
+                                        {activity.rating % 1 !== 0 && (
+                                            <i className="star-rating-ico-half"></i>
+                                        )}
+                                        {activity.rating === '0' ? <></> : activity.rating}
+                                    
+                                </div>
+
                             </div>
-
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    
+                    
                 </div>
+
                 
             </div>
         </>
