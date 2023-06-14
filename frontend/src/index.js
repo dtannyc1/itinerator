@@ -10,11 +10,19 @@ import configureStore from './store/store';
 import { ModalProvider } from './components/context/Modal';
 
 import jwtFetch from './store/jwt';
+import { createComment, deleteComment, updateComment } from './store/comments';
+import { createLike, deleteLike } from './store/likes';
 
 
 let store = configureStore({});
 
 window.jwtFetch = jwtFetch;
+window.createComment = createComment;
+window.updateComment = updateComment;
+window.deleteComment = deleteComment;
+window.createLike = createLike;
+window.deleteLike = deleteLike;
+window.store = store;
 
 function Root() {
     return (

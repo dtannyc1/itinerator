@@ -9,6 +9,7 @@ const activities = require("./activitiesList.js")
 const NUM_SEED_USERS = 10;
 const NUM_SEED_ITINERARIES = 5;
 const NUM_SEED_ACTIVITIES = 3;
+const NUM_SEED_COMMENTS = 2;
 
 // Create users
 const users = [];
@@ -37,21 +38,6 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
 const itineraries = [];
 for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
     // Create Activities
-
-    // const activities = [];
-    // for (let i = 0; i < NUM_SEED_ACTIVITIES; i++) {
-    //     activities.push(
-    //         {
-    //             name: faker.word.verb(),
-    //             lat: faker.location.latitude(),
-    //             lng: faker.location.longitude(),
-    //             streetAddress: faker.location.streetAddress(),
-    //             type: "activity",
-    //             duration: faker.number.int({min: 10, max: 60})
-    //         }
-    //     )
-    // }
-
     let activitiesIndices = [];
     while (activitiesIndices.length < NUM_SEED_ACTIVITIES) {
         activitiesIndices.push(Math.floor(Math.random()*activities.length));
@@ -63,6 +49,41 @@ for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
         newActivitiesSet.push(activities[ii])
     })
 
+    // Create Comments:
+    // check database constraints
+    const comments = [];
+    let commentAuthors = [];
+
+    while (commentAuthors.length < NUM_SEED_COMMENTS) {
+        commentAuthors.push(Math.floor(Math.random() * NUM_SEED_USERS));
+        commentAuthors = [...new Set(commentAuthors)];
+    }
+
+    for (let j = 0; j < NUM_SEED_COMMENTS; j++) {
+        const author = users[commentAuthors[j]];
+
+        const comment = {
+            body: faker.lorem.sentences(),
+            author: author.username,
+            authorId: author._id
+        }
+
+        comments.push(comment)
+    }
+
+    // Create Likes:
+    let likes = [];
+    let numLikes = Math.floor(Math.random() * NUM_SEED_USERS);
+    while (likes.length < numLikes) {
+        likes.push(Math.floor(Math.random() * NUM_SEED_USERS));
+        likes = [...new Set(likes)];
+    }
+    likes = likes.map(likerId => {
+        return {
+            likerId: users[likerId]._id
+        }
+    })
+
     const creator = users[Math.floor(Math.random() * NUM_SEED_USERS)];
 
     itineraries.push(
@@ -70,6 +91,8 @@ for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
             creator: creator.username,
             creatorId: creator._id,
             activities: newActivitiesSet,
+            comments,
+            likes,
             title: faker.word.adjective()
         })
     )

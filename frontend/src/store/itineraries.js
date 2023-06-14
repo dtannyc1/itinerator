@@ -3,14 +3,14 @@ import jwtFetch from "./jwt";
 const RECEIVE_ITINERARIES = "itineraries/RECEIVE_ITINERARIES";
 const RECEIVE_ITINERARY = "itineraries/RECEIVE_ITINERARY";
 
-const receiveItineraries = (itineraries) => {
+export const receiveItineraries = (itineraries) => {
     return {
         type: RECEIVE_ITINERARIES,
         itineraries: itineraries
     }
 };
 
-const receiveItinerary = (itinerary) => {
+export const receiveItinerary = (itinerary) => {
     return {
         type: RECEIVE_ITINERARY,
         itinerary: itinerary
@@ -74,7 +74,6 @@ const itinerariesReducer = (state = {}, action) => {
         case RECEIVE_ITINERARIES:
             return { ...nextState, ...action.itineraries }
         case RECEIVE_ITINERARY:
-            nextState = {};
             nextState[action.itinerary._id] = action.itinerary;
             return nextState;
         default:

@@ -20,8 +20,12 @@ router.get('/users/:userId', async (req, res, next) => {
         return next(error);
     }
     try {
-        const itineraries = await Itinerary.find({ creatorId: user._id })
-                                        .sort({ createdAt: -1 });
+        const tmpItineraries = Object.values(await Itinerary.find({ creatorId: user._id })
+                                                            .sort({ createdAt: -1 }));
+        let itineraries = {};
+        tmpItineraries.forEach(itinerary => {
+            itineraries[itinerary._id] = itinerary;
+        })
         return res.json(itineraries);
     }
     catch(err) {
@@ -32,8 +36,12 @@ router.get('/users/:userId', async (req, res, next) => {
 // GET /, index of most recent itineraries
 router.get('/', async (req, res) => {
     try {
-        const itineraries = await Itinerary.find()
-                                        .sort({createdAt: -1});
+        const tmpItineraries = Object.values(await Itinerary.find()
+                                                .sort({createdAt: -1}));
+        let itineraries = {};
+        tmpItineraries.forEach(itinerary => {
+            itineraries[itinerary._id] = itinerary;
+        })
         return res.json(itineraries);
     } catch (err) {
         return res.json([])
@@ -54,6 +62,67 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
+// -------------------- COMMENT CREATE --------------------------------
+// POST /itineraries/:id/comments/, create
+router.post('/:id/comments', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            // users can post as many comments as they want
+            itinerary.comments.push({
+                author: req.user.username,
+                authorId: req.user._id,
+                body: req.body.body
+            })
+
+            itinerary.save()
+                .then(itinerary => res.json(itinerary))
+                .catch(err => {throw err});
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+// -------------------- LIKE CREATE --------------------------------
+// POST /itineraries/:id/likes/, create
+router.post('/:id/likes', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            // users can only have one like
+            if (itinerary.likes.some(liker => liker.likerId.toString() === req.user._id.toString())) {
+                const err = new Error("Itinerary already liked by user");
+                err.statusCode = 422;
+                err.errors = {itinerary: "Itinerary already liked by user"}
+                return next(err)
+            } else {
+                itinerary.likes.push({
+                    likerId: req.user._id
+                })
+
+                itinerary.save()
+                    .then(itinerary => res.json(itinerary))
+                    .catch(err => {throw err});
+            }
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
 // POST /, create
 router.post('/', requireUser, validateItineraryInput, async (req, res, next) => {
     try {
@@ -62,7 +131,9 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
         const newItinerary = new Itinerary({
             creator: req.user.username,
             creatorId: req.user._id,
-            activities: req.body.activities
+            activities: req.body.activities,
+            comments: [],
+            likes: []
         });
 
         newItinerary.save()
@@ -73,6 +144,48 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
         next(error)
     }
 })
+
+// -------------------- COMMENT UPDATE --------------------------------
+// UPDATE /itineraries/:id/comments/:commentId, update
+router.patch('/:id/comments/:commentId', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            let commentIdx = itinerary.comments.findIndex(comment => comment._id.toString() === req.params.commentId)
+
+            if (commentIdx !== -1){
+                let comment = itinerary.comments[commentIdx]
+
+                if (comment.authorId.toString() === req.user._id.toString()) {
+                    comment.body = req.body.body;
+                    itinerary.comments[commentIdx] = comment;
+
+                    itinerary.save()
+                        .then(updatedItinerary => res.json(updatedItinerary))
+                        .catch(err => {throw err})
+                } else {
+                    const err = new Error("Comment Update Error");
+                    err.statusCode = 422;
+                    err.errors = {comment: "Must be original author to update a comment"}
+                    return next(err);
+                }
+            } else {
+                const err = new Error("Comment Not Found");
+                err.statusCode = 404;
+                err.errors = {comment: "Comment not found"}
+                return next(err);
+            }
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 // UPDATE /:id, update
 router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next) => {
@@ -92,6 +205,75 @@ router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next)
         itinerary.activities = req.body.activities;
         let updatedItinerary = await itinerary.save();
         return res.json(updatedItinerary)
+    } catch (error) {
+        next(error)
+    }
+})
+
+// DELETE /itineraries/:id/comments/:id, delete -----------------------------------------
+router.delete('/:id/comments/:commentId', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            let commentIdx = itinerary.comments.findIndex(comment => comment._id.toString() === req.params.commentId)
+
+            if (commentIdx !== -1){
+                let comment = itinerary.comments[commentIdx]
+
+                if (comment.authorId.toString() === req.user._id.toString()) {
+                    itinerary.comments.splice(commentIdx,1)
+
+                    itinerary.save()
+                        .then(updatedItinerary => res.json(updatedItinerary))
+                        .catch(err => {throw err})
+                } else {
+                    const err = new Error("Comment Delete Error");
+                    err.statusCode = 422;
+                    err.errors = {comment: "Must be original author to delete a comment"}
+                    return next(err);
+                }
+            } else {
+                const err = new Error("Comment Not Found");
+                err.statusCode = 404;
+                err.errors = {comment: "Comment not found"}
+                return next(err);
+            }
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+// DELETE /itineraries/:id/likes/, delete --------------------------------------------
+router.delete('/:id/likes/', requireUser, async (req, res, next) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id)
+        if (!itinerary) {
+            const err = new Error("Itinerary Not Found");
+            err.statusCode = 404;
+            err.errors = {itinerary: "Itinerary not found"}
+            return next(err);
+        } else {
+            let likeIdx = itinerary.likes.findIndex(like => like.likerId.toString() === req.user._id.toString())
+
+            if (likeIdx !== -1){
+                itinerary.likes.splice(likeIdx,1)
+
+                itinerary.save()
+                    .then(updatedItinerary => res.json(updatedItinerary))
+                    .catch(err => {throw err})
+            } else {
+                const err = new Error("Like Not Found");
+                err.statusCode = 404;
+                err.errors = {like: "Like not found"}
+                return next(err);
+            }
+        }
     } catch (error) {
         next(error)
     }
