@@ -1,5 +1,5 @@
 import jwtFetch from "./jwt";
-import receiveItinerary from './itineraries.js';
+import { receiveItinerary } from './itineraries.js';
 
 // thunk action creators
 export const createLike = (itineraryId) => async dispatch => {
