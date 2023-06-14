@@ -8,7 +8,7 @@ export const createComment = (itineraryId, body) => async dispatch => {
         body: JSON.stringify({body})
     }).then(res => res.json()).then(data => {
         dispatch(receiveItinerary(data));
-    })
+    }).catch(err => console.log(err))
 }
 
 export const updateComment = (itineraryId, commentId, body) => async dispatch => {
@@ -17,7 +17,7 @@ export const updateComment = (itineraryId, commentId, body) => async dispatch =>
         body: JSON.stringify({body})
     }).then(res => res.json()).then(data => {
         dispatch(receiveItinerary(data));
-    })
+    }).catch(err => console.log(err))
 }
 
 export const deleteComment = (itineraryId, commentId) => async dispatch => {
@@ -25,7 +25,7 @@ export const deleteComment = (itineraryId, commentId) => async dispatch => {
         method: 'DELETE'
     }).then(res => res.json()).then(data => {
         dispatch(receiveItinerary(data));
-    })
+    }).catch(err => console.log(err))
 }
 
 // no reducer, itineraries reducer should handle it
