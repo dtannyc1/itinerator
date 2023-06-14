@@ -1,4 +1,25 @@
+.section-top {
+    display: flex;
+    justify-content: space-around;
+}
+
 .map {
     width: 500px;
     height: 500px;
 }
+
+.activities-selected {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-bottom {
+    display: flex;
+    justify-content: space-around
+}
+
+.activity-generated-row {
+    display: flex;
+}
+
+.activity-generated-item {}
