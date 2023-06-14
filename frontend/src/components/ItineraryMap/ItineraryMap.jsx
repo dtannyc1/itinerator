@@ -1,6 +1,7 @@
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import '../ItineraryShowPage/ItineraryShowPage.css'
 import './ItineraryMap.css';
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -254,10 +255,10 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     return (
         <>
             <div className="section-top">
-                <div ref={mapRef} className="map">
+                <div ref={mapRef} className="itinerary-show-map">
                     Map
                 </div>
-                <div className="activities-selected">
+                <div className="itinerary-show-details">
                     {selectedActivities.map((activity, index) => (
                         <div key={index}>
                             <div>Name: {activity.name}</div>
@@ -280,7 +281,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                             className="activity-generated-item"
                             key={index}
                             onClick={() => handleSelectActivity(activity)}
-
                         >
                             <div>Name: {activity.name}</div>
                             <div>Rating: {activity.rating}</div>

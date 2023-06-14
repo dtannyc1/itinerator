@@ -1,4 +1,10 @@
 .section-top {
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* .section-top {
     display: flex;
     justify-content: space-around;
 }
@@ -22,4 +28,6 @@
     display: flex;
 }
 
-.activity-generated-item {}
+.activity-generated-item {
+
+} */
