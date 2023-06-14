@@ -91,13 +91,13 @@ router.post('/:id/likes', requireUser, async (req, res, next) => {
             return next(err);
         } else {
             // users can only have one like
-            if (itinerary.likes.some(id => id.toString() === res.user.id.toString())) {
+            if (itinerary.likes.some(liker => liker.likerId.toString() === res.user.id.toString())) {
                 const err = new Error("Itinerary already liked by user");
                 err.statusCode = 422;
                 err.errors = {itinerary: "Itinerary already liked by user"}
                 return next(err)
             } else {
-                itinerary.likes.push(res.user.id.toString())
+                itinerary.likes.push({likerId: res.user.id.toString()})
 
                 itinerary.save()
                     .catch(err => {throw err});
@@ -107,7 +107,6 @@ router.post('/:id/likes', requireUser, async (req, res, next) => {
         next(error)
     }
 })
-
 
 // POST /, create
 router.post('/', requireUser, validateItineraryInput, async (req, res, next) => {
@@ -131,7 +130,10 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
     }
 })
 
-// UPDATE /itineraries/:id/comments/:id, update ----------------------------------------
+// -------------------- COMMENT UPDATE --------------------------------
+// UPDATE /itineraries/:id/comments/:commentId, update
+
+
 
 // UPDATE /:id, update
 router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next) => {
