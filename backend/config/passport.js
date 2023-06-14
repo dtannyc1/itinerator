@@ -30,15 +30,19 @@ passport.use(new LocalStrategy({
         session: false,
         usernameField: 'email',
         passwordField: 'password',
-    }, async function (email, password, done) {
-    const user = await User.findOne({ email });
+        passReqToCallback: true,
+    }, async function (req, username, password, done) {
+    const user = await User.findOne({
+        $or: [{ email: username }, { username: username }]
+    });
     if (user) {
         bcrypt.compare(password, user.hashedPassword, (err, isMatch) => {
             if (err || !isMatch) done(null, false);
             else done(null, user);
         });
-    } else
+    } else {
         done(null, false);
+    }
 }));
 
 exports.loginUser = async function(user) {

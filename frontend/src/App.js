@@ -7,10 +7,12 @@ import NavBar from './components/NavBar/NavBar';
 import MainPage from './components/MainPage/MainPage';
 import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
+import ItineraryCreatePage from './components/ItineraryCreatePage/ItineraryCreatePage';
 
 import { getCurrentUser } from './store/session';
 import { Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
+import ItineraryShowPage from './components/ItineraryShowPage/ItineraryShowPage';
 
 function App() {
     const [loaded, setLoaded] = useState(false);
@@ -25,11 +27,13 @@ function App() {
 
             <Switch>
                 <Route exact path="/" component={MainPage} />
+                <Route exact path="/itineraries/:itineraryId" component={ItineraryShowPage} />
+                <Route exact path="/itinerary" component={ItineraryCreatePage} />
             </Switch>
-            
+
             <Footer />
         </>
     );
-  }
+}
 
 export default App;

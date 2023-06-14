@@ -37,9 +37,10 @@ function NavBar () {
 
     return (
         <>
-        <div className='nav-bar'>
-            { getLinks() }
-        </div>
+            <div className='nav-bar'>
+                <a className='nav-button' href='/'>link to main page</a>
+                { getLinks() }
+            </div>
         </>
     );
 }

@@ -1,24 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './MainPage.css';
 import MainPageCarousel from './MainPageCarousel';
 import MainPageItineraryItem from './MainPageItineraryItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchItineraries } from '../../store/itineraries';
-
+import { fetchItineraries, getItineraries } from '../../store/itineraries';
+import { useHistory } from 'react-router-dom';
+import GetStarted from './GetStarted';
 
 const MainPage = () => {
   const dispatch = useDispatch();
 
-  
   useEffect(() => {
     dispatch(fetchItineraries());
   }, [dispatch]);
 
-  const itineraries = useSelector(store => store.itineraries ? Object.values(store.itineraries) : []);
+  const itineraries = useSelector(getItineraries);
 
   return (
     <div className='main-wrap'>
 
+      <GetStarted />
       <MainPageCarousel />
 
       <div className='itinerary-grid-wrap'>

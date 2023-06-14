@@ -8,7 +8,7 @@ const SignupFormModal = () => {
     return (
         <>
             <button className='nav-button' onClick={() => setShowModal(true)}>
-                <i class="fa-solid fa-user-plus"></i>
+                <i className="fa-solid fa-user-plus"></i>
                 &nbsp;Sign Up
             </button>
             {showModal && (
