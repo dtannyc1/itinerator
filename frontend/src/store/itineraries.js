@@ -41,6 +41,7 @@ export const createItinerary = (itinerary) => async (dispatch) => {
 
     const data = await response.json();
     dispatch(receiveItinerary(data));
+    return data;
 };
 
 

@@ -5,6 +5,7 @@ import './ItineraryMap.css';
 import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
+import activityTypes from "./ActivityTypes";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
 
@@ -93,15 +94,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         markers.current.push(marker);
     };
 
-    // const removeMarkers = () => {
-
-    //     markers.current.forEach(marker => {
-    //         marker.setMap(null);
-    //         marker.setVisible(false);
-    //     })
-    //     markers.current = [];
-    // }
-
     const removeMarkers = () => {
         markers.current = markers.current.filter(marker => {
             const hasMatchingActivity = selectedActivities.some(activity => activity.name === marker.name);
@@ -115,8 +107,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         return markers.current;
     };
 
-    const handleTextSearch = (e) => {
-        e.preventDefault();
+    const handleTextSearch = (e, prevActivity, newType) => {
+        e?.preventDefault();
 
         if (markers.current) {
             removeMarkers();
@@ -125,10 +117,11 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         const service = new window.google.maps.places.PlacesService(map);
 
         const request = {
-            keyword: type,
-            location: { lat, lng },
+            keyword: newType ? newType : type,
+            location: prevActivity ? {lat: prevActivity.lat, lng: prevActivity.lng} : { lat, lng },
             radius,
         }
+
         service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                 // console.log(results)
@@ -136,7 +129,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 let activities = [];
                 let ii = 0;
                 while (activities.length < number && ii < results.length) {
-                    if (results[ii].business_status === 'OPERATIONAL') {
+                    if (results[ii].business_status === 'OPERATIONAL' &&
+                        results[ii].name !== prevActivity?.name) {
                         activities.push(results[ii]);
                     }
                     ii += 1;
@@ -153,6 +147,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         location: result.geometry.location,
                         photoUrl: null,
                         price: null,
+                        place_id: result.place_id
                     }
                     if (result.photos) {
                         activity.photoUrl = result.photos[0].getUrl();
@@ -165,34 +160,70 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
                 setGeneratedActivities(organizedActivities);
                 map.setCenter(activities[0].geometry.location)
-
-                // remove all but the selected marker
-
             }
         })
     }
 
-
-    // const handleButton = () => {
-    //     return (
-    //         <ItineraryMap lat={geoLat} lng={geoLng} />
-    //     )
-    // }
-
     useEffect(() => {
         removeMarkers();
+        let prevActivity = selectedActivities[selectedActivities.length-1];
+        let randomActivityType = activityTypes[Math.floor(Math.random()*activityTypes.length)];
+        if (prevActivity) {
+            handleTextSearch(null, prevActivity, randomActivityType);
+        }
     }, [selectedActivities])
 
     const handleSelectActivity = (activity) => {
-        setSelectedActivities(prevSelectedActivities => [...prevSelectedActivities, activity])
-        map.setCenter(activity.location)
+        // get more details about activity
+        const service = new window.google.maps.places.PlacesService(map);
+        const request = { placeId: activity.place_id }
+        service.getDetails(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                let detailedActivity = {
+                    name: results.name,
+                    rating: results.rating,
+                    streetAddress: results.formatted_address,
+                    location: results.geometry.location,
+                    lat: results.geometry.location.lat(),
+                    lng: results.geometry.location.lng(),
+                    url: results.url,
+                    type
+                }
+                let photoURLs = [];
+                if (results.photos) {
+                    results.photos.forEach(photo => {
+                        photoURLs.push(photo.getUrl());
+                    })
+                }
+                detailedActivity.photoURLs = photoURLs;
+                detailedActivity.photoUrl = photoURLs[0];
+
+                // save activity
+                setSelectedActivities(prevSelectedActivities => [...prevSelectedActivities, detailedActivity])
+                // move map
+                map.setCenter(activity.location)
+                // reset coordinates for next activity
+                setLat(parseFloat(detailedActivity.lat))
+                setLng(parseFloat(detailedActivity.lng))
+
+                // reset generated activities
+                setGeneratedActivities([])
+
+                // redo search in useEffect for selectedActivities
+            }
+        })
+
     }
 
     const handleSaveItinerary = () => {
         const itinerary = {
             activities: [...selectedActivities]
         };
-        dispatch(createItinerary(itinerary));
+        dispatch(createItinerary(itinerary))
+            .then(itinerary => {
+                console.log(itinerary)
+                history.push(`/itineraries/${itinerary._id}`)
+            })
     }
 
     return (
