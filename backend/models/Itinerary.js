@@ -28,6 +28,30 @@ const activitySchema = new Schema({
     timestamps: true
 });
 
+const commentSchema = new Schema({
+    body: {
+        type: String,
+        required: true
+    },
+    author: {
+        type: String,
+        required: true
+    },
+    authorId: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
+}, {
+    timestamps: true
+});
+
+const likeSchema = new Schema({
+    likerId: {
+        type: Schema.Types.ObjectId,
+        required: true
+    }
+})
+
 const itinerarySchema = new Schema({
     creator: { // creator
         type: String,
@@ -38,7 +62,9 @@ const itinerarySchema = new Schema({
         required: true
     },
     title: String,
-    activities: [activitySchema] // array of activities
+    activities: [activitySchema], // array of activities
+    comments: [commentSchema],
+    likes: [likeSchema]
 }, {
     timestamps: true
 });

@@ -35,10 +35,10 @@ const GetStarted = () => {
                 <i className="fa-solid fa-bowling-ball fa-2xl"></i>
             </div>
             <div className='circle' onClick={() => handleClick('movie theater')}>
-                <i class="fa-solid fa-ticket fa-2xl"></i>
+                <i className="fa-solid fa-ticket fa-2xl"></i>
             </div>
             <div className='circle' onClick={() => handleClick('cafe')}>
-                <i class="fa-solid fa-mug-hot fa-2xl"></i>
+                <i className="fa-solid fa-mug-hot fa-2xl"></i>
             </div>
             <div className='circle' onClick={() => handleClick('pool')}>
                 <i className="fa-solid fa-person-swimming fa-2xl"></i>

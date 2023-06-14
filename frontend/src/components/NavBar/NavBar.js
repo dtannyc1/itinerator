@@ -22,7 +22,7 @@ function NavBar () {
                         <i className="fa-solid fa-right-from-bracket"></i>
                         &nbsp;Logout
                     </button>
-                    
+
                 </div>
             );
         } else {
@@ -38,7 +38,7 @@ function NavBar () {
     return (
         <>
             <div className='nav-bar'>
-                <a className='nav-button' href='/'>link to main page</a>
+                <Link className='nav-button' to='/'>link to main page</Link>
                 { getLinks() }
             </div>
         </>
