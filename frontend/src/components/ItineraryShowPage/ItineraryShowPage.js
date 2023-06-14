@@ -19,8 +19,8 @@ const ItineraryShowPage = () => {
     return (
         <>
             <div className='show-title-holder'>
-                <div className='show-page-creator'><p>Created by</p>{ itinerary.creator }</div>
                 <div className='show-page-title'>{itinerary.title}</div>
+                <div className='show-page-creator'><p>Created by</p>{ itinerary.creator }</div>
             </div>
 
             <div className="flex-row-wrap">

@@ -13,7 +13,10 @@ const ActivityItem = ({ activity }) => {
                 <div className='activity-place-name'>{ name }</div>
                 <div className='activity-place-type'>{ type }</div>
                 <div className='activity-place-address'>{ streetAddress }</div>
-                <div className="activity-place-rating">{ rating }</div>
+                <div className="activity-place-rating">
+                    <i className="star-rating-ico"></i>
+                    { rating }
+                </div>
             </div>
         </div>
     )
