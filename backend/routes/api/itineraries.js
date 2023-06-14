@@ -67,7 +67,11 @@ router.post('/:id/comments', requireUser, async (req, res, next) => {
             return next(err);
         } else {
             // users can post as many comments as they want
-            itinerary.comments.push(res.body.comment)
+            itinerary.comments.push({
+                author: req.user.username,
+                authorId: req.user._id,
+                body: res.body.comment
+            })
 
             itinerary.save()
                 .then(itinerary => res.json(itinerary))
