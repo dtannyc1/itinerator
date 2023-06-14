@@ -52,22 +52,35 @@ for (let i = 0; i < NUM_SEED_ITINERARIES; i++) {
     // Create Comments:
     // check database constraints
     const comments = [];
-    const commentAuthors = [];
+    let commentAuthors = [];
+
+    while (commentAuthors.length < NUM_SEED_COMMENTS) {
+        commentAuthors.push(Math.floor(Math.random() * NUM_SEED_USERS));
+        commentAuthors = [...new Set(commentAuthors)];
+    }
 
     for (let j = 0; j < NUM_SEED_COMMENTS; j++) {
-        const author = users[j];
+        const author = users[commentAuthors[j]];
 
         const comment = {
             body: faker.lorem.sentences(),
             author: author,
-            authorId: author._id
+            authorId: author._id.toString()
         }
 
         comments.push(comment)
     }
 
     // Create Likes:
-    const likes = [];
+    let likes = [];
+    let numLikes = Math.floor(Math.random() * NUM_SEED_USERS);
+    while (likes.length < numLikes) {
+        likes.push(Math.floor(Math.random() * NUM_SEED_USERS));
+        likes = [...new Set(likes)];
+    }
+    likes = likes.map(likerId => {
+        return users[likerId]._id.toString()
+    })
 
     const creator = users[Math.floor(Math.random() * NUM_SEED_USERS)];
 
