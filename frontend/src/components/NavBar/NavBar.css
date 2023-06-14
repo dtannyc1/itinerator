@@ -6,16 +6,11 @@
     justify-content: end;
     height: 70px;
     width: 100%;
-    border-bottom: 2px solid #D9BA23;
     background: linear-gradient(to right, #0a1841, #2862C8);
 }
 
 .auth-buttons-wrap {
     margin: 10px 25px 0px 0px;
-}
-
-.nav-bar:hover {
-    /* box-shadow: 0 0 10px #733702; */
 }
 
 .links-nav {
@@ -33,10 +28,9 @@
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
     cursor: pointer;
     font-size: 16px;
-    font-family: 'DM Serif Display', serif;
 }
 .nav-button:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
     color: #D9BA23;
-    transform: scale(1.1);
+    transform: scale(1.2);
 }

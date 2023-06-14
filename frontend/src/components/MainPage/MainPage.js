@@ -5,6 +5,7 @@ import MainPageItineraryItem from './MainPageItineraryItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchItineraries, getItineraries } from '../../store/itineraries';
 import { useHistory } from 'react-router-dom';
+import GetStarted from './GetStarted';
 
 
 // const MainPage = () => {
@@ -60,6 +61,7 @@ const MainPage = () => {
   return (
     <div className='main-wrap'>
 
+      <GetStarted />
       <MainPageCarousel />
 
       <div>

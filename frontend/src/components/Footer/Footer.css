@@ -1,8 +1,50 @@
 .footer-wrap {
     margin: 50px 0px 50px 0px;
     width: 100%;
-    min-height: 200px;
-    background: linear-gradient(to left, #0a1841, #2862C8);
-    border-bottom: 2px solid #D9BA23;
-    border-top: 2px solid #D9BA23;
+    min-height: 150px;
+    background: linear-gradient(to left, #0b3559, #3981bf, #3981bf);
+    border: none;
+    box-shadow: 0px 2px 15px black;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.team-member-capsule {
+    width: 200px;
+    height: 100px;
+    background-image: #F2C48D;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 10px;
+    margin-top: 25px;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+}
+
+.team-member-capsule:hover > .footer-name-holder {
+    transform: scale(1.2);
+}
+
+.footer-name-holder {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: #F2C48D;
+    display: flex;
+    justify-content: center;
+    cursor:default;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+}
+.footer-links-holder {
+    color: #A4A698;
+    display: flex;
+    justify-content: space-evenly;
+}
+.footer-links-holder > a {
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+}
+.footer-links-holder > a:hover {
+    transform: scale(1.4);
+    color: #F2C48D;
 }
