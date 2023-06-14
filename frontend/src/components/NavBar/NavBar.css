@@ -1,12 +1,12 @@
 .nav-bar {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    z-index: 101;
     display: flex;
     justify-content: end;
     height: 70px;
     width: 100%;
-    background: linear-gradient(to right, #0a1841, #2862C8);
+    background: linear-gradient(to right, rgba(10, 24, 65, 0.1), rgba(40, 98, 200, 0.6));
 }
 
 .auth-buttons-wrap {
@@ -28,6 +28,7 @@
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'DM Serif Display', serif;
 }
 .nav-button:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
