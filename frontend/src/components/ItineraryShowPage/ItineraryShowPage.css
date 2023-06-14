@@ -12,14 +12,14 @@
 
 .activity-item-wrap {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border: 1px solid black;
     margin: 5px;
     font-family: 'DM Serif Display', serif;
     color: #F2C48D;
 }
 
-.show-page-title {
+.show-page-creator, .show-page-title {
     margin: 20px 0px 20px 0px;
     font-family: 'DM Serif Display', serif;
     font-size: 26px;
@@ -28,9 +28,16 @@
     display: flex;
     justify-content: center;
 }
-.show-page-title > p {
+.show-page-creator > p {
     font-size: 16px;
     margin-right: 10px;
+}
+.show-title-holder {
+    display: flex;
+    justify-content: space-evenly;
+}
+.show-page-title {
+    color: #f2ae2e;
 }
 
 .activity-place-name {
