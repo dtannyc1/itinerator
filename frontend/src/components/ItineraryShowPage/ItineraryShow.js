@@ -394,8 +394,14 @@ const ItineraryShow = ({ mapOptions = {} }) => {
             <div className='show-title-holder'>
                 {itinerary &&
                     <>
-                        <div className='show-page-title'>{itinerary.title}</div>
-                        <div className='show-page-creator'><p>Created by</p>{itinerary.creator}</div>
+                        <div className='title-holder'>
+                            <div className='show-page-title'>{itinerary.title}</div>
+                            <div className='show-page-creator'><p>Created by</p>{itinerary.creator}</div>
+                        </div>
+                        <div className='likes-holder'>
+                            <div>{itinerary.likes.length}</div>
+                            <i className="fa-solid fa-heart fa-2xl"></i>
+                        </div>
                     </>
                 }
             </div>
