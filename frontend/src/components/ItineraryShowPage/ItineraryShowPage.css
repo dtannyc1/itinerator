@@ -21,10 +21,10 @@
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid #F2C48D;
-    margin: 0px 0px 0px 10px;
     font-family: 'DM Serif Display', serif;
     color: #F2C48D;
     border-radius: 10px;
+    height: calc(33% - 1px);
 }
 
 .activity-item-wrap:first-child {
@@ -33,9 +33,10 @@
 
 .activity-info-holder {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -70,12 +71,12 @@
     color: #f2ae2e;
 }
 
-.activity-place-name,
+/* .activity-place-name,
 .activity-place-type,
 .activity-place-address,
 .activity-place-rating {
     margin: 5px 0px 5px 5px;
-}
+} */
 
 .activity-place-type {
     text-transform: uppercase;
@@ -93,7 +94,7 @@
 
 .activity-photo {
     width: 260px;
-    height: 130px;
+    height: 100%;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     object-fit: cover;
