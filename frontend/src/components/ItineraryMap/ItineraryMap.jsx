@@ -141,6 +141,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             radius: searchRadius,
         }
 
+        setType(newType)
+
         if (service && lat !== 0 && lng !== 0) {
             service.nearbySearch(request, (results, status) => {
                 if (status === window.google.maps.places.PlacesServiceStatus.OK) {
@@ -218,6 +220,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     url: results.url,
                     type
                 }
+                
                 let photoURLs = [];
                 if (results.photos) {
                     results.photos.forEach(photo => {
