@@ -3,19 +3,21 @@ import { Wrapper } from '@googlemaps/react-wrapper';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
-import { fetchItinerary, getItinerary, removeActivity } from '../../store/itineraries';
+import { addActivity, fetchItinerary, getItinerary, removeActivity, updateItinerary, deleteItinerary } from '../../store/itineraries';
 import activityTypes from '../ItineraryMap/ActivityTypes';
 import ActivityItem from './ActivityItem';
 import { getCurrentUser } from '../../store/session';
 import { selectCurrentUser } from '../../store/session';
+import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const ItineraryShow = ({ mapOptions = {} }) => {
     const { itineraryId } = useParams();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [map, setMap] = useState(null);
     const [number, setNumber] = useState(3);
-    const [infoWindows, setInfoWindows] = useState([])
+    // const [infoWindows, setInfoWindows] = useState([])
 
     const mapRef = useRef(null);
     const selectedMarkers = useRef([]);
@@ -23,21 +25,40 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     const currentUser = useSelector(selectCurrentUser);
     const itinerary = useSelector(getItinerary(itineraryId));
-    const selectedActivities = itinerary ? itinerary.activities : null;
+    let lastActivitylat;
+    let lastActivitylng;
+
+    if (itinerary) {
+        const lastActivity = itinerary.activities[itinerary.activities.length - 1];
+        lastActivitylat = lastActivity.lat
+        lastActivitylng = lastActivity.lng
+        // we use these coordinates when we don't have a prevActivity
+    }
+
+    console.log("logging itinerary under");
+    console.log(itinerary);
+    // const selectedActivities = itinerary ? itinerary.activities : null;
     const [generatedActivities, setGeneratedActivities] = useState([]);
+    const [selectedActivities, setSelectedActivities] = useState(itinerary?.activities);
 
     const [isUpdating, setIsUpdating] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
 
+    // const [type, setType] = useState(null);
+    const [lat, setLat] = useState(lastActivitylat);
+    const [lng, setLng] = useState(lastActivitylng);
+
+    const infoWindows = [];
+
     const createSelectedMarker = (map, place) => {
         const location = { lat: place.lat, lng: place.lng }
-
+        console.log(location);
         //  create marker and assign to map
         const marker = new window.google.maps.Marker({
             map: map,
             position: location,
             title: place.name,
-            icon: icons.blue.icon
+            icon: icons.blueDot.icon
         });
         // create infowindow for marker
         const infowindow = new window.google.maps.InfoWindow();
@@ -56,17 +77,29 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         infoWindows.push(infowindow);
 
         // add marker to markers array
+        console.log("logging selectedMarkers twice, once before this one is pushed");
+        console.log(selectedMarkers);
         selectedMarkers.current.push(marker);
         console.log(selectedMarkers);
+
+        console.log("logging allMarkers");
+        const allMarkers = [...selectedMarkers.current, ...searchedMarkers.current];
+
+        const bounds = new window.google.maps.LatLngBounds();
+
+        allMarkers.forEach((marker) => {
+            const position = marker.position;
+            bounds.extend(position);
+        });
+
+        console.log("bottom of createSelectedMarker");
+        map.fitBounds(bounds);
     };
 
     const createSearchedMarker = (map, place) => {
         //  create marker and assign to map
 
-        // const lat = place.geometry.location.lat();
-        // const lng = place.geometry.location.lng();
-
-        const marker = new window.google.maps.Marker(mapRef.current, {
+        const marker = new window.google.maps.Marker({
             map: map,
             position: place.geometry.location,
             title: place.name,
@@ -75,89 +108,33 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         marker.setAnimation(window.google.maps.Animation.BOUNCE)
 
         // create infowindow for marker
-        // const infowindow = new window.google.maps.InfoWindow({
-        //     content: marker.title || "",
-        // });
-        // window.google.maps.event.addListener(marker, "click", () => {
-        //     infoWindows.forEach((infoWindow) => {
-        //         infoWindow.close();
-        //     });
-        //     infowindow.open(map, marker);
-        // });
-        // infoWindows.push(infowindow);
+        const infowindow = new window.google.maps.InfoWindow({
+            content: marker.title || "",
+        });
+        window.google.maps.event.addListener(marker, "click", () => {
+            infoWindows.forEach((infoWindow) => {
+                infoWindow.close();
+            });
+            infowindow.open(map, marker);
+        });
+        infoWindows.push(infowindow);
 
         // add marker to markers array
-        console.log("bottom of createSearchedMarker");
         searchedMarkers.current.push(marker);
+
+        // extending the bounds to now include all previous activities and newly generated activities
+        const allMarkers = [...selectedMarkers.current, ...searchedMarkers.current];
+
+        const bounds = new window.google.maps.LatLngBounds();
+
+        allMarkers.forEach((marker) => {
+            const position = marker.position;
+            bounds.extend(position);
+        });
+
+        map.fitBounds(bounds);
     };
 
-    useEffect(() => {
-        console.log("inmarkersuseeffect");
-        if (searchedMarkers.current.length > 0) {
-            console.log("in here?");
-            const bounds = new window.google.maps.LatLngBounds();
-            selectedActivities.forEach((activity) => {
-                const { lat, lng } = activity;
-                const position = new window.google.maps.LatLng(lat, lng);
-                bounds.extend(position);
-            });
-
-            const newMap = new window.google.maps.Map(mapRef.current, {
-                center: bounds.getCenter(),
-                zoom: 14,
-                ...mapOptions,
-            });
-
-            searchedMarkers.current.forEach(marker => {
-                marker.setMap(newMap);
-            });
-
-            selectedMarkers.current.forEach(marker => {
-                marker.setMap(newMap);
-            });
-
-            setMap(newMap);
-        }
-    }, [searchedMarkers.current]);
-
-
-    // const removeMarkers = () => {
-    //     selectedMarkers.current.forEach((selectedMarker) => {
-    //         selectedMarker.setMap(null);
-    //         selectedMarker.setVisible(false);
-    //     })
-    //     selectedMarkers.current = [];
-
-    //     searchedMarkers.current.forEach((unselectedMarker) => {
-    //         unselectedMarker.setMap(null);
-    //         unselectedMarker.setVisible(false);
-    //     })
-    //     searchedMarkers.current = [];
-    // }
-
-    // const addSelectedMarker = (marker) => {
-    //     selectedMarkers.current.push(marker);
-    //     marker.setMap(map);
-    // };
-
-    // const removeSelectedMarker = (marker) => {
-    //     const index = selectedMarkers.current.indexOf(marker);
-    //     if (index !== -1) {
-    //         selectedMarkers.current.splice(index, 1);
-    //         marker.setMap(null);
-    //     }
-    // };
-
-    // const addUnselectedMarker = (marker) => {
-    //     unselectedMarkers.current.push(marker);
-    // };
-
-    // const removeUnselectedMarker = (marker) => {
-    //     const index = unselectedMarkers.current.indexOf(marker);
-    //     if (index !== -1) {
-    //         unselectedMarkers.current.splice(index, 1);
-    //     }
-    // };
 
     const handleUpdateItinerary = () => {
         setIsUpdating(true);
@@ -168,46 +145,51 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     }
     const handleRemoveActivity = (activity) => {
         dispatch(removeActivity(activity._id));
-
-        let prevActivity = selectedActivities[selectedActivities.length - 2];
-        console.log(prevActivity);
-        handleTextSearch(null, prevActivity, generateRandomType())
+        setSelectedActivities(selectedActivities.filter(act => act._id !== activity._id));
+        // find the index of the marker related to the activity
+        const markerIndex = selectedMarkers.current.findIndex(marker => marker.title === activity.name);
+        if (markerIndex !== -1) {
+            // remove marker from map
+            selectedMarkers.current[markerIndex].setMap(null);
+            // remove marker from array
+            selectedMarkers.current.splice(markerIndex, 1);
+        }
     }
 
-    const handleSaveItinerary = () => {
+    useEffect(() => {
+        if (isUpdating && selectedActivities) {
+            console.log(selectedActivities);
+            let prevActivity = selectedActivities[selectedActivities.length - 1];
+            console.log(prevActivity);
+            handleTextSearch(null, prevActivity, generateRandomType())
+        }
+    }, [selectedActivities])
 
-        setIsSaved(false);
-    };
 
-    // const iconBase = 'http://google.com/mapfiles/ms/micons';
     const icons = {
-        blue: {
+        blueDot: {
             icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-circle.png'
+        },
+        blue: {
+            icon: "http://maps.google.com/mapfiles/kml/paddle/purple-blank.png"
         }
     };
 
 
     const handleTextSearch = (e, prevActivity, type, searchRadius) => {
         e?.preventDefault();
-        console.log(prevActivity);
-        console.log(type);
-        // if (selectedMarkers.current) {
-        //     removeMarkers();
-        // }
 
         // Create PlacesService instance using the map
         const service = map ? new window.google.maps.places.PlacesService(map) : null;
         searchRadius = searchRadius || 500;
         const request = {
             keyword: type,
-            location: { lat: prevActivity.lat, lng: prevActivity.lng },
+            location: prevActivity ? { lat: prevActivity.lat, lng: prevActivity.lng } : { lat, lng },
             radius: searchRadius,
         }
 
         service.nearbySearch(request, (results, status) => {
-            console.log("in nearbySearch");
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                console.log("status was ok");
                 let searchedActivities = [];
                 let ii = 0;
                 while (searchedActivities.length < number && ii < results.length) {
@@ -220,7 +202,6 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     }
                     ii += 1;
                 }
-                console.log(searchedActivities);
 
                 if (searchedActivities.length !== number) {
                     // expand search radius until we find enough suggestions
@@ -268,46 +249,92 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         }
     }
 
-    // const handleSelectActivity = (activity) => {
-    //     // get more details about activity
-    //     const service = new window.google.maps.places.PlacesService(map);
-    //     const request = { placeId: activity.place_id }
-    //     service.getDetails(request, (results, status) => {
-    //         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-    //             let detailedActivity = {
-    //                 name: results.name,
-    //                 rating: results.rating,
-    //                 streetAddress: results.formatted_address,
-    //                 location: results.geometry.location,
-    //                 lat: results.geometry.location.lat(),
-    //                 lng: results.geometry.location.lng(),
-    //                 url: results.url,
-    //                 type
-    //             }
-    //             let photoURLs = [];
-    //             if (results.photos) {
-    //                 results.photos.forEach(photo => {
-    //                     photoURLs.push(photo.getUrl());
-    //                 })
-    //             }
-    //             detailedActivity.photoURLs = photoURLs;
-    //             detailedActivity.photoUrl = photoURLs[0];
+    const handleSelectActivity = (activity) => {
+        // get more details about activity
+        console.log(activity);
+        const service = new window.google.maps.places.PlacesService(map);
+        const request = { placeId: activity.place_id }
+        service.getDetails(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                let detailedActivity = {
+                    name: results.name,
+                    rating: results.rating,
+                    streetAddress: results.formatted_address,
+                    location: results.geometry.location,
+                    lat: results.geometry.location.lat(),
+                    lng: results.geometry.location.lng(),
+                    url: results.url,
+                    type: results.type
+                }
+                let photoURLs = [];
+                if (results.photos) {
+                    results.photos.forEach(photo => {
+                        photoURLs.push(photo.getUrl());
+                    })
+                }
+                detailedActivity.photoURLs = photoURLs;
+                detailedActivity.photoUrl = photoURLs[0];
 
-    //             // save activity
-    //             setSelectedActivities(prevSelectedActivities => [...prevSelectedActivities, detailedActivity])
-    //             // move map
-    //             map.setCenter(activity.location)
-    //             // reset coordinates for next activity
-    //             setLat(parseFloat(detailedActivity.lat))
-    //             setLng(parseFloat(detailedActivity.lng))
+                // save activity
+                // dispatch(addActivity(activity));
+                console.log(detailedActivity);
+                createSelectedMarker(map, detailedActivity);
+                setSelectedActivities(prevSelectedActivities => [...prevSelectedActivities, detailedActivity])
+                // move map
 
-    //             // reset generated activities
-    //             setGeneratedActivities([])
+                // reset coordinates for next activity
+                // setLat(parseFloat(detailedActivity.lat))
+                // setLng(parseFloat(detailedActivity.lng))
 
-    //             // redo search in useEffect for selectedActivities
-    //         }
-    //     })
-    // }
+                // reset generated activities
+                setGeneratedActivities([])
+
+                // redo search in useEffect for selectedActivities
+            }
+        })
+    }
+
+    const handleSaveItinerary = () => {
+        const itinerary = {
+            activities: [...selectedActivities]
+        };
+        setIsUpdating(false);
+        dispatch(updateItinerary(itineraryId, itinerary))
+            .then((itinerary) => {
+                history.push(`/itineraries/${itinerary._id}`)
+                // history.push('/itineraries/')
+            })
+        setGeneratedActivities([]);
+
+    };
+
+    const handleDeleteItinerary = () => {
+        setIsUpdating(true);
+        dispatch(deleteItinerary(itineraryId))
+            .then(() => {
+                history.push('/');
+            });
+    }
+
+    const handleMouseEnter = (activity) => {
+        // Find the marker by title
+        const marker = searchedMarkers.current.find(marker => marker.title === activity.name);
+        if (marker) {
+            // Change the marker when the item is hovered over
+            marker.setIcon('http://maps.google.com/mapfiles/kml/paddle/blu-circle.png');
+            // marker.setAnimation(window.google.maps.Animation.BOUNCE);
+        }
+    };
+
+    const handleMouseLeave = (activity) => {
+        // Find the marker by title
+        const marker = searchedMarkers.current.find(marker => marker.title === activity.name);
+        if (marker) {
+            // Change the marker back to its original state when the mouse leaves the item
+            marker.setIcon("http://maps.google.com/mapfiles/kml/paddle/purple-blank.png");
+            // marker.setAnimation(null); // Removes the bounce animation
+        }
+    };
 
     useEffect(() => {
         dispatch(fetchItinerary(itineraryId));
@@ -315,10 +342,17 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     }, [])
 
     useEffect(() => {
-        console.log("hi");
+        // removeMarkers();
+        if (isUpdating) {
+            let prevActivity = selectedActivities[selectedActivities.length - 1];
+            if (prevActivity) {
+                handleTextSearch(null, prevActivity, generateRandomType());
+            }
+        }
+    }, [selectedActivities])
+
+    useEffect(() => {
         if (selectedActivities) {
-            console.log(map);
-            console.log(selectedActivities);
 
             // centering map at first activity
             // const centerLat = selectedActivities.length > 0 ? selectedActivities[0].lat : null;
@@ -371,10 +405,10 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     {/* Map */}
                 </div>
                 <div className="itinerary-show-details">
-                    {selectedActivities && !isUpdating && itinerary.activities.map((activity) => {
+                    {selectedActivities && !isUpdating && itinerary.activities.length && itinerary.activities.map((activity) => {
                         return <ActivityItem activity={activity} key={activity._id} />
                     })}
-                    {selectedActivities && isUpdating && itinerary.activities.map((activity) => {
+                    {selectedActivities && isUpdating && selectedActivities.map((activity) => {
                         return (
                             <>
                                 <button className='remove-activity-button' onClick={() => handleRemoveActivity(activity)}>X</button>
@@ -388,12 +422,14 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                 {currentUser && itinerary && currentUser._id === itinerary.creatorId
                     && <div>
                         {isUpdating ? (
-                            <button >Save Itinerary</button>
+                            <button onClick={handleSaveItinerary}>Save Itinerary</button>
                         ) : (
-                            <button onClick={handleUpdateItinerary}>Edit Itinerary</button>
+                            <>
+                                <button onClick={handleUpdateItinerary}>Edit Itinerary</button>
+                                <button onClick={handleDeleteItinerary}>Delete Itinerary</button>
+                            </>
                         )}
                     </div>}
-                {/* <button>Update Itinerary</button> */}
             </div>
             <div className="section-bottom">
                 <div className="section-left">
@@ -429,7 +465,9 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                             <div
                                 className="activity-generated-item"
                                 key={index}
-                            // onClick={() => handleSelectActivity(activity)}
+                                onClick={() => handleSelectActivity(activity)}
+                                onMouseEnter={() => handleMouseEnter(activity)}
+                                onMouseLeave={() => handleMouseLeave(activity)}
                             >
                                 {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
                                 <div className="choice-activity-name">{activity.name}</div>
@@ -463,3 +501,43 @@ const ItineraryMapWrapper = () => {
 }
 
 export default ItineraryMapWrapper;
+
+
+
+  // const removeMarkers = () => {
+    //     selectedMarkers.current.forEach((selectedMarker) => {
+    //         selectedMarker.setMap(null);
+    //         selectedMarker.setVisible(false);
+    //     })
+    //     selectedMarkers.current = [];
+
+    //     searchedMarkers.current.forEach((unselectedMarker) => {
+    //         unselectedMarker.setMap(null);
+    //         unselectedMarker.setVisible(false);
+    //     })
+    //     searchedMarkers.current = [];
+    // }
+
+    // const addSelectedMarker = (marker) => {
+    //     selectedMarkers.current.push(marker);
+    //     marker.setMap(map);
+    // };
+
+    // const removeSelectedMarker = (marker) => {
+    //     const index = selectedMarkers.current.indexOf(marker);
+    //     if (index !== -1) {
+    //         selectedMarkers.current.splice(index, 1);
+    //         marker.setMap(null);
+    //     }
+    // };
+
+    // const addUnselectedMarker = (marker) => {
+    //     unselectedMarkers.current.push(marker);
+    // };
+
+    // const removeUnselectedMarker = (marker) => {
+    //     const index = unselectedMarkers.current.indexOf(marker);
+    //     if (index !== -1) {
+    //         unselectedMarkers.current.splice(index, 1);
+    //     }
+    // };

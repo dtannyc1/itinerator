@@ -20,9 +20,10 @@ export const receiveItinerary = (itinerary) => {
     }
 }
 
-export const removeItinerary = () => {
+export const removeItinerary = (itineraryId) => {
     return {
         type: REMOVE_ITINERARY,
+        itineraryId: itineraryId
     }
 }
 
@@ -75,6 +76,7 @@ export const updateItinerary = (itineraryId, itinerary) => async dispatch => {
         });
         const data = await response.json()
         dispatch(receiveItinerary(data));
+        return data;
     } catch (err) {
         console.log(err);
     }
@@ -82,10 +84,11 @@ export const updateItinerary = (itineraryId, itinerary) => async dispatch => {
 
 export const deleteItinerary = (itineraryId) => async dispatch => {
     try {
-        await jwtFetch(`/api/itineraries/${itineraryId}`, {
+        const response = await jwtFetch(`/api/itineraries/${itineraryId}`, {
             method: 'DELETE'
         });
-        dispatch(removeItinerary());
+        dispatch(removeItinerary(itineraryId));
+        return response;
     } catch (err) {
         console.log(err);
     }
@@ -127,7 +130,8 @@ const itinerariesReducer = (state = {}, action) => {
             nextState[action.itinerary._id] = action.itinerary;
             return nextState;
         case REMOVE_ITINERARY:
-            return {}
+            delete nextState[action.itineraryId];
+            return nextState;
         case RECEIVE_ACTIVITY:
             itineraryId = Object.keys(nextState)[0]; // assuming only one itinerary
             updatedActivities = [
