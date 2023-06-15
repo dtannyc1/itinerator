@@ -39,7 +39,7 @@ function NavBar () {
     return (
         <>
             <div className='nav-bar'>
-                <Link className='nav-button' to='/'>
+                <Link className='nav-logo' to='/'>
                     <svg className='main-logo' width="55.928mm" height="11.141mm" version="1.1" viewBox="0 0 55.928 11.141" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(-11.758 -116.87)">
                             <text x="15.952057" y="124.63558" fill="#000000" font-family="Satisfy" font-size="9.7846px" letter-spacing="0px" stroke-width=".00815" word-spacing="0px" style={{lineHeight: 1.25}} ><tspan x="15.952057" y="124.63558" stroke-width=".25">itinerator</tspan></text>

@@ -311,10 +311,10 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
                                 {activity.rating === '0' ? <></> : <div className="rating-wrap">{activity.rating}</div>}
                                 {Array.from({ length: activity.rating }, (_, index) => (
-                                    <i key={index} className="star-rating-ico"></i>
+                                    <i key={index} className="create-star-rating-ico"></i>
                                 ))}
                                 {activity.rating % 1 !== 0 && (
-                                    <i className="star-rating-ico-half"></i>
+                                    <i className="create-star-rating-ico-half"></i>
                                 )}
                                         
                                     
@@ -329,9 +329,9 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         <div>
                             <input 
                                 className="title-input"
-                                placeholder="Venture name"
+                                placeholder="Itinerary name"
                                 />
-                            <button id="nav-button-venture" className="nav-button" onClick={handleSaveItinerary}>Create venture</button>
+                            <button id="nav-button-venture" className="nav-button" onClick={handleSaveItinerary}>Create itinerary</button>
                         </div>
                     </div>
                             
