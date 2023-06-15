@@ -9,6 +9,7 @@ import ActivityItem from './ActivityItem';
 import { getCurrentUser } from '../../store/session';
 import { selectCurrentUser } from '../../store/session';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import CommentItem from './CommentItem';
 
 const ItineraryShow = ({ mapOptions = {} }) => {
     const { itineraryId } = useParams();
@@ -400,6 +401,13 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         }
     }, [selectedActivities])
 
+    const commentsSection = (
+        <div className='comments-wrap'>
+            {itinerary.comments.map((comment) => {
+                return <CommentItem comment={comment} key={comment._id} />
+            })}
+        </div>
+    )
     // if (!itinerary.activities) return <> <h1>Loading...</h1> </> // maybe change this line in future for more robust
 
     return (
@@ -407,8 +415,14 @@ const ItineraryShow = ({ mapOptions = {} }) => {
             <div className='show-title-holder'>
                 {itinerary &&
                     <>
-                        <div className='show-page-title'>{itinerary.title}</div>
-                        <div className='show-page-creator'><p>Created by</p>{itinerary.creator}</div>
+                        <div className='title-holder'>
+                            <div className='show-page-title'>{itinerary.title}</div>
+                            <div className='show-page-creator'><p>Created by</p>{itinerary.creator}</div>
+                        </div>
+                        <div className='likes-holder'>
+                            <div>{itinerary.likes.length}</div>
+                            <i className="fa-solid fa-heart fa-2xl"></i>
+                        </div>
                     </>
                 }
             </div>
@@ -502,6 +516,8 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     </div>
                 </div>
             </div>
+
+            {commentsSection}
         </>
     )
 }
