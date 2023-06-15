@@ -3,6 +3,7 @@ body {
     background: linear-gradient(to bottom, #0b3559, #3981bf, #3981bf, #D9CA9C);
     background-repeat: no-repeat;
     font-family: 'DM Serif Display', serif;
+    overflow-x: hidden;
 }
 
 .flex-column-wrap {
