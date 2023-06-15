@@ -12,9 +12,21 @@
 }
 
 .remove-activity-button {
-    position: relative;
+    position: absolute;
     top: 0;
     right: 0;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    height: 29.25px;
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.remove-activity-button:hover {
+    color: #F65000;
 }
 
 .activity-item-wrap {
@@ -25,6 +37,7 @@
     color: #F2C48D;
     border-radius: 10px;
     height: calc(33% - 1px);
+    position: relative;
 }
 
 .activity-item-wrap:first-child {
@@ -145,4 +158,12 @@
     color: #f2ae2e;
     font-family: 'DM Serif Display', serif;
     align-self: baseline;
+
+.section-mid {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    margin-left: 25px;
+    margin-right: 25px;
+    height: calc(100vh - 66px - 20px - 20px - 20px - 120px - 70px);
 }

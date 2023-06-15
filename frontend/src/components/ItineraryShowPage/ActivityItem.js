@@ -1,5 +1,5 @@
 
-const ActivityItem = ({ activity }) => {
+const ActivityItem = ({ activity, handleRemoval }) => {
     const { photoURLs, name, type, createdAt, streetAddress, rating } = activity;
 
     return (
@@ -22,6 +22,12 @@ const ActivityItem = ({ activity }) => {
                     {rating}
                 </div>
             </div>
+            {handleRemoval ?
+                    <button className='nav-button remove-activity-button'
+                            onClick={() => handleRemoval(activity)}>
+                        <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                    : null}
         </div>
     )
 }
