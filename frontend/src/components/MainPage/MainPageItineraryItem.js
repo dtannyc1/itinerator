@@ -8,7 +8,7 @@ export function formatDate(dateString) {
 }
 
 const MainPageItineraryItem = ({ itinerary }) => {
-    const { _id, creator, createdAt, activities } = itinerary;
+    const { _id, creator, createdAt, activities, title } = itinerary;
 
     const sliderSettings = {
         dots: false,
@@ -40,7 +40,7 @@ const MainPageItineraryItem = ({ itinerary }) => {
                     ))}
                 </Slider>
 
-                <div className="main-activity-title">Best day ever!</div>
+                <div className="main-activity-title">{title || "Best day ever!"}</div>
 
                 <div className="main-activity-creator">Shared by:<p>{creator}</p></div>
 

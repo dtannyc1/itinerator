@@ -4,11 +4,12 @@ import { useHistory } from "react-router-dom";
 import '../ItineraryShowPage/ItineraryShowPage.css'
 import './ItineraryMap.css';
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
 import ActivityItem from "../ItineraryShowPage/ActivityItem";
 import InstructionsModal from "./InsructionsModal";
+import { selectCurrentUser } from "../../store/session";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
@@ -16,12 +17,15 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const searchParams = new URLSearchParams(location.search);
     const locationParam = searchParams.get('location');
     const typeParam = searchParams.get('type');
+    const currentUser = useSelector(selectCurrentUser);
+
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0)
 
     const [map, setMap] = useState(null);
     const [type, setType] = useState(typeParam);
     const [number, setNumber] = useState(3);
+    const [itineraryTitle, setItineraryTitle] = useState('');
 
     const mapRef = useRef(null);
     const markers = useRef([]);
@@ -220,7 +224,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     url: results.url,
                     type
                 }
-                
+
                 let photoURLs = [];
                 if (results.photos) {
                     results.photos.forEach(photo => {
@@ -248,12 +252,18 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     const handleSaveItinerary = () => {
         const itinerary = {
+            title: itineraryTitle,
             activities: [...selectedActivities]
         };
-        dispatch(createItinerary(itinerary))
-            .then(itinerary => {
-                history.push(`/itineraries/${itinerary._id}`)
-            })
+
+        if (currentUser){
+            dispatch(createItinerary(itinerary))
+                .then(itinerary => {
+                    history.push(`/itineraries/${itinerary._id}`)
+                })
+        } else {
+            console.log('must be logged in')
+        }
     };
 
     return (
@@ -296,7 +306,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         <i className="fa-solid fa-utensils fa-2xl"></i>
                     </div>
                 </div>
-                
+
                 <div className="section-right">
                     <div className="activity-generated-row">
                         {generatedActivities.map((activity, index) => (
@@ -316,28 +326,31 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                                 {activity.rating % 1 !== 0 && (
                                     <i className="star-rating-ico-half"></i>
                                 )}
-                                        
-                                    
+
+
                                 </div>
 
                             </div>
                         ))}
                     </div>
-                    
+
                     <div className="input-button-capsule">
                         <InstructionsModal />
                         <div>
-                            <input 
+                            <input
                                 className="title-input"
+                                type="text"
                                 placeholder="Venture name"
+                                value={itineraryTitle}
+                                onChange={e => setItineraryTitle(e.target.value)}
                                 />
                             <button id="nav-button-venture" className="nav-button" onClick={handleSaveItinerary}>Create venture</button>
                         </div>
                     </div>
-                            
+
                 </div>
 
-                
+
             </div>
         </>
     )

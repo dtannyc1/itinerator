@@ -9,12 +9,25 @@ import GetStarted from './GetStarted';
 
 const MainPage = () => {
   const dispatch = useDispatch();
+  const itineraries = useSelector(getItineraries);
+  const [sortedItineraries, setSortedItineraries] = useState([]);
 
   useEffect(() => {
     dispatch(fetchItineraries());
   }, [dispatch]);
 
-  const itineraries = useSelector(getItineraries);
+  const likeSorter = (itineraryA, itineraryB) => {
+    if (itineraryA.likes.length > itineraryB.likes.length) {
+        return -1;
+    } else {
+        return 1;
+    }
+  }
+
+  useEffect(() => {
+    let tmpItineraries = Object.values(itineraries).sort(likeSorter);
+    setSortedItineraries(tmpItineraries.slice(0, 9))
+  }, [itineraries])
 
   return (
     <div className='main-wrap'>
@@ -24,7 +37,7 @@ const MainPage = () => {
 
       <div className='itinerary-grid-wrap'>
 
-        {itineraries.map((itinerary) => {
+        {sortedItineraries.map((itinerary) => {
           return <MainPageItineraryItem itinerary={itinerary} key={itinerary._id} />
         })}
 
