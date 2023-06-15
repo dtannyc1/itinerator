@@ -488,7 +488,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                                 className="nav-button"
                                 onClick={handleSaveItinerary}
                                 disabled={!itineraryTitle && currentUser}
-                            ><i className="fa-solid fa-plus"></i><div>itinerate!</div></button>
+                            ><i className="fa-solid fa-plus"></i>itinerate!</button>
                         </div>
                     </div>
 
