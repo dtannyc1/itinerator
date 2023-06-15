@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './SessionForm.css';
-import { signup, clearSessionErrors } from '../../store/session';
+import { signup, clearSessionErrors, login } from '../../store/session';
 
 function SignupForm () {
     const [email, setEmail] = useState('');
@@ -49,6 +49,18 @@ function SignupForm () {
         };
 
         dispatch(signup(user));
+    }
+
+    const handleDemoLogin = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const user = {
+            email: 'admin@app.io',
+            username: "admin",
+            password: "password"
+        };
+
+        dispatch(login(user));
     }
 
     return (
@@ -107,13 +119,23 @@ function SignupForm () {
                     </div>
                 </div>
 
-                <input
-                    className='nav-button'
-                    id='form-button'
-                    type="submit"
-                    value="Sign Up"
-                    disabled={!email || !username || !password || password !== password2}
-                />
+                <div>
+                    <input
+                        className='nav-button'
+                        id='form-button'
+                        type="submit"
+                        value="Sign Up"
+                        disabled={!email || !username || !password || password !== password2}
+                    />
+
+                    <input
+                        className='nav-button'
+                        id='demo-login-button'
+                        type="submit"
+                        value="Log in as Demo User"
+                        onClick={handleDemoLogin}
+                    />
+                </div>
 
             </form>
         </div>

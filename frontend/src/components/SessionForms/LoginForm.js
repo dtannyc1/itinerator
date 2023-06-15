@@ -26,6 +26,18 @@ const LoginForm = () => {
         dispatch(login({ email, password }));
     }
 
+    const handleDemoLogin = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const user = {
+            email: 'admin@app.io',
+            username: "admin",
+            password: "password"
+        };
+
+        dispatch(login(user));
+    }
+
     return (
         <div className='flex-column-wrap'>
             <div className='form-header'>Log In</div>
@@ -56,13 +68,23 @@ const LoginForm = () => {
                     <div className={errors?.password ? "form-errors" : "form-errors-space-holder"}>{errors?.password}</div>
                 </div>
 
-                <input
-                    className='nav-button'
-                    id='form-button'
-                    type="submit"
-                    value="Log In"
-                    disabled={!email || !password}
-                />
+                <div>
+                    <input
+                        className='nav-button'
+                        id='form-button'
+                        type="submit"
+                        value="Log In"
+                        disabled={!email || !password}
+                    />
+
+                    <input
+                        className='nav-button'
+                        id='demo-login-button'
+                        type="submit"
+                        value="Log in as Demo User"
+                        onClick={handleDemoLogin}
+                    />
+                </div>
             </form>
         </div>
     );
