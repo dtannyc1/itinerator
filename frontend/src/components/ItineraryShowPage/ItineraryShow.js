@@ -10,6 +10,7 @@ import { getCurrentUser } from '../../store/session';
 import { selectCurrentUser } from '../../store/session';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import CommentItem from './CommentItem';
+import { createLike, deleteLike } from '../../store/likes';
 
 const ItineraryShow = ({ mapOptions = {} }) => {
     const { itineraryId } = useParams();
@@ -403,12 +404,27 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     const commentsSection = (
         <div className='comments-wrap'>
-            {itinerary.comments.map((comment) => {
+            {itinerary?.comments.map((comment) => {
                 return <CommentItem comment={comment} key={comment._id} />
             })}
         </div>
     )
     // if (!itinerary.activities) return <> <h1>Loading...</h1> </> // maybe change this line in future for more robust
+            
+    const likesSearch = () => {
+        return itinerary.likes.some((like) => like.likerId === currentUser._id);
+    }
+
+    const handleLike = async () => {
+        if(currentUser) {
+            const isLiked = await likesSearch();
+            if (isLiked) {
+                dispatch(deleteLike(itinerary._id));
+              } else {
+                dispatch(createLike(itinerary._id));
+              }
+        }
+    }
 
     return (
         <>
@@ -421,7 +437,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                         </div>
                         <div className='likes-holder'>
                             <div>{itinerary.likes.length}</div>
-                            <i className="fa-solid fa-heart fa-2xl"></i>
+                            <i className="fa-solid fa-heart fa-2xl" onClick={handleLike}></i>
                         </div>
                     </>
                 }
