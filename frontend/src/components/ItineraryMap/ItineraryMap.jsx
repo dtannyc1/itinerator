@@ -323,6 +323,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     })
                 }
                 detailedActivity.photoURLs = photoURLs;
+
+                console.log(JSON.stringify(detailedActivity))
                 detailedActivity.photoUrl = photoURLs[0];
 
                 // save activity
