@@ -34,6 +34,7 @@
 .main-activity-img {
     height: 190px;
     width: 100%;
+    object-fit: cover;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -57,5 +58,5 @@
     font-size: 14px;
     align-self: end;
     color: #08233b;
-    
+
 }
