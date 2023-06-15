@@ -11,11 +11,14 @@ import { selectCurrentUser } from '../../store/session';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import CommentItem from './CommentItem';
 import { createLike, deleteLike } from '../../store/likes';
+import { Modal } from '../context/Modal';
+import LoginForm from '../SessionForms/LoginForm';
 
 const ItineraryShow = ({ mapOptions = {} }) => {
     const { itineraryId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
+    const [showModal, setShowModal] = useState(false);
 
     const [map, setMap] = useState(null);
     const [number, setNumber] = useState(3);
@@ -415,6 +418,16 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         return itinerary.likes.some((like) => like.likerId === currentUser._id);
     }
 
+    const loginModal = (
+        <>
+            {showModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <LoginForm setShowModal={setShowModal} />
+                </Modal>
+            )}
+        </>
+    );
+
     const handleLike = async () => {
         if(currentUser) {
             const isLiked = await likesSearch();
@@ -423,11 +436,15 @@ const ItineraryShow = ({ mapOptions = {} }) => {
               } else {
                 dispatch(createLike(itinerary._id));
               }
+        } else {
+            setShowModal(true);
         }
     }
 
     return (
         <>
+            {loginModal}
+
             <div className='show-title-holder'>
                 {itinerary &&
                     <>
