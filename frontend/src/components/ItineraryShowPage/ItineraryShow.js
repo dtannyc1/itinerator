@@ -45,10 +45,29 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     const [isSaved, setIsSaved] = useState(false);
 
     // const [type, setType] = useState(null);
-    const [lat, setLat] = useState(lastActivitylat);
-    const [lng, setLng] = useState(lastActivitylng);
+    const [lat, setLat] = useState(lastActivitylat || 40.7271066);
+    const [lng, setLng] = useState(lastActivitylng || -73.9947448);
 
     const infoWindows = [];
+
+    // ------------- NEEDED FOR REFRESH ----------------------
+    // Create the initial map ONLY after lat and lng are set after geocoding's successful callback
+    useEffect(() => {
+        if (lat !== 0 && lng !== 0 && !map) {
+            const newMap = new window.google.maps.Map(mapRef.current, {
+                center: { lat, lng },
+                zoom: 15,
+                // clickableIcons: false,
+                ...mapOptions,
+            });
+            setMap(newMap);
+        }
+    }, [lat, lng]);
+
+    useEffect(() => {
+        setSelectedActivities(itinerary?.activities)
+    }, [itinerary])
+    // --------------------------------------------------------
 
     const createSelectedMarker = (map, place) => {
         const location = { lat: place.lat, lng: place.lng }
@@ -386,7 +405,6 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         }
     }, [selectedActivities])
 
-
     // if (!itinerary.activities) return <> <h1>Loading...</h1> </> // maybe change this line in future for more robust
 
     return (
@@ -400,37 +418,24 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                 }
             </div>
 
-            <div className="flex-row-wrap">
-                <div ref={mapRef} className="itinerary-show-map">
+            <div className="flex-row-wrap section-mid">
+                <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified">
                     {/* Map */}
                 </div>
-                <div className="itinerary-show-details">
+                <div className="itinerary-show-details" id="itinerary-show-details-modified">
                     {selectedActivities && !isUpdating && itinerary.activities.length && itinerary.activities.map((activity) => {
                         return <ActivityItem activity={activity} key={activity._id} />
                     })}
                     {selectedActivities && isUpdating && selectedActivities.map((activity) => {
                         return (
                             <>
-                                <button className='remove-activity-button' onClick={() => handleRemoveActivity(activity)}>X</button>
-                                <ActivityItem activity={activity} key={activity._id} />
+                                <ActivityItem activity={activity} key={activity._id} handleRemoval={handleRemoveActivity}/>
                             </>
                         )
                     })}
                 </div>
             </div>
-            <div>
-                {currentUser && itinerary && currentUser._id === itinerary.creatorId
-                    && <div>
-                        {isUpdating ? (
-                            <button onClick={handleSaveItinerary}>Save Itinerary</button>
-                        ) : (
-                            <>
-                                <button onClick={handleUpdateItinerary}>Edit Itinerary</button>
-                                <button onClick={handleDeleteItinerary}>Delete Itinerary</button>
-                            </>
-                        )}
-                    </div>}
-            </div>
+
             <div className="section-bottom">
                 <div className="section-left">
                     <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Museum', null)}>
@@ -485,6 +490,20 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
                             </div>
                         ))}
+                    </div>
+
+                    <div>
+                        {currentUser && itinerary && currentUser._id === itinerary.creatorId
+                            && <div className='input-button-capsule'>
+                                {isUpdating ? (
+                                    <button className="nav-button" onClick={handleSaveItinerary}>Save Itinerary</button>
+                                ) : (
+                                    <>
+                                        <button className="nav-button" onClick={handleUpdateItinerary}>Edit Itinerary</button>
+                                        <button className="nav-button" onClick={handleDeleteItinerary}>Delete Itinerary</button>
+                                    </>
+                                )}
+                            </div>}
                     </div>
                 </div>
             </div>
