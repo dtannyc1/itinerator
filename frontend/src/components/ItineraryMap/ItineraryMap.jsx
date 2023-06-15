@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import '../ItineraryShowPage/ItineraryShowPage.css'
 import './ItineraryMap.css';
+import './LoadingAnimation.css';
+
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
@@ -17,7 +19,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const locationParam = searchParams.get('location');
     const typeParam = searchParams.get('type');
     const [lat, setLat] = useState(0);
-    const [lng, setLng] = useState(0)
+    const [lng, setLng] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [map, setMap] = useState(null);
     const [type, setType] = useState(typeParam);
@@ -144,6 +147,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         setType(newType)
 
         if (service && lat !== 0 && lng !== 0) {
+            setIsLoading(true);
             service.nearbySearch(request, (results, status) => {
                 if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                     let activities = [];
@@ -186,6 +190,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         });
 
                         setGeneratedActivities(organizedActivities);
+                        setIsLoading(false);
                         // map.setCenter({lat, lng})
                         // remove all but the selected marker
                     }
@@ -256,6 +261,60 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             })
     };
 
+    const activitiesChoiceRow = (
+        generatedActivities.map((activity, index) => (
+            <div
+                className={`activity-generated-item`}
+                key={index}
+                onClick={() => handleSelectActivity(activity)}
+            >
+                {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
+                <div className="choice-activity-name">{activity.name}</div>
+                <div className="activity-place-rating"  id="activity-place-rating-modified">
+
+                {activity.rating === '0' ? <></> : <div className="rating-wrap">{activity.rating}</div>}
+                {Array.from({ length: activity.rating }, (_, index) => (
+                    <i key={index} className="create-star-rating-ico"></i>
+                ))}
+                {activity.rating % 1 !== 0 && (
+                    <i className="create-star-rating-ico-half"></i>
+                )}
+                        
+                    
+                </div>
+
+            </div>
+        ))
+    );
+
+    const loadingAnimation = (
+        <div className="loading-wrap">
+            <div className="loading-title">Loading best choices for you...</div>
+            <div className="animation-box">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+    )
+
     return (
         <>
             <div className="section-top">
@@ -299,29 +358,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 
                 <div className="section-right">
                     <div className="activity-generated-row">
-                        {generatedActivities.map((activity, index) => (
-                            <div
-                                className="activity-generated-item"
-                                key={index}
-                                onClick={() => handleSelectActivity(activity)}
-                            >
-                                {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
-                                <div className="choice-activity-name">{activity.name}</div>
-                                <div className="activity-place-rating"  id="activity-place-rating-modified">
-
-                                {activity.rating === '0' ? <></> : <div className="rating-wrap">{activity.rating}</div>}
-                                {Array.from({ length: activity.rating }, (_, index) => (
-                                    <i key={index} className="create-star-rating-ico"></i>
-                                ))}
-                                {activity.rating % 1 !== 0 && (
-                                    <i className="create-star-rating-ico-half"></i>
-                                )}
-                                        
-                                    
-                                </div>
-
-                            </div>
-                        ))}
+                        {isLoading ? loadingAnimation : activitiesChoiceRow }
                     </div>
                     
                     <div className="input-button-capsule">
