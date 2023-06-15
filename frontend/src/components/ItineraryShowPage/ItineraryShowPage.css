@@ -55,18 +55,19 @@
 
 .show-page-creator,
 .show-page-title {
-    margin: 25px 0px 20px 0px;
+    margin: 25px 0px 0px 40px;
     font-family: 'DM Serif Display', serif;
     font-size: 20px;
     color: #F2C48D;
-    text-transform: uppercase;
     display: flex;
     justify-content: center;
 }
 
 .show-page-title {
     font-size: 26px;
-    margin: 20px 0px 20px 0px;
+    margin: 20px 0px 20px 10px;
+    text-transform: uppercase;
+    color: #f2ae2e
 }
 
 .show-page-creator>p {
@@ -79,18 +80,6 @@
     justify-content: space-around;
     margin-top: 70px;
 }
-
-.show-page-title {
-    color: #f2ae2e;
-    margin-right: 20px;
-}
-
-/* .activity-place-name,
-.activity-place-type,
-.activity-place-address,
-.activity-place-rating {
-    margin: 5px 0px 5px 5px;
-} */
 
 .activity-place-type {
     text-transform: uppercase;
@@ -142,7 +131,6 @@
 }
 .title-holder {
     display: flex;
-    /* justify-content: space-a; */
 }
 
 .likes-holder {
@@ -150,6 +138,27 @@
     flex-direction: row;
     margin: 25px 0px 0px 0px;
     color: #f65000;
+    position: absolute;
+    right: 40px;
+    top: 80px;
+    cursor: pointer;
+}
+.likes-holder:hover {
+    animation-name: pomping;
+    animation-duration: 0.7s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+}
+@keyframes pomping {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 

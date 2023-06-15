@@ -80,7 +80,6 @@
 }
 
 #itinerary-show-details-modified {
-    /* height: 401.5px; */
     height: calc(100% - 140px);
     width: 48%;
     padding-left: 20px;
@@ -91,6 +90,7 @@
     display: flex;
     flex-direction: row;
     margin: 0px 0px 0px 0px;
+    text-shadow: 0 0 5px black;
 }
 
 #nav-button-venture:disabled {
@@ -175,7 +175,22 @@
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
     color: #0b67b8;
     background-color: rgba(240, 242, 240, 1);
-    transform: scale(1.2);
+    transform: translateY(-10px) scale(1.2);
+}
+.create-page-circle:active {
+    animation-name: click-animation;
+    animation-duration: 0.7s;
+}
+@keyframes click-animation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
 }
 
 .rating-wrap {
