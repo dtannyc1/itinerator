@@ -6,7 +6,7 @@ const ActivityItem = ({ activity }) => {
     return (
         <div className="activity-item-wrap">
             <div>
-                {/* <img className='activity-photo' src={photoURLs[0]}></img> */}
+                <img className='activity-photo' src={photoURLs[0]}></img>
             </div>
 
             <div className="activity-info-holder">
