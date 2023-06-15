@@ -131,6 +131,7 @@ router.post('/', requireUser, validateItineraryInput, async (req, res, next) => 
         const newItinerary = new Itinerary({
             creator: req.user.username,
             creatorId: req.user._id,
+            title: req.body.title,
             activities: req.body.activities,
             comments: [],
             likes: []
@@ -202,7 +203,8 @@ router.patch('/:id', requireUser, validateItineraryInput, async (req, res, next)
             err.errors = {users: "Must be original creator to update an itinerary"}
             return next(err);
         }
-        itinerary.activities = req.body.activities;
+        itinerary.activities = req.body.activities || itinerary.activities;
+        itinerary.title = req.body.title || itinerary.title;
         let updatedItinerary = await itinerary.save();
         return res.json(updatedItinerary)
     } catch (error) {
