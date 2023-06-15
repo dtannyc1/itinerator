@@ -9,6 +9,7 @@ import ActivityItem from './ActivityItem';
 import { getCurrentUser } from '../../store/session';
 import { selectCurrentUser } from '../../store/session';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import CommentItem from './CommentItem';
 
 const ItineraryShow = ({ mapOptions = {} }) => {
     const { itineraryId } = useParams();
@@ -387,6 +388,14 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     }, [selectedActivities])
 
 
+    const commentsSection = (
+        <div className='comments-wrap'>
+            {itinerary.comments.map((comment) => {
+                return <CommentItem comment={comment} key={comment._id} />
+            })}
+        </div>
+    )
+
     // if (!itinerary.activities) return <> <h1>Loading...</h1> </> // maybe change this line in future for more robust
 
     return (
@@ -494,6 +503,8 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     </div>
                 </div>
             </div>
+
+            {commentsSection}
         </>
     )
 }
