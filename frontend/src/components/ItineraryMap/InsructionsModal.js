@@ -22,7 +22,7 @@ const InstructionsModal = () => {
     return  (
         <>
         <button id="nav-button-venture" className="nav-button"  onClick={() => setShowModal(true)}>
-                {/* <i className="fa-solid fa-id-badge"></i> */}
+                <i className="fa-solid fa-file-circle-check"></i>
                 &nbsp;Instructions
         </button>
         {showModal && (
