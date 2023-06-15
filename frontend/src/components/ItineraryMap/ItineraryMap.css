@@ -92,6 +92,17 @@
     flex-direction: row;
     margin: 0px 0px 0px 0px;
 }
+
+#nav-button-venture:disabled {
+    color: #867d61;
+    border: 2px solid #947f18;
+    cursor: not-allowed;
+}
+
+#nav-button-venture:disabled:hover {
+    box-shadow: none;
+}
+
 .instructions {
     color: #fccd89;
     padding: 30px;

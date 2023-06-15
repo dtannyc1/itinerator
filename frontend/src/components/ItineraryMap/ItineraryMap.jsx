@@ -347,7 +347,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         <>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <LoginForm />
+                    <LoginForm setShowModal={setShowModal} />
                 </Modal>
             )}
         </>
@@ -487,7 +487,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                                 id="nav-button-venture"
                                 className="nav-button"
                                 onClick={handleSaveItinerary}
-                            ><i className="fa-solid fa-plus"></i><div>itinerate!</div></button>
+                                disabled={!itineraryTitle && currentUser}
+                            ><i className="fa-solid fa-plus"></i>itinerate!</button>
                         </div>
                     </div>
 
