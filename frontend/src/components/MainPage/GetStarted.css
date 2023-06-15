@@ -79,10 +79,10 @@
         transform: rotate(calc(var(--nth-child) * 45deg + 270deg)) translate(0, -50px) rotate(calc(var(--nth-child) * -45deg + 270deg));
         opacity: 0;
     }
-    50% {
+    /* 50% {
         transform: rotate(calc(var(--nth-child) * 45deg + 135deg)) translate(0, -200px) rotate(calc(var(--nth-child) * -45deg + 135deg));
         opacity: 0.75;
-    }
+    } */
     100% {
         transform: rotate(calc(var(--nth-child) * 45deg)) translate(0, -170px) rotate(calc(var(--nth-child) * -45deg));
         opacity: 1;
@@ -90,7 +90,7 @@
 }
 
 .circle {
-    animation: circle-animation 0.9s linear 0s 1 normal;
+    animation: circle-animation 0.9s ease-in-out 0s 1 normal;
     transform: rotate(calc(var(--nth-child) * 45deg)) translate(0, -170px) rotate(calc(var(--nth-child) * -45deg));
 }
 
