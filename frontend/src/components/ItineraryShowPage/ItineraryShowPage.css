@@ -76,12 +76,13 @@
 
 .show-title-holder {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     margin-top: 70px;
 }
 
 .show-page-title {
     color: #f2ae2e;
+    margin-right: 20px;
 }
 
 /* .activity-place-name,
@@ -131,6 +132,32 @@
     margin-right: 10px;
     width: 10px;
 }
+
+.show-page-likes {
+    background-image: url('../../assets/heart.png');
+    background-position: center;
+    background-size: cover;
+    height: 40px;
+    width: 40px;
+}
+.title-holder {
+    display: flex;
+    /* justify-content: space-a; */
+}
+
+.likes-holder {
+    display: flex;
+    flex-direction: row;
+    margin: 25px 0px 0px 0px;
+    color: #f65000;
+}
+
+
+.likes-holder > div {
+    font-size: 18px;
+    color: #f2ae2e;
+    font-family: 'DM Serif Display', serif;
+    align-self: baseline;
 
 .section-mid {
     margin-top: 20px;
