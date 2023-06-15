@@ -10,6 +10,7 @@ import sliderImg4 from './../../assets/slider/slider-img-4.jpg';
 import sliderImg5 from './../../assets/slider/slider-img-5.jpg';
 import sliderImg6 from './../../assets/slider/slider-img-6.jpg';
 import sliderImg7 from './../../assets/slider/slider-img-7.jpg';
+import sliderImg8 from './../../assets/slider/slider-img-8.jpg';
 
 const MainPageCarousel = () => {
     const settings = {
@@ -19,7 +20,7 @@ const MainPageCarousel = () => {
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
-      autoplaySpeed: 5000,
+      autoplaySpeed: 6000,
       pauseOnHover: false,
       fade: true
     };
@@ -47,6 +48,9 @@ const MainPageCarousel = () => {
           </div>
           <div>
             <img className='slider-img' src={sliderImg7} alt="Image 7" />
+          </div>
+          <div>
+            <img className='slider-img' src={sliderImg8} alt="Image 8" />
           </div>
         </Slider>
       </div>
