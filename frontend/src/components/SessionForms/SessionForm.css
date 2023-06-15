@@ -8,7 +8,6 @@
 
 .form-input {
     color: #D9CA9C;
-    /* margin: 20px 0px 0px 0px; */
     font-size: 20px;
     font-family: 'DM Serif Display', serif;
     position: relative;
@@ -32,13 +31,12 @@
 }
 
 .session-form {
-    background: linear-gradient(to top, #0a1841, #2862C8);
-    border: 2px solid #D9BA23;
-    border-radius: 7px;
+    background: linear-gradient(to bottom, #0b3559, #3981bf);
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* box-shadow: 0 0 10px #D9CA9C;  */
+    box-shadow: 0 0 10px black; 
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s, border 0.3s;
     width: 400px;
 }

@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { createItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
 import ActivityItem from "../ItineraryShowPage/ActivityItem";
-import InstructionsModal from "./Insructions";
+import InstructionsModal from "./InsructionsModal";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
@@ -309,13 +309,14 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                                 <div className="choice-activity-name">{activity.name}</div>
                                 <div className="activity-place-rating"  id="activity-place-rating-modified">
 
-                                        {Array.from({ length: activity.rating }, (_, index) => (
-                                            <i key={index} className="star-rating-ico"></i>
-                                        ))}
-                                        {activity.rating % 1 !== 0 && (
-                                            <i className="star-rating-ico-half"></i>
-                                        )}
-                                        {activity.rating === '0' ? <></> : activity.rating}
+                                {activity.rating === '0' ? <></> : <div className="rating-wrap">{activity.rating}</div>}
+                                {Array.from({ length: activity.rating }, (_, index) => (
+                                    <i key={index} className="star-rating-ico"></i>
+                                ))}
+                                {activity.rating % 1 !== 0 && (
+                                    <i className="star-rating-ico-half"></i>
+                                )}
+                                        
                                     
                                 </div>
 

@@ -7,14 +7,14 @@ const InstructionsModal = () => {
     const instructions = (
         <div className="instructions-holder">
             <div className="instructions">
-                <div>Please follow these steps for a seamless experience:</div>
+                <div>For a seamless experience, please follow these steps:</div>
 
-                <p>1. Select the activity type from the left screen.</p>
-                <p>2. Choose from the selection provided above.</p>
-                <p>3. Your choices will appear in the top section above the selection.</p>
-                <p>4. When you are ready enter desired title and save your venture.</p>
-                <p>5. Follow your chosen options using the interactive Google Map on the page.</p>
-                <p>6. Enjoy your experience!</p>
+                <p>1. Start by selecting your preferred activity type from the options listed below the map.</p>
+                <p>2. Once you've chosen an activity type, select a place from the provided selection above.</p>
+                <p>3. Your selected choices will be displayed in the top section, right above the selection area.</p>
+                <p>4. When you're ready, enter a desired title for your venture and save it.</p>
+                <p>5. To navigate and explore, utilize the interactive Google Map on the page, following your chosen options.</p>
+                <p>6. Enjoy your fantastic experience!</p>
             </div>
         </div>
     )
