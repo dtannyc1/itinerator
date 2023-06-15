@@ -7,7 +7,7 @@ const Itinerary = require("../models/Itinerary.js");
 const activities = require("./activitiesList.js")
 
 const NUM_SEED_USERS = 10;
-const NUM_SEED_ITINERARIES = 5;
+const NUM_SEED_ITINERARIES = 9;
 const NUM_SEED_ACTIVITIES = 3;
 const NUM_SEED_COMMENTS = 2;
 
@@ -16,8 +16,8 @@ const users = [];
 
 users.push(
     new User ({
-        username: 'admin',
-        email: 'admin@app.io',
+        username: 'DemoUser',
+        email: 'demo@app.io',
         hashedPassword: bcrypt.hashSync('password', 10)
     })
 )
