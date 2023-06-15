@@ -80,7 +80,6 @@
 }
 
 #itinerary-show-details-modified {
-    /* height: 401.5px; */
     height: calc(100% - 140px);
     width: 48%;
     padding-left: 20px;
