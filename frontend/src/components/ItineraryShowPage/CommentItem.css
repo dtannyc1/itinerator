@@ -1,0 +1,29 @@
+.comments-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.comment-capsule {
+    margin-bottom: 10px;
+    width: 60%;
+    background: linear-gradient(to left, #0b3559, #3981bf, #3981bf);
+    box-shadow: 0px 2px 15px black;
+    font-family: 'DM Serif Display', serif;
+    color: #F2C48D;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.comment-author {
+    color: #F2AE2E;
+    margin: 0px 0px 20px 20px;
+    font-size: 20px;
+}
+
+.comment-date {
+    text-align: end;
+    color: #feddb2;
+    margin-top: 10px;
+}

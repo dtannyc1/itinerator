@@ -1,4 +1,3 @@
-// import { formatDate } from '../MainPage/MainPageItineraryItem'
 
 const ActivityItem = ({ activity }) => {
     const { photoURLs, name, type, createdAt, streetAddress, rating } = activity;
