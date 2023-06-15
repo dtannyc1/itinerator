@@ -30,8 +30,8 @@ const LoginForm = () => {
         e.preventDefault();
         e.stopPropagation();
         const user = {
-            email: 'admin@app.io',
-            username: "admin",
+            username: 'DemoUser',
+            email: 'demo@app.io',
             password: "password"
         };
 
