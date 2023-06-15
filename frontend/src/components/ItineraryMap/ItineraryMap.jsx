@@ -34,7 +34,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const [showModal, setShowModal] = useState(false);
 
     const mapRef = useRef(null);
-    const markers = useRef([]);
+    const generatedMarkers = useRef([]);
+    const selectedMarkers = useRef([]);
     const history = useHistory();
 
     const [selectedActivities, setSelectedActivities] = useState([]); // selected activity for itinerary
@@ -81,77 +82,159 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         }
     }, [lat, lng]);
 
-    // Run search after map is loaded
+    // Run initial search after map is loaded
     useEffect(() => {
         handleTextSearch()
     }, [map])
 
     useEffect(() => {
-        removeMarkers();
-        let prevActivity = selectedActivities[selectedActivities.length-1];
+        if (generatedMarkers) removeGeneratedMarkers();
+        let prevActivity = selectedActivities[selectedActivities.length - 1];
         if (prevActivity) {
             handleTextSearch(null, prevActivity, generateRandomType());
         }
     }, [selectedActivities])
 
+    useEffect(() => {
+        if (generatedActivities.length) setMarkers()
+    }, [generatedActivities])
+
+    // removes all generated markers before generating new searches/markers (in handleTextSearch)
+    const removeGeneratedMarkers = () => {
+        // markers.current = markers.current.filter(marker => {
+        //     const hasMatchingActivity = selectedActivities.some(activity => activity.name === marker.name);
+        //     if (!hasMatchingActivity) {
+        //         marker.setMap(null);
+        //         marker.setVisible(false);
+        //     }
+        //     return hasMatchingActivity;
+        // });
+
+        // return markers.current;
+
+        generatedMarkers.current.forEach(marker => {
+            marker.setMap(null);
+            marker.setVisible(false);
+        })
+    };
+
+    // sets NEW generated markers and selected markers
+    const setMarkers = () => {
+        console.log(map);
+        const bounds = new window.google.maps.LatLngBounds();
+        const allMarkers = [...generatedMarkers.current, ...selectedMarkers.current];
+        console.log(generatedMarkers.current);
+        console.log(selectedMarkers.current);
+        console.log(allMarkers);
+        allMarkers.forEach(marker => {
+            marker.setMap(map);
+            const position = marker.position;
+            bounds.extend(position)
+        });
+        map.fitBounds(bounds);
+    };
+
     const generateRandomType = () => {
-        return activityTypes[Math.floor(Math.random()*activityTypes.length)];
+        return activityTypes[Math.floor(Math.random() * activityTypes.length)];
     }
 
-    const handleType = (e) => {
-        setType(e.target.value);
-    }
-    const handleNumber = (e) => {
-        setNumber(e.target.value);
-    }
+    // const createMarker = (place) => {
+    //     const marker = new window.google.maps.Marker({
+    //         map: map,
+    //         position: place.geometry.location,
+    //         name: place.name,
+    //     });
 
-    const createMarker = (place) => {
+    //     const infowindow = new window.google.maps.InfoWindow({
+    //         content: place.name || "",
+    //     });
+
+    //     window.google.maps.event.addListener(marker, "click", () => {
+    //         infowindow.open(map, marker);
+    //     });
+
+    //     markers.current.push(marker);
+    // };
+
+    const infoWindows = [];
+    const icons = {
+        blueDot: {
+            icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-circle.png'
+        },
+        blue: {
+            icon: "http://maps.google.com/mapfiles/kml/paddle/purple-blank.png"
+        }
+    };
+
+    const createGeneratedMarker = (place) => {
         const marker = new window.google.maps.Marker({
-            map: map,
+            // map: map,
             position: place.geometry.location,
-            name: place.name,
+            title: place.name,
+            icon: icons.blue.icon
         });
+        marker.setAnimation(window.google.maps.Animation.BOUNCE)
 
-        const infowindow = new window.google.maps.InfoWindow({
-            content: place.name || "",
-        });
+        // create infowindow for marker
+        const infowindow = new window.google.maps.InfoWindow();
+        infowindow.setContent(`
+            <div>
+                <h3>${marker.title}</h3>
+                <a href="${place.url}" target="_blank">Visit Page</a>
+            </div>
+        `)
 
         window.google.maps.event.addListener(marker, "click", () => {
+            infoWindows.forEach((infoWindow) => {
+                infoWindow.close();
+            });
             infowindow.open(map, marker);
         });
+        infoWindows.push(infowindow);
 
-        markers.current.push(marker);
+        generatedMarkers.current.push(marker);
     };
 
-    const removeMarkers = () => {
-        markers.current = markers.current.filter(marker => {
-            const hasMatchingActivity = selectedActivities.some(activity => activity.name === marker.name);
-            if (!hasMatchingActivity) {
-                marker.setMap(null);
-                marker.setVisible(false);
-            }
-            return hasMatchingActivity;
+    const createSelectedMarker = (place) => {
+        const location = { lat: place.lat, lng: place.lng }
+        //  create marker and assign to map
+        const marker = new window.google.maps.Marker({
+            // map: map,
+            position: location,
+            title: place.name,
+            icon: icons.blueDot.icon
         });
+        // create infowindow for marker
+        const infowindow = new window.google.maps.InfoWindow();
+        infowindow.setContent(`
+            <div>
+                <h3>${marker.title}</h3>
+                <a href="${place.url}" target="_blank">Visit Page</a>
+            </div>
+        `)
+        window.google.maps.event.addListener(marker, "click", () => {
+            infoWindows.forEach((infoWindow) => {
+                infoWindow.close();
+            });
+            infowindow.open(map, marker);
+        });
+        infoWindows.push(infowindow);
 
-        return markers.current;
-    };
+        // add marker to markers array
+        selectedMarkers.current.push(marker);
+    }
 
     const handleTextSearch = (e, prevActivity, newType, searchRadius) => {
         e?.preventDefault();
 
-        if (markers.current) {
-            removeMarkers();
-        }
         // Create PlacesService instance using the map
         const service = map ? new window.google.maps.places.PlacesService(map) : null;
         searchRadius = searchRadius || 500;
         const request = {
             keyword: newType ? newType : type,
-            location: prevActivity ? {lat: prevActivity.lat, lng: prevActivity.lng} : { lat, lng },
+            location: prevActivity ? { lat: prevActivity.lat, lng: prevActivity.lng } : { lat, lng },
             radius: searchRadius,
         }
-
-        setType(newType)
 
         if (service && lat !== 0 && lng !== 0) {
             setIsLoading(true);
@@ -163,9 +246,9 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         if (results[ii].business_status === 'OPERATIONAL' &&
                             results[ii].name !== prevActivity?.name &&
                             !selectedActivities.some(activity => activity.name === results[ii].name)) {
-                                if (results[ii].photos) { // reject if no photos
-                                    activities.push(results[ii]);
-                                }
+                            if (results[ii].photos) { // reject if no photos
+                                activities.push(results[ii]);
+                            }
                         }
                         ii += 1;
                     }
@@ -175,7 +258,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         redoSearch(e, prevActivity, newType, searchRadius)
                     } else {
                         activities.forEach(result => {
-                            createMarker(result);
+                            createGeneratedMarker(result);
                         });
 
                         let organizedActivities = activities.map((result) => {
@@ -212,7 +295,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     const redoSearch = (e, prevActivity, newType, searchRadius) => {
         if (searchRadius < 10000) {
-            handleTextSearch(e, prevActivity, newType, searchRadius+500)
+            handleTextSearch(e, prevActivity, newType, searchRadius + 500)
         }
     }
 
@@ -250,6 +333,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 setLat(parseFloat(detailedActivity.lat))
                 setLng(parseFloat(detailedActivity.lng))
 
+                createSelectedMarker(detailedActivity)
+
                 // reset generated activities
                 setGeneratedActivities([])
 
@@ -274,7 +359,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             activities: [...selectedActivities]
         };
 
-        if (currentUser){
+        if (currentUser) {
             dispatch(createItinerary(itinerary))
                 .then(itinerary => {
                     history.push(`/itineraries/${itinerary._id}`)
@@ -293,17 +378,17 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             >
                 {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
                 <div className="choice-activity-name">{activity.name}</div>
-                <div className="activity-place-rating"  id="activity-place-rating-modified">
+                <div className="activity-place-rating" id="activity-place-rating-modified">
 
-                {activity.rating === '0' ? <></> : <div className="rating-wrap">{activity.rating}</div>}
-                {Array.from({ length: activity.rating }, (_, index) => (
-                    <i key={index} className="create-star-rating-ico"></i>
-                ))}
-                {activity.rating % 1 !== 0 && (
-                    <i className="create-star-rating-ico-half"></i>
-                )}
-                        
-                    
+                    {activity.rating === '0' ? <></> : <div className="rating-wrap">{activity.rating}</div>}
+                    {Array.from({ length: activity.rating }, (_, index) => (
+                        <i key={index} className="create-star-rating-ico"></i>
+                    ))}
+                    {activity.rating % 1 !== 0 && (
+                        <i className="create-star-rating-ico-half"></i>
+                    )}
+
+
                 </div>
 
             </div>
@@ -312,7 +397,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     const loadingAnimation = (
         <div className="loading-wrap">
-            <div className="loading-title">Loading best choices for you...</div>
+            <div className="loading-title">Loading top choices...</div>
             <div className="animation-box">
                 <div className="wave"></div>
                 <div className="wave"></div>
@@ -355,37 +440,37 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
             <div className="section-bottom">
                 <div className="section-left">
-                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Museum', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Museum', null)}>
                         <i className="fa-solid fa-building-columns fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Bar', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Bar', null)}>
                         <i className="fa-solid fa-martini-glass fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Park', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Park', null)}>
                         <i className="fa-solid fa-tree fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Bowling and Pool', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Bowling and Pool', null)}>
                         <i className="fa-solid fa-bowling-ball fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Moovie and Theater', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Moovie and Theater', null)}>
                         <i className="fa-solid fa-clapperboard fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Cafe', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Cafe', null)}>
                         <i className="fa-solid fa-mug-hot fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Pool and Ice skating', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Pool and Ice skating', null)}>
                         <i className="fa-solid fa-person-swimming fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e=>handleTextSearch(null, null, 'Restaurants', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Restaurants', null)}>
                         <i className="fa-solid fa-utensils fa-2xl"></i>
                     </div>
                 </div>
 
-                
+
 
                 <div className="section-right">
                     <div className="activity-generated-row">
-                        {isLoading ? loadingAnimation : activitiesChoiceRow }
+                        {isLoading ? loadingAnimation : activitiesChoiceRow}
                     </div>
 
                     <div className="input-button-capsule">
@@ -394,15 +479,15 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                             <input
                                 className="title-input"
                                 type="text"
-                                placeholder="Venture name"
+                                placeholder="itinerary name"
                                 value={itineraryTitle}
                                 onChange={e => setItineraryTitle(e.target.value)}
-                                />
-                            <button 
-                                id="nav-button-venture" 
-                                className="nav-button" 
+                            />
+                            <button
+                                id="nav-button-venture"
+                                className="nav-button"
                                 onClick={handleSaveItinerary}
-                                ><i className="fa-solid fa-plus"></i><div>Create itinerary</div></button>
+                            ><i className="fa-solid fa-plus"></i><div>itinerate!</div></button>
                         </div>
                     </div>
 

@@ -71,7 +71,6 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     const createSelectedMarker = (map, place) => {
         const location = { lat: place.lat, lng: place.lng }
-        console.log(location);
         //  create marker and assign to map
         const marker = new window.google.maps.Marker({
             map: map,
@@ -96,12 +95,8 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         infoWindows.push(infowindow);
 
         // add marker to markers array
-        console.log("logging selectedMarkers twice, once before this one is pushed");
-        console.log(selectedMarkers);
         selectedMarkers.current.push(marker);
-        console.log(selectedMarkers);
 
-        console.log("logging allMarkers");
         const allMarkers = [...selectedMarkers.current, ...searchedMarkers.current];
 
         const bounds = new window.google.maps.LatLngBounds();
