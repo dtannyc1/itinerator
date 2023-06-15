@@ -45,10 +45,29 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     const [isSaved, setIsSaved] = useState(false);
 
     // const [type, setType] = useState(null);
-    const [lat, setLat] = useState(lastActivitylat);
-    const [lng, setLng] = useState(lastActivitylng);
+    const [lat, setLat] = useState(lastActivitylat || 40.7271066);
+    const [lng, setLng] = useState(lastActivitylng || -73.9947448);
 
     const infoWindows = [];
+
+    // ------------- NEEDED FOR REFRESH ----------------------
+    // Create the initial map ONLY after lat and lng are set after geocoding's successful callback
+    useEffect(() => {
+        if (lat !== 0 && lng !== 0 && !map) {
+            const newMap = new window.google.maps.Map(mapRef.current, {
+                center: { lat, lng },
+                zoom: 15,
+                // clickableIcons: false,
+                ...mapOptions,
+            });
+            setMap(newMap);
+        }
+    }, [lat, lng]);
+
+    useEffect(() => {
+        setSelectedActivities(itinerary?.activities)
+    }, [itinerary])
+    // --------------------------------------------------------
 
     const createSelectedMarker = (map, place) => {
         const location = { lat: place.lat, lng: place.lng }
@@ -385,7 +404,6 @@ const ItineraryShow = ({ mapOptions = {} }) => {
             });
         }
     }, [selectedActivities])
-
 
     // if (!itinerary.activities) return <> <h1>Loading...</h1> </> // maybe change this line in future for more robust
 
