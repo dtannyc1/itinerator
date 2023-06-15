@@ -24,14 +24,30 @@
     color: #D9CA9C;
     text-decoration: none;
     padding: 5px;
-    margin: 10px 10px 10px 10px;
+    margin: 10px 10px 10px 25px;
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
     cursor: pointer;
     font-size: 16px;
     font-family: 'DM Serif Display', serif;
 }
+
 .nav-button:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
     color: #D9BA23;
-    transform: scale(1.2);
+    transform: scale(1.1);
+}
+
+.main-logo text{
+    fill: #D9CA9C;
+    stroke: rgba(217, 187, 35, 0.2);
+    /* stroke-width: 0.01px; */
+}
+
+.main-logo text tspan{
+    stroke-width: 0.4;
+}
+
+.main-logo-underline {
+    stroke: rgba(217, 187, 35, 0.9);
+    /* fill: #D9BA23; */
 }
