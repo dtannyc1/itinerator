@@ -17,7 +17,7 @@
     margin: 10px 25px 0px 0px;
 }
 
-.nav-button {
+.nav-button, .nav-logo {
     background-color: transparent;
     border: 2px solid #D9CA9C;
     border-radius: 5px;
@@ -29,6 +29,14 @@
     cursor: pointer;
     font-size: 16px;
     font-family: 'DM Serif Display', serif;
+}
+.nav-logo {
+    border: none;
+    border-radius: 45%;
+}
+.nav-logo:hover {
+    box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
+    color: #D9BA23;
 }
 
 .nav-button:hover {
