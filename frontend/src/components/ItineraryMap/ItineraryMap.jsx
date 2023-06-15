@@ -258,6 +258,16 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         })
     }
 
+    const loginModal = (
+        <>
+            {showModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <LoginForm />
+                </Modal>
+            )}
+        </>
+    );
+
     const handleSaveItinerary = () => {
         const itinerary = {
             title: itineraryTitle,
@@ -270,15 +280,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     history.push(`/itineraries/${itinerary._id}`)
                 })
         } else {
-            console.log('hi')
-            setShowModal(true);
-            return (
-                <>
-                  <Modal onClose={() => setShowModal(false)}>
-                    <LoginForm />
-                  </Modal>
-                </>
-              );
+            setShowModal(true)
         }
     };
 
@@ -338,6 +340,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     return (
         <>
+            {loginModal}
+
             <div className="section-top">
                 <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified">
                     Map
@@ -377,6 +381,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     </div>
                 </div>
 
+                
+
                 <div className="section-right">
                     <div className="activity-generated-row">
                         {isLoading ? loadingAnimation : activitiesChoiceRow }
@@ -392,7 +398,11 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                                 value={itineraryTitle}
                                 onChange={e => setItineraryTitle(e.target.value)}
                                 />
-                            <button id="nav-button-venture" className="nav-button" onClick={handleSaveItinerary}>Create itinerary</button>
+                            <button 
+                                id="nav-button-venture" 
+                                className="nav-button" 
+                                onClick={handleSaveItinerary}
+                                ><i className="fa-solid fa-plus"></i><div>Create itinerary</div></button>
                         </div>
                     </div>
 

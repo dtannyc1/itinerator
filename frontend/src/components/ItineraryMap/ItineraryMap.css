@@ -73,8 +73,9 @@
 }
 
 #nav-button-venture {
-    margin: 5px 0px 0px 0px;
-    width: 130px;
+    display: flex;
+    flex-direction: row;
+    margin: 0px 0px 0px 0px;
 }
 .instructions {
     color: #fccd89;
@@ -107,7 +108,7 @@
     padding: 5px;
     font-family: 'DM Serif Display', serif;
     font-size: 16px;
-    margin-right: 15px;
+    margin: 5px 10px 0px 0px;
 }
 .title-input:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
@@ -120,6 +121,10 @@
     align-items: center;
     margin: 20px 20px 0px 0px;
     position: relative;
+}
+.input-button-capsule > div {
+    display: flex;
+    flex-direction: row;
 }
 
 .create-page-circle {
