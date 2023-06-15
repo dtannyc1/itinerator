@@ -38,16 +38,14 @@
 }
 
 .main-logo text{
-    fill: #D9CA9C;
-    stroke: rgba(217, 187, 35, 0.2);
-    /* stroke-width: 0.01px; */
+    fill: hsl(45, 90%, 80%);
+    stroke: hsla(50, 80%, 49%, 0.4);
 }
 
 .main-logo text tspan{
-    stroke-width: 0.4;
+    stroke-width: 0.3;
 }
 
 .main-logo-underline {
     stroke: rgba(217, 187, 35, 0.9);
-    /* fill: #D9BA23; */
 }
