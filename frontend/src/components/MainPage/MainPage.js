@@ -24,8 +24,16 @@ const MainPage = () => {
     }
   }
 
+  const recentSorter = (itineraryA, itineraryB) => {
+    if (new Date(itineraryA.updatedAt) > new Date(itineraryB.updatedAt)) {
+        return -1;
+    } else {
+        return 1;
+    }
+  }
+
   useEffect(() => {
-    let tmpItineraries = Object.values(itineraries).sort(likeSorter);
+    let tmpItineraries = Object.values(itineraries).sort(recentSorter);
     setSortedItineraries(tmpItineraries.slice(0, 9))
   }, [itineraries])
 
