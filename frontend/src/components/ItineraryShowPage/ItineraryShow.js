@@ -521,7 +521,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                 </div>
             </div>
 
-            {/* {commentsSection} */}
+            {commentsSection}
         </>
     )
 }
