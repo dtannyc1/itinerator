@@ -16,7 +16,7 @@ export const shuffleArray = (array) => {
 };
 
 const MainPageItineraryItem = ({ itinerary }) => {
-    const { _id, creator, createdAt, activities, title } = itinerary;
+    const { _id, creator, createdAt, activities, title, likes } = itinerary;
 
     const sliderSettings = {
         dots: false,
@@ -40,6 +40,8 @@ const MainPageItineraryItem = ({ itinerary }) => {
     return (
         <Link className='itinerary-link' to={`/itineraries/${_id}`}>
             <div className="itinerary-item-wrap">
+                <div className="main-activity-title">{title || "Best day ever!"}</div>
+
                 <Slider {...sliderSettings}>
                     {randomizedImages.map((photoURL, index) => (
                         <div key={index}>
@@ -48,9 +50,12 @@ const MainPageItineraryItem = ({ itinerary }) => {
                     ))}
                 </Slider>
 
-                <div className="main-activity-title">{title || "Best day ever!"}</div>
-
                 <div className="main-activity-creator">Shared by:<p>{creator}</p></div>
+
+                <div className='main-likes-holder'>
+                    <i className="fa-solid fa-heart fa-lg"></i>
+                    <div>{likes.length}</div>
+                </div>
 
                 <div className="main-activity-date">{formatDate(createdAt)}</div>
             </div>
