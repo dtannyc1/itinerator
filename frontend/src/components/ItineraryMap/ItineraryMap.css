@@ -91,12 +91,15 @@
     flex-direction: row;
     margin: 0px 0px 0px 0px;
     text-shadow: 0 0 5px black;
+    transition: color 0.3s, border 0.3s;
 }
 
 #nav-button-venture:disabled {
-    color: #867d61;
+    color: #efc141;
     border: 2px solid #947f18;
     cursor: not-allowed;
+    text-shadow: 0 0 5px rgb(71, 71, 71);
+    transition: color 0.3s, border 0.3s;
 }
 
 #nav-button-venture:disabled:hover {
