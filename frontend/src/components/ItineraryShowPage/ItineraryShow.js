@@ -504,28 +504,28 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
             <div className="section-bottom">
                 <div className="section-left">
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Museum', null)}>
+                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Museum', null)}}>
                         <i className="fa-solid fa-building-columns fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Bar', null)}>
+                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Bar', null)}}>
                         <i className="fa-solid fa-martini-glass fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Park', null)}>
+                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Park', null)}}>
                         <i className="fa-solid fa-tree fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Bowling and Pool', null)}>
+                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Bowling and Pool', null)}}>
                         <i className="fa-solid fa-bowling-ball fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Movie and Theater', null)}>
+                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Movie and Theater', null)}}>
                         <i className="fa-solid fa-clapperboard fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Cafe', null)}>
+                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Cafe', null)}}>
                         <i className="fa-solid fa-mug-hot fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Pool and Ice skating', null)}>
+                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Pool and Ice skating', null)}}>
                         <i className="fa-solid fa-person-swimming fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Restaurants', null)}>
+                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Restaurants', null)}}>
                         <i className="fa-solid fa-utensils fa-2xl"></i>
                     </div>
                 </div>
