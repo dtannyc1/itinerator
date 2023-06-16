@@ -75,7 +75,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             const newMap = new window.google.maps.Map(mapRef.current, {
                 center: { lat, lng },
                 zoom: 15,
-                // clickableIcons: false,
                 ...mapOptions,
             });
             setMap(newMap);
@@ -121,11 +120,23 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     const infoWindows = [];
     const icons = {
+        blueBlank: {
+            icon: "http://maps.google.com/mapfiles/kml/paddle/blu-blank.png"
+        },
         blueDot: {
             icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-circle.png'
         },
-        blue: {
-            icon: "http://maps.google.com/mapfiles/kml/paddle/purple-blank.png"
+        blueStar: {
+            icon: "http://maps.google.com/mapfiles/kml/paddle/blu-stars.png"
+        },
+        orangeBlank: {
+            icon: "http://maps.google.com/mapfiles/kml/paddle/orange-blank.png"
+        },
+        orangeDot: {
+            icon: "http://maps.google.com/mapfiles/kml/paddle/orange-circle.png"
+        },
+        orangeStar: {
+            icon: "http://maps.google.com/mapfiles/kml/paddle/orange-stars.png"
         }
     };
 
@@ -134,7 +145,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             // map: map,
             position: place.geometry.location,
             title: place.name,
-            icon: icons.blue.icon
+            icon: icons.orangeBlank.icon
         });
         marker.setAnimation(window.google.maps.Animation.BOUNCE)
 
@@ -165,7 +176,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             // map: map,
             position: location,
             title: place.name,
-            icon: icons.blueDot.icon
+            icon: icons.orangeStar.icon
         });
         // create infowindow for marker
         const infowindow = new window.google.maps.InfoWindow();
@@ -353,7 +364,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         const marker = generatedMarkers.current.find(marker => marker.title === activity.name);
         if (marker) {
             // Change the marker when the item is hovered over
-            marker.setIcon('http://maps.google.com/mapfiles/kml/paddle/blu-circle.png');
+            marker.setIcon("http://maps.google.com/mapfiles/kml/paddle/orange-circle.png");
             // marker.setAnimation(window.google.maps.Animation.BOUNCE);
         }
     };
@@ -363,7 +374,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         const marker = generatedMarkers.current.find(marker => marker.title === activity.name);
         if (marker) {
             // Change the marker back to its original state when the mouse leaves the item
-            marker.setIcon("http://maps.google.com/mapfiles/kml/paddle/purple-blank.png");
+            marker.setIcon("http://maps.google.com/mapfiles/kml/paddle/orange-blank.png");
             // marker.setAnimation(null); // Removes the bounce animation
         }
     };
