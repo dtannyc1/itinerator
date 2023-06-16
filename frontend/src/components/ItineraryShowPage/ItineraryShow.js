@@ -73,7 +73,6 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     // creates selected markers from selectedActivities array
     // adds them to selectedMarkers[]
     useEffect(() => {
-        console.log("here?");
         if (selectedActivities?.length && map) {
             setMarkers();
         }
@@ -222,8 +221,6 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     const getPrevActivity = () => {
         if (selectedActivities.length > 0) {
             const lastActivity = selectedActivities[selectedActivities.length - 1];
-            console.log(lastActivity);
-            console.log(lastActivity.location);
             const lat = lastActivity.lat;
             const lng = lastActivity.lng;
             return { lat: lat, lng: lng }
@@ -440,7 +437,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         </div>
     )
     // if (!itinerary.activities) return <> <h1>Loading...</h1> </> // maybe change this line in future for more robust
-            
+
     const likesSearch = () => {
         return itinerary.likes.some((like) => like.likerId === currentUser._id);
     }

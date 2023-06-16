@@ -111,9 +111,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const setMarkers = () => {
         const bounds = new window.google.maps.LatLngBounds();
         const allMarkers = [...generatedMarkers.current, ...selectedMarkers.current];
-        console.log(generatedMarkers.current);
-        console.log(selectedMarkers.current);
-        console.log(allMarkers);
         allMarkers.forEach(marker => {
             marker.setMap(map);
             const position = marker.position;
@@ -302,7 +299,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 }
                 detailedActivity.photoURLs = photoURLs;
 
-                console.log(JSON.stringify(detailedActivity))
+                // console.log(JSON.stringify(detailedActivity))
                 detailedActivity.photoUrl = photoURLs[0];
 
                 // save activity
@@ -428,13 +425,13 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     return (
         <>
-
+            {loginModal}
 
             <div className="section-top">
                 <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified"></div>
                 <div className="itinerary-show-details" id="itinerary-show-details-modified">
                     {selectedActivities.map((activity, index) => {
-                        return <ActivityItem activity={activity} key={activity._id} />
+                        return <ActivityItem activity={activity} key={activity._id || activity.name} />
                     })}
                 </div>
             </div>
