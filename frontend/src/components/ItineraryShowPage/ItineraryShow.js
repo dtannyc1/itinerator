@@ -419,11 +419,12 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     const checkLikeStatus = async () => {
         const isLiked = await likesSearch();
-        setLiked(isLiked);
+        setLiked(isLiked || false);
     };
 
     const likesSearch = () => {
-        return itinerary.likes.some((like) => like.likerId === currentUser._id);
+        if (!currentUser) return false
+        return itinerary?.likes.some((like) => like.likerId === currentUser._id);
     }
 
     const loginModal = (
