@@ -10,12 +10,16 @@ import { getCurrentUser } from '../../store/session';
 import { selectCurrentUser } from '../../store/session';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import CommentItem from './CommentItem';
+import { createLike, deleteLike } from '../../store/likes';
+import { Modal } from '../context/Modal';
+import LoginForm from '../SessionForms/LoginForm';
 
 const ItineraryShow = ({ mapOptions = {} }) => {
 
     const { itineraryId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
+    const [showModal, setShowModal] = useState(false);
 
     const [map, setMap] = useState(null);
     const [number, setNumber] = useState(3);
@@ -383,17 +387,91 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         }
     };
 
+    useEffect(() => {
+        // removeMarkers();
+        if (isUpdating) {
+            let prevActivity = selectedActivities[selectedActivities.length - 1];
+            if (prevActivity) {
+                handleTextSearch(null, prevActivity, generateRandomType());
+            }
+        }
+    }, [selectedActivities])
 
-    // const commentsSection = (
-    //     <div className='comments-wrap'>
-    //         {itinerary.comments.map((comment) => {
-    //             return <CommentItem comment={comment} key={comment._id} />
-    //         })}
-    //     </div>
-    // )
+    useEffect(() => {
+        if (selectedActivities) {
+
+            // centering map at first activity
+            // const centerLat = selectedActivities.length > 0 ? selectedActivities[0].lat : null;
+            // const centerLng = selectedActivities.length > 0 ? selectedActivities[0].lng : null;
+            // const newMap = new window.google.maps.Map(mapRef.current, {
+            //     center: { lat: lat, lng: lng },
+            //     zoom: 15,
+            //     // ...mapOptions,
+            // });
+            // setMap(newMap);
+
+            // creating a bounds encompassing all activities
+            const bounds = new window.google.maps.LatLngBounds();
+            selectedActivities.forEach((activity) => {
+                const { lat, lng } = activity;
+                const position = new window.google.maps.LatLng(lat, lng);
+                bounds.extend(position);
+            });
+            const newMap = new window.google.maps.Map(mapRef.current, {
+                center: bounds.getCenter(),
+                zoom: 14,
+                ...mapOptions,
+            });
+            newMap.fitBounds(bounds);
+            setMap(newMap);
+
+            // add markers to map
+            selectedActivities.forEach(place => {
+                createSelectedMarker(newMap, place);
+            });
+        }
+    }, [selectedActivities])
+
+    const commentsSection = (
+        <div className='comments-wrap'>
+            {itinerary?.comments.map((comment) => {
+                return <CommentItem comment={comment} key={comment._id} />
+            })}
+        </div>
+    )
+    // if (!itinerary.activities) return <> <h1>Loading...</h1> </> // maybe change this line in future for more robust
+            
+    const likesSearch = () => {
+        return itinerary.likes.some((like) => like.likerId === currentUser._id);
+    }
+
+    const loginModal = (
+        <>
+            {showModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <LoginForm setShowModal={setShowModal} />
+                </Modal>
+            )}
+        </>
+    );
+
+    const handleLike = async () => {
+        if(currentUser) {
+            const isLiked = await likesSearch();
+            if (isLiked) {
+                dispatch(deleteLike(itinerary._id));
+              } else {
+                dispatch(createLike(itinerary._id));
+              }
+        } else {
+            setShowModal(true);
+        }
+    }
 
     return (
         <>
+            {loginModal}
+
             <div className='show-title-holder'>
                 {itinerary &&
                     <>
@@ -403,7 +481,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                         </div>
                         <div className='likes-holder'>
                             <div>{itinerary.likes.length}</div>
-                            <i className="fa-solid fa-heart fa-2xl"></i>
+                            <i className="fa-solid fa-heart fa-2xl" onClick={handleLike}></i>
                         </div>
                     </>
                 }

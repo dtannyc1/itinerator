@@ -4,7 +4,7 @@ import './SessionForm.css';
 
 import { login, clearSessionErrors } from '../../store/session';
 
-const LoginForm = () => {
+const LoginForm = ({setShowModal}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const errors = useSelector(state => state.errors.session);
@@ -24,6 +24,9 @@ const LoginForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(login({ email, password }));
+        if (setShowModal) {
+            setShowModal(false)
+        }
     }
 
     const handleDemoLogin = e => {
@@ -36,6 +39,9 @@ const LoginForm = () => {
         };
 
         dispatch(login(user));
+        if (setShowModal) {
+            setShowModal(false)
+        }
     }
 
     return (

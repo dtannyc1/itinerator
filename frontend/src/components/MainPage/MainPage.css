@@ -2,9 +2,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
-    /* align-items: center; */
     row-gap: 50px;
-    /* column-gap: 30px; */
     margin: 50px;
 }
 
