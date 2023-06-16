@@ -46,6 +46,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     const [selectedActivities, setSelectedActivities] = useState(itinerary?.activities);
 
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     // ------------- NEEDED FOR REFRESH ----------------------
     useEffect(() => {
@@ -241,6 +242,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
             radius: searchRadius,
         }
 
+        setIsLoading(true);
         service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                 let searchedActivities = [];
@@ -285,6 +287,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     });
 
                     setGeneratedActivities(organizedActivities);
+                    setIsLoading(false)
                 }
             } else {
                 redoSearch(e, prevActivity, type, searchRadius)
@@ -412,6 +415,34 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         }
     }
 
+    const loadingAnimation = (
+        <div className="loading-wrap">
+            <div className="loading-title">Loading top choices...</div>
+            <div className="animation-box">
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+            </div>
+        </div>
+    )
+
     return (
         <>
             {loginModal}
@@ -479,30 +510,32 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
                 <div className="section-right">
                     <div className="activity-generated-row">
-                        {generatedActivities.map((activity, index) => (
-                            <div
-                                className="activity-generated-item"
-                                key={index}
-                                onClick={() => handleSelectActivity(activity)}
-                                onMouseEnter={() => handleMouseEnter(activity)}
-                                onMouseLeave={() => handleMouseLeave(activity)}
-                            >
-                                {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
-                                <div className="choice-activity-name">{activity.name}</div>
-                                <div className="activity-place-rating" id="activity-place-rating-modified">
+                        {isLoading ? loadingAnimation :
+                            generatedActivities.map((activity, index) => (
+                                <div
+                                    className="activity-generated-item"
+                                    key={index}
+                                    onClick={() => handleSelectActivity(activity)}
+                                    onMouseEnter={() => handleMouseEnter(activity)}
+                                    onMouseLeave={() => handleMouseLeave(activity)}
+                                >
+                                    {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
+                                    <div className="choice-activity-name">{activity.name}</div>
+                                    <div className="activity-place-rating" id="activity-place-rating-modified">
 
-                                    {Array.from({ length: activity.rating }, (_, index) => (
-                                        <i key={index} className="star-rating-ico"></i>
-                                    ))}
-                                    {activity.rating % 1 !== 0 && (
-                                        <i className="star-rating-ico-half"></i>
-                                    )}
-                                    {activity.rating === '0' ? <></> : activity.rating}
+                                        {Array.from({ length: activity.rating }, (_, index) => (
+                                            <i key={index} className="star-rating-ico"></i>
+                                        ))}
+                                        {activity.rating % 1 !== 0 && (
+                                            <i className="star-rating-ico-half"></i>
+                                        )}
+                                        {activity.rating === '0' ? <></> : activity.rating}
+
+                                    </div>
 
                                 </div>
-
-                            </div>
-                        ))}
+                            ))
+                        }
                     </div>
 
                     <div>
