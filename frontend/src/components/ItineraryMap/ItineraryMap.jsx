@@ -243,7 +243,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                                 location: result.geometry.location,
                                 photoUrl: null,
                                 price: null,
-                                place_id: result.place_id
+                                place_id: result.place_id,
+                                type: newType ? newType : type
                             }
                             if (result.photos) {
                                 activity.photoUrl = result.photos[0].getUrl();
@@ -288,7 +289,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     lat: results.geometry.location.lat(),
                     lng: results.geometry.location.lng(),
                     url: results.url,
-                    type
+                    type: activity.type
                 }
 
                 let photoURLs = [];

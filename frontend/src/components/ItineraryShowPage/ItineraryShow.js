@@ -93,17 +93,9 @@ const ItineraryShow = ({ mapOptions = {} }) => {
             }
         }
     }, [selectedActivities])
+    // when you remove/add an activity, this runs.
+    // this always generates activities, which will run the above useEffect when there are 3.
 
-    // when you remove an activity, this runs. when you add an activity, this runs
-    // this always generates actvities, which will run the above useEffect when there are 3.
-
-    // useEffect(() => {
-    //     if (isUpdating && selectedActivities) {
-    //         console.log(selectedActivities);
-    //         let prevActivity = selectedActivities[selectedActivities.length - 1];
-    //         handleTextSearch(null, prevActivity, generateRandomType())
-    //     }
-    // }, [selectedActivities])
 
     // ------------- END OF USEEFFECTS ----------------------
 
@@ -248,7 +240,6 @@ const ItineraryShow = ({ mapOptions = {} }) => {
             location: prevActivity ? { lat: prevActivity.lat, lng: prevActivity.lng } : getPrevActivity(),
             radius: searchRadius,
         }
-        console.log(request.location);
 
         service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
@@ -281,7 +272,8 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                             photoUrl: null,
                             price: null,
                             place_id: result.place_id,
-                            url: results.url
+                            url: results.url,
+                            type: type
                         }
                         if (result.photos) {
                             activity.photoUrl = result.photos[0].getUrl();
@@ -321,7 +313,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     lat: results.geometry.location.lat(),
                     lng: results.geometry.location.lng(),
                     url: results.url,
-                    type: results.type
+                    type: activity.type
                 }
                 let photoURLs = [];
                 if (results.photos) {
@@ -384,51 +376,6 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         }
     };
 
-    useEffect(() => {
-        // removeMarkers();
-        if (isUpdating) {
-            let prevActivity = selectedActivities[selectedActivities.length - 1];
-            if (prevActivity) {
-                handleTextSearch(null, prevActivity, generateRandomType());
-            }
-        }
-    }, [selectedActivities])
-
-    useEffect(() => {
-        if (selectedActivities) {
-
-            // centering map at first activity
-            // const centerLat = selectedActivities.length > 0 ? selectedActivities[0].lat : null;
-            // const centerLng = selectedActivities.length > 0 ? selectedActivities[0].lng : null;
-            // const newMap = new window.google.maps.Map(mapRef.current, {
-            //     center: { lat: lat, lng: lng },
-            //     zoom: 15,
-            //     // ...mapOptions,
-            // });
-            // setMap(newMap);
-
-            // creating a bounds encompassing all activities
-            const bounds = new window.google.maps.LatLngBounds();
-            selectedActivities.forEach((activity) => {
-                const { lat, lng } = activity;
-                const position = new window.google.maps.LatLng(lat, lng);
-                bounds.extend(position);
-            });
-            const newMap = new window.google.maps.Map(mapRef.current, {
-                center: bounds.getCenter(),
-                zoom: 14,
-                ...mapOptions,
-            });
-            newMap.fitBounds(bounds);
-            setMap(newMap);
-
-            // add markers to map
-            selectedActivities.forEach(place => {
-                createSelectedMarker(newMap, place);
-            });
-        }
-    }, [selectedActivities])
-
     const commentsSection = (
         <div className='comments-wrap'>
             {itinerary?.comments.map((comment) => {
@@ -453,13 +400,13 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     );
 
     const handleLike = async () => {
-        if(currentUser) {
+        if (currentUser) {
             const isLiked = await likesSearch();
             if (isLiked) {
                 dispatch(deleteLike(itinerary._id));
-              } else {
+            } else {
                 dispatch(createLike(itinerary._id));
-              }
+            }
         } else {
             setShowModal(true);
         }
