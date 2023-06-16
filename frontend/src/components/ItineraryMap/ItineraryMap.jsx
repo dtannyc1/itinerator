@@ -235,6 +235,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             location: prevActivity ? { lat: prevActivity.lat, lng: prevActivity.lng } : { lat, lng },
             radius: searchRadius,
         }
+        setType(newType);
 
         if (service && lat !== 0 && lng !== 0) {
             setIsLoading(true);
