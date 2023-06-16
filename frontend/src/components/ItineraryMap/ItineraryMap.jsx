@@ -425,7 +425,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     return (
         <>
-
+            {loginModal}
 
             <div className="section-top">
                 <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified"></div>
