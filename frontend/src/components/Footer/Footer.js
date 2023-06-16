@@ -39,11 +39,11 @@ const Footer = () => {
             <div className='team-member-capsule'>
                 <div className='footer-name-holder'>Brandon Choi</div>
                 <div className='footer-links-holder'>
-                    <a href='https://github.com/bchoi28'>
+                    <a href='https://www.linkedin.com/in/brandonchoi28/'>
                         <i className="fa-brands fa-linkedin fa-2xl"></i>
                     </a>
 
-                    <a href='https://github.com/bchoi28'>
+                    <a href='https://www.linkedin.com/in/brandonchoi28/'>
                         <i className="fa-brands fa-angellist fa-2xl"></i>
                     </a>
 

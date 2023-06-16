@@ -6,7 +6,7 @@ import './ItineraryMap.css';
 
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createItinerary } from "../../store/itineraries";
+import { createItinerary, fetchItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
 import ActivityItem from "../ItineraryShowPage/ActivityItem";
 import InstructionsModal, { instructions } from "./InsructionsModal";
@@ -101,17 +101,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     // removes all generated markers before generating new searches/markers (in handleTextSearch)
     const removeGeneratedMarkers = () => {
-        // markers.current = markers.current.filter(marker => {
-        //     const hasMatchingActivity = selectedActivities.some(activity => activity.name === marker.name);
-        //     if (!hasMatchingActivity) {
-        //         marker.setMap(null);
-        //         marker.setVisible(false);
-        //     }
-        //     return hasMatchingActivity;
-        // });
-
-        // return markers.current;
-
         generatedMarkers.current.forEach(marker => {
             marker.setMap(null);
             marker.setVisible(false);
@@ -120,12 +109,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     // sets NEW generated markers and selected markers
     const setMarkers = () => {
-        console.log(map);
         const bounds = new window.google.maps.LatLngBounds();
         const allMarkers = [...generatedMarkers.current, ...selectedMarkers.current];
-        console.log(generatedMarkers.current);
-        console.log(selectedMarkers.current);
-        console.log(allMarkers);
         allMarkers.forEach(marker => {
             marker.setMap(map);
             const position = marker.position;
@@ -133,28 +118,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         });
         map.fitBounds(bounds);
     };
-
-    const generateRandomType = () => {
-        return activityTypes[Math.floor(Math.random() * activityTypes.length)];
-    }
-
-    // const createMarker = (place) => {
-    //     const marker = new window.google.maps.Marker({
-    //         map: map,
-    //         position: place.geometry.location,
-    //         name: place.name,
-    //     });
-
-    //     const infowindow = new window.google.maps.InfoWindow({
-    //         content: place.name || "",
-    //     });
-
-    //     window.google.maps.event.addListener(marker, "click", () => {
-    //         infowindow.open(map, marker);
-    //     });
-
-    //     markers.current.push(marker);
-    // };
 
     const infoWindows = [];
     const icons = {
@@ -224,8 +187,20 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         selectedMarkers.current.push(marker);
     }
 
+    const generateRandomType = () => {
+        return activityTypes[Math.floor(Math.random() * activityTypes.length)];
+    }
+
     const handleTextSearch = (e, prevActivity, newType, searchRadius) => {
         e?.preventDefault();
+
+        if (generatedActivities.length) {
+            generatedMarkers.current.forEach((marker) => {
+                marker.setMap(null);
+                marker.setVisible(false);
+            })
+            generatedMarkers.current = [];
+        }
 
         // Create PlacesService instance using the map
         const service = map ? new window.google.maps.places.PlacesService(map) : null;
@@ -269,7 +244,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                                 location: result.geometry.location,
                                 photoUrl: null,
                                 price: null,
-                                place_id: result.place_id
+                                place_id: result.place_id,
+                                type: newType ? newType : type
                             }
                             if (result.photos) {
                                 activity.photoUrl = result.photos[0].getUrl();
@@ -314,7 +290,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     lat: results.geometry.location.lat(),
                     lng: results.geometry.location.lng(),
                     url: results.url,
-                    type
+                    type: activity.type
                 }
 
                 let photoURLs = [];
@@ -325,7 +301,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 }
                 detailedActivity.photoURLs = photoURLs;
 
-                console.log(JSON.stringify(detailedActivity))
+                // console.log(JSON.stringify(detailedActivity))
                 detailedActivity.photoUrl = photoURLs[0];
 
                 // save activity
@@ -365,10 +341,31 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         if (currentUser) {
             dispatch(createItinerary(itinerary))
                 .then(itinerary => {
-                    history.push(`/itineraries/${itinerary._id}`)
+                    history.push(`/itineraries/${itinerary._id}`);
+                    dispatch(fetchItinerary(itinerary._id))
                 })
         } else {
             setShowModal(true)
+        }
+    };
+
+    const handleMouseEnter = (activity) => {
+        // Find the marker by title
+        const marker = generatedMarkers.current.find(marker => marker.title === activity.name);
+        if (marker) {
+            // Change the marker when the item is hovered over
+            marker.setIcon('http://maps.google.com/mapfiles/kml/paddle/blu-circle.png');
+            // marker.setAnimation(window.google.maps.Animation.BOUNCE);
+        }
+    };
+
+    const handleMouseLeave = (activity) => {
+        // Find the marker by title
+        const marker = generatedMarkers.current.find(marker => marker.title === activity.name);
+        if (marker) {
+            // Change the marker back to its original state when the mouse leaves the item
+            marker.setIcon("http://maps.google.com/mapfiles/kml/paddle/purple-blank.png");
+            // marker.setAnimation(null); // Removes the bounce animation
         }
     };
 
@@ -378,6 +375,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 className={`activity-generated-item`}
                 key={index}
                 onClick={() => handleSelectActivity(activity)}
+                onMouseEnter={() => handleMouseEnter(activity)}
+                onMouseLeave={() => handleMouseLeave(activity)}
             >
                 {activity.photoUrl ? <img className="choice-img" src={activity.photoUrl} alt="activity" /> : null}
                 <div className="choice-activity-name">{activity.name}</div>
@@ -400,11 +399,13 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
     return (
         <>
+
+            {loginModal}
+
             <div className="section-top">
-                <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified">
-                    Map
-                </div>
+                <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified"></div>
                 <div className="itinerary-show-details" id="itinerary-show-details-modified">
+
                     {selectedActivities.length === 0 ? (
                         instructions
                         ) : (
