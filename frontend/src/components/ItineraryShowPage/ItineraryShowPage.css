@@ -36,7 +36,7 @@
     font-family: 'DM Serif Display', serif;
     color: #F2C48D;
     border-radius: 10px;
-    height: calc(33% - 1px);
+    height: 33%;
     position: relative;
 }
 
