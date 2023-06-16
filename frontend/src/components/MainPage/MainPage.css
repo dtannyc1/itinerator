@@ -10,7 +10,8 @@
     height: 300px;
     width: 400px;
     background-color: #23598a;
-    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.5s;
+    /* Slower transform transition when hovering away */
     font-family: 'DM Serif Display', serif;
     font-size: 20px;
     color: #feddb2;
@@ -18,10 +19,14 @@
     flex-direction: column;
     border-radius: 10px;
     box-shadow: 0 0 20px #050D26;
+    cursor: pointer;
 }
+
 .itinerary-item-wrap:hover {
     box-shadow: 0 0 20px #D9CA9C;
     transform: scale(1.1);
+    transition: box-shadow 0.3s, color 0.3s, transform 0.2s;
+    cursor: pointer;
 }
 
 .itinerary-link {
@@ -35,18 +40,23 @@
     object-fit: cover;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    cursor: pointer;
 }
 
 .main-activity-title {
     color: #f2ae2e;
     align-self: center;
+    cursor: pointer;
 }
+
 .main-activity-creator {
     font-size: 16px;
     margin: 30px 0px 0px 10px;
     display: flex;
+    cursor: pointer;
 }
-.main-activity-creator > p {
+
+.main-activity-creator>p {
     color: #f8bd5f;
     margin-left: 5px;
 }
@@ -56,5 +66,5 @@
     font-size: 14px;
     align-self: end;
     color: #feddb2;
-    
+    cursor: pointer;
 }
