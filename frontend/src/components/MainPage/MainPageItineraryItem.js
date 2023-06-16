@@ -44,7 +44,7 @@ const MainPageItineraryItem = ({ itinerary }) => {
 
                 <Slider {...sliderSettings}>
                     {randomizedImages.map((photoURL, index) => (
-                        <div key={index}>
+                        <div key={index} >
                             <img className="main-activity-img" src={photoURL} alt="activity_photo" />
                         </div>
                     ))}
