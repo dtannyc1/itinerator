@@ -484,7 +484,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                 <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified">
                     {/* Map */}
                 </div>
-                <div className="itinerary-show-details" id="itinerary-show-details-modified">
+                <div className={`itinerary-show-details${!isUpdating ? " not-updating": ""}`} id="itinerary-show-details-modified">
                     {selectedActivities && !isUpdating && itinerary.activities.length && itinerary.activities.map((activity) => {
                         return <ActivityItem activity={activity} key={activity._id} />
                     })}
