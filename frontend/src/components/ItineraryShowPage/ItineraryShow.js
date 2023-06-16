@@ -20,6 +20,8 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [showModal, setShowModal] = useState(false);
+    const [liked, setLiked] = useState(false);
+
 
     const [map, setMap] = useState(null);
     const [number, setNumber] = useState(3);
@@ -97,6 +99,9 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     // when you remove/add an activity, this runs.
     // this always generates activities, which will run the above useEffect when there are 3.
 
+    useEffect(() => {
+        checkLikeStatus();
+    }, []);
 
     // ------------- END OF USEEFFECTS ----------------------
 
@@ -126,8 +131,8 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     // sets NEWLY generated markers and selected markers
     const setMarkers = () => {
 
-        selectedActivities.forEach(place => {
-            createSelectedMarker(place);
+        selectedActivities.forEach((place, ii) => {
+            createSelectedMarker(place, ii);
         });
         const bounds = new window.google.maps.LatLngBounds();
         const allMarkers = [...generatedMarkers.current, ...selectedMarkers.current];
@@ -154,13 +159,14 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         selectedMarkers.current = [];
     };
 
-    const createSelectedMarker = (place) => {
+    const createSelectedMarker = (place, ii) => {
         const location = { lat: place.lat, lng: place.lng }
         const marker = new window.google.maps.Marker({
             // map: map,
             position: location,
             title: place.name,
-            icon: icons.orangeStar.icon
+            icon: icons.orangeBlank.icon,
+            label: { text: (ii + 1).toString(), className: 'marker-label' }
         });
         // create infowindow for marker
         const infowindow = new window.google.maps.InfoWindow();
@@ -410,6 +416,12 @@ const ItineraryShow = ({ mapOptions = {} }) => {
     )
     // if (!itinerary.activities) return <> <h1>Loading...</h1> </> // maybe change this line in future for more robust
 
+
+    const checkLikeStatus = async () => {
+        const isLiked = await likesSearch();
+        setLiked(isLiked);
+    };
+
     const likesSearch = () => {
         return itinerary.likes.some((like) => like.likerId === currentUser._id);
     }
@@ -426,11 +438,13 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     const handleLike = async () => {
         if (currentUser) {
-            const isLiked = await likesSearch();
-            if (isLiked) {
+            // const isLiked = await likesSearch();
+            if (liked) {
                 dispatch(deleteLike(itinerary._id));
+                setLiked(false);
             } else {
                 dispatch(createLike(itinerary._id));
+                setLiked(true);
             }
         } else {
             setShowModal(true);
@@ -477,8 +491,8 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                             <div className='show-page-creator'><p>Created by</p>{itinerary.creator}</div>
                         </div>
                         <div className='likes-holder'>
-                            <div>{itinerary.likes.length}</div>
-                            <i className="fa-solid fa-heart fa-2xl" onClick={handleLike}></i>
+                            <div className={`${liked ? '' : 'liked'}`} >{itinerary.likes.length}</div>
+                            <i className={`fa-solid fa-heart fa-2xl ${liked ? 'liked' : ''}`} onClick={handleLike}></i>
                         </div>
                     </>
                 }
@@ -488,7 +502,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                 <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified">
                     {/* Map */}
                 </div>
-                <div className={`itinerary-show-details${!isUpdating ? " not-updating": ""}`} id="itinerary-show-details-modified">
+                <div className={`itinerary-show-details${!isUpdating ? " not-updating" : ""}`} id="itinerary-show-details-modified">
                     {selectedActivities && !isUpdating && itinerary.activities.length && itinerary.activities.map((activity) => {
                         return <ActivityItem activity={activity} key={activity._id} />
                     })}
@@ -504,28 +518,28 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
             <div className="section-bottom">
                 <div className="section-left">
-                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Museum', null)}}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Museum', null) }}>
                         <i className="fa-solid fa-building-columns fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Bar', null)}}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Bar', null) }}>
                         <i className="fa-solid fa-martini-glass fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Park', null)}}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Park', null) }}>
                         <i className="fa-solid fa-tree fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Bowling and Pool', null)}}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Bowling and Pool', null) }}>
                         <i className="fa-solid fa-bowling-ball fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Movie and Theater', null)}}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Movie and Theater', null) }}>
                         <i className="fa-solid fa-clapperboard fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Cafe', null)}}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Cafe', null) }}>
                         <i className="fa-solid fa-mug-hot fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Pool and Ice skating', null)}}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Pool and Ice skating', null) }}>
                         <i className="fa-solid fa-person-swimming fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => {if (isUpdating) handleTextSearch(null, null, 'Restaurants', null)}}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Restaurants', null) }}>
                         <i className="fa-solid fa-utensils fa-2xl"></i>
                     </div>
                 </div>

@@ -12,7 +12,8 @@
     background-color: #23598a;
     transition: box-shadow 0.3s, color 0.3s, transform 0.5s;
     /* Slower transform transition when hovering away */
-    font-family: 'DM Serif Display', serif;
+    /* font-family: 'DM Serif Display', serif; */
+    font-family: 'Alegreya Sans', sans-serif;
     font-size: 20px;
     color: #feddb2;
     display: flex;
@@ -84,7 +85,7 @@
     cursor: pointer;
 }
 
-.main-likes-holder > div {
+.main-likes-holder>div {
     font-size: 16px;
     cursor: pointer;
 }
