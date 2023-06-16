@@ -3,18 +3,20 @@
     font-size: 30px;
     letter-spacing: .055em;
     margin: 0px 0px 5px 5px;
-    font-family: 'DM Serif Display', serif;
+    /* font-family: 'DM Serif Display', serif; */
+    font-family: 'Alegreya Sans', sans-serif;
 }
 
 .form-input {
     color: #fccd89;
     font-size: 20px;
-    font-family: 'DM Serif Display', serif;
+    /* font-family: 'DM Serif Display', serif; */
+    font-family: 'Alegreya Sans', sans-serif;
     position: relative;
     align-self: center;
 }
 
-.form-input > div {
+.form-input>div {
     margin-bottom: 5px;
 }
 
@@ -26,7 +28,7 @@
     width: 295px;
 }
 
-.form-input input::placeholder{
+.form-input input::placeholder {
     color: rgb(173, 173, 173);
 }
 
@@ -40,6 +42,7 @@
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s, border 0.3s;
     width: 400px;
 }
+
 .session-form:hover {
     box-shadow: 0 0 10px #D9CA9C;
 }
@@ -48,7 +51,8 @@
     width: 100px;
     margin: 10px 0px 40px 0px;
     font-size: 18px;
-    font-family: 'DM Serif Display', serif;
+    /* font-family: 'DM Serif Display', serif; */
+    font-family: 'Alegreya Sans', sans-serif;
 }
 
 #form-button:disabled {
@@ -64,25 +68,31 @@
 .form-errors-space-holder {
     height: 21px;
 }
+
 .form-errors {
     margin: 7px 0px 0px 0px;
     color: rgb(255, 59, 59);
     font-size: 14px;
-    font-family: 'DM Serif Display', serif;
+    /* font-family: 'DM Serif Display', serif; */
+    font-family: 'Alegreya Sans', sans-serif;
     max-width: 300px;
     font-weight: 600;
 }
 
-.input, .input-error {
+.input,
+.input-error {
     font-size: 16px;
-    letter-spacing: .04em;;
+    letter-spacing: .04em;
+    ;
     height: 20px;
     width: 200px;
     padding: 5px;
     border: 1px solid #D9BA23;
     border-radius: 5px;
-    font-family: 'DM Serif Display', serif;
+    /* font-family: 'DM Serif Display', serif; */
+    font-family: 'Alegreya Sans', sans-serif;
 }
+
 .input-error {
     border: 1px solid red;
 }

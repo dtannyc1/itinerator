@@ -109,6 +109,11 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     // sets NEW generated markers and selected markers
     const setMarkers = () => {
         const bounds = new window.google.maps.LatLngBounds();
+
+        selectedMarkers.current.map((marker, ii) => {
+            return marker.setLabel({ text: (ii + 1).toString(), className: 'marker-label' });
+        });
+
         const allMarkers = [...generatedMarkers.current, ...selectedMarkers.current];
         allMarkers.forEach(marker => {
             marker.setMap(map);
@@ -176,7 +181,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             // map: map,
             position: location,
             title: place.name,
-            icon: icons.orangeStar.icon
+            icon: icons.orangeBlank.icon
         });
         // create infowindow for marker
         const infowindow = new window.google.maps.InfoWindow();
@@ -419,7 +424,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
                     {selectedActivities.length === 0 ? (
                         instructions
-                        ) : (
+                    ) : (
                         selectedActivities.map((activity, index) => {
                             return <ActivityItem activity={activity} key={activity._id} />;
                         })

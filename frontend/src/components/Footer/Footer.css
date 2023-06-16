@@ -21,30 +21,34 @@
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
 }
 
-.team-member-capsule:hover > .footer-name-holder {
+.team-member-capsule:hover>.footer-name-holder {
     transform: scale(1.2);
 }
 
 .footer-name-holder {
-    font-family: 'DM Serif Display', serif;
+    /* font-family: 'DM Serif Display', serif; */
+    font-family: 'Alegreya Sans', sans-serif;
     font-size: 20px;
     color: #F2C48D;
     display: flex;
     justify-content: center;
-    cursor:default;
+    cursor: default;
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
 }
+
 .footer-links-holder {
     color: #A4A698;
     display: flex;
     justify-content: space-evenly;
 }
-.footer-links-holder > a {
+
+.footer-links-holder>a {
     text-decoration: none;
     color: inherit;
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
 }
-.footer-links-holder > a:hover {
+
+.footer-links-holder>a:hover {
     transform: scale(1.4);
     color: #F2C48D;
 }
