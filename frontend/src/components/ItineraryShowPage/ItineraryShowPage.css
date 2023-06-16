@@ -143,7 +143,7 @@
     top: 80px;
     cursor: pointer;
 }
-.likes-holder:hover {
+.likes-holder:hover{
     animation-name: pomping;
     animation-duration: 0.7s;
     animation-timing-function: ease;
@@ -164,7 +164,6 @@
 
 .likes-holder > div {
     font-size: 18px;
-    color: #f2ae2e;
     font-family: 'DM Serif Display', serif;
     align-self: baseline;
 }

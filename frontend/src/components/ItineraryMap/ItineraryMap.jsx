@@ -3,17 +3,17 @@ import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import '../ItineraryShowPage/ItineraryShowPage.css'
 import './ItineraryMap.css';
-import './LoadingAnimation.css';
 
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createItinerary, fetchItinerary } from "../../store/itineraries";
 import activityTypes from "./ActivityTypes";
 import ActivityItem from "../ItineraryShowPage/ActivityItem";
-import InstructionsModal from "./InsructionsModal";
+import InstructionsModal, { instructions } from "./InsructionsModal";
 import { selectCurrentUser } from "../../store/session";
 import LoginForm from "../SessionForms/LoginForm";
 import { Modal } from "../context/Modal";
+import LoadingAnimation from "./LoadingAnimation";
 
 const ItineraryMap = ({ mapOptions = {} }) => {
     const dispatch = useDispatch();
@@ -221,6 +221,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
             location: prevActivity ? { lat: prevActivity.lat, lng: prevActivity.lng } : { lat, lng },
             radius: searchRadius,
         }
+        setType(newType);
 
         if (service && lat !== 0 && lng !== 0) {
             setIsLoading(true);
@@ -407,44 +408,22 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         ))
     );
 
-    const loadingAnimation = (
-        <div className="loading-wrap">
-            <div className="loading-title">Loading top choices...</div>
-            <div className="animation-box">
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-                <div className="wave"></div>
-            </div>
-        </div>
-    )
-
     return (
         <>
+
             {loginModal}
 
             <div className="section-top">
                 <div ref={mapRef} className="itinerary-show-map" id="itinerary-show-map-modified"></div>
                 <div className="itinerary-show-details" id="itinerary-show-details-modified">
-                    {selectedActivities.map((activity, index) => {
-                        return <ActivityItem activity={activity} key={activity._id || activity.name} />
-                    })}
+
+                    {selectedActivities.length === 0 ? (
+                        instructions
+                        ) : (
+                        selectedActivities.map((activity, index) => {
+                            return <ActivityItem activity={activity} key={activity._id} />;
+                        })
+                    )}
                 </div>
             </div>
 
@@ -480,7 +459,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
 
                 <div className="section-right">
                     <div className="activity-generated-row">
-                        {isLoading ? loadingAnimation : activitiesChoiceRow}
+                        {isLoading ? <LoadingAnimation /> : activitiesChoiceRow}
                     </div>
 
                     <div className="input-button-capsule">

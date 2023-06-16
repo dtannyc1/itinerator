@@ -18,7 +18,7 @@
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    box-shadow: 0 0 20px #050D26;
+    box-shadow: 0 0 10px #050D26;
     cursor: pointer;
 }
 
@@ -46,12 +46,14 @@
 .main-activity-title {
     color: #f2ae2e;
     align-self: center;
+    text-transform: uppercase;
+    margin: 5px 0px 5px 0px;
     cursor: pointer;
 }
 
 .main-activity-creator {
     font-size: 16px;
-    margin: 30px 0px 0px 10px;
+    margin: 5px 0px 0px 10px;
     display: flex;
     cursor: pointer;
 }
@@ -62,9 +64,21 @@
 }
 
 .main-activity-date {
-    margin: 25px 10px 0px 0px;
+    margin: 0px 10px 0px 0px;
     font-size: 14px;
     align-self: end;
     color: #feddb2;
+}
+
+.main-likes-holder {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0px 0px 15px;
+    color: #f65000;
+    font-family: 'DM Serif Display', serif;
+}
+
+.main-likes-holder > div {
+    font-size: 16px;
     cursor: pointer;
 }
