@@ -36,10 +36,12 @@
 
 .main-activity-img {
     height: 190px;
-    width: 100%;
+    width: 92%;
+    margin-left: 4%;
     object-fit: cover;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    /* border-top-left-radius: 10px;
+    border-top-right-radius: 10px; */
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -53,7 +55,7 @@
 
 .main-activity-creator {
     font-size: 16px;
-    margin: 5px 0px 0px 10px;
+    margin: 5px 0px 0px 15px;
     display: flex;
     cursor: pointer;
 }
@@ -64,18 +66,22 @@
 }
 
 .main-activity-date {
-    margin: 0px 10px 0px 0px;
+    margin: 0px 16px 0px 0px;
     font-size: 14px;
     align-self: end;
     color: #feddb2;
+    cursor: pointer;
+    position: relative;
+    bottom: 7px;
 }
 
 .main-likes-holder {
     display: flex;
     flex-direction: row;
-    margin: 20px 0px 0px 15px;
+    margin: 20px 0px 0px 16px;
     color: #f65000;
     font-family: 'DM Serif Display', serif;
+    cursor: pointer;
 }
 
 .main-likes-holder > div {
