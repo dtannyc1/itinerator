@@ -212,6 +212,10 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     const handleUpdateItinerary = () => {
         setIsUpdating(true);
+        let prevActivity = selectedActivities[selectedActivities.length - 1];
+        if (prevActivity) {
+            handleTextSearch(null, prevActivity, generateRandomType());
+        }
     };
 
     const generateRandomType = () => {
