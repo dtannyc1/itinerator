@@ -103,6 +103,10 @@
 .activity-place-name {
     font-size: 18px;
     color: #f2ae2e;
+    max-width: 250px;
+    max-height: 36px;
+    overflow: hidden;
+    text-align: center;
 }
 
 .activity-place-address {

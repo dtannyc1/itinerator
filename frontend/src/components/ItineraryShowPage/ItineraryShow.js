@@ -13,6 +13,7 @@ import CommentItem from './CommentItem';
 import { createLike, deleteLike } from '../../store/likes';
 import { Modal } from '../context/Modal';
 import LoginForm from '../SessionForms/LoginForm';
+import CommentForm from './CommentForm';
 
 const ItineraryShow = ({ mapOptions = {} }) => {
 
@@ -591,6 +592,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                 </div>
             </div>
 
+            <CommentForm />
             {commentsSection}
         </>
     )
