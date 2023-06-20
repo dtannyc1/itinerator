@@ -77,6 +77,14 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 zoom: 15,
                 ...mapOptions,
             });
+
+            newMap.addListener("dragend", () => {
+                setLat(newMap.getCenter().lat())
+                setLng(newMap.getCenter().lng())
+                // listener to set new coordinates for search
+                // triggers a useEffect dependent on lng
+            });
+
             setMap(newMap);
         }
     }, [lat, lng]);
@@ -97,6 +105,12 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     useEffect(() => {
         if (generatedActivities.length) setMarkers()
     }, [generatedActivities])
+
+    useEffect(() => {
+        // Redo Search when lng is updated due to a dragend event
+        if (generatedMarkers) removeGeneratedMarkers();
+        handleTextSearch(null, null, type)
+    }, [lng])
 
     // removes all generated markers before generating new searches/markers (in handleTextSearch)
     const removeGeneratedMarkers = () => {
