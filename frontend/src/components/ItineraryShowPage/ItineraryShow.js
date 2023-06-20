@@ -35,14 +35,17 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     let lastActivitylat;
     let lastActivitylng;
+    let lastActivityType;
     if (itinerary) {
         const lastActivity = itinerary.activities[itinerary.activities.length - 1];
         lastActivitylat = lastActivity.lat
         lastActivitylng = lastActivity.lng
+        lastActivityType = lastActivity.type
         // we use these coordinates when we don't have a prevActivity
     }
     const [lat, setLat] = useState(lastActivitylat || 40.7271066);
     const [lng, setLng] = useState(lastActivitylng || -73.9947448);
+    const [lastType, setLastType] = useState(lastActivityType || "cafe")
 
     const [generatedActivities, setGeneratedActivities] = useState([]);
     const [selectedActivities, setSelectedActivities] = useState(itinerary?.activities);
@@ -58,6 +61,12 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                 zoom: 15,
                 // clickableIcons: false,
                 ...mapOptions,
+            });
+            newMap.addListener("dragend", () => {
+                setLat(newMap.getCenter().lat())
+                setLng(newMap.getCenter().lng())
+                // listener to set new coordinates for search
+                // triggers a useEffect dependent on lng
             });
             setMap(newMap);
         }
@@ -86,6 +95,12 @@ const ItineraryShow = ({ mapOptions = {} }) => {
             setMarkers();
         }
     }, [generatedActivities])
+
+    useEffect(()=> {
+        if (isUpdating) {
+            handleTextSearch(null, null, lastType);
+        }
+    }, [lng])
 
     useEffect(() => {
         if (isUpdating) {
@@ -260,10 +275,11 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         searchRadius = searchRadius || 500;
         const request = {
             keyword: type,
-            location: prevActivity ? { lat: prevActivity.lat, lng: prevActivity.lng } : getPrevActivity(),
+            location: prevActivity ? { lat: prevActivity.lat, lng: prevActivity.lng } : { lat, lng },
             radius: searchRadius,
         }
 
+        setLastType(type || lastType)
         setIsLoading(true);
         service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {

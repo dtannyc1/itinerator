@@ -28,7 +28,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [map, setMap] = useState(null);
-    const [type, setType] = useState(typeParam);
+    const [type, setType] = useState(typeParam || "cafe");
     const [number, setNumber] = useState(3);
     const [itineraryTitle, setItineraryTitle] = useState('');
     const [showModal, setShowModal] = useState(false);
