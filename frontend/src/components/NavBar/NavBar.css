@@ -18,7 +18,8 @@
 }
 
 .nav-button,
-.nav-logo {
+.nav-logo,
+.form-create-button {
     background-color: transparent;
     border: 2px solid #D9CA9C;
     border-radius: 5px;
@@ -62,7 +63,8 @@
     }
 }
 
-.nav-button:hover {
+.nav-button:hover,
+.form-create-button:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
     color: #D9BA23;
     transform: scale(1.1);

@@ -12,7 +12,6 @@ const CommentItem = ({ comment }) => {
     const { author, body, createdAt, authorId, _id } = comment;
     const currentUser = useSelector(selectCurrentUser);
     const [showUpdateForm, setShowUpdateFrom] = useState(false);
-    console.log(showUpdateForm)
     const [commentBody, setCommentBody] = useState(body);
     const dispatch = useDispatch();
 
@@ -26,9 +25,17 @@ const CommentItem = ({ comment }) => {
     };
 
     const controlButtons = (
-        <div>
-            <button onClick={e=>setShowUpdateFrom(true)}>Update Comment</button>
-            <button onClick={handleDelete}>Delete Comment</button>
+        <div className='comment-form-buttons-holder'>
+            <button 
+                className="form-create-button" 
+                onClick={e=>setShowUpdateFrom(true)}
+                >Update Comment
+            </button>
+            <button 
+                className="form-create-button" 
+                onClick={handleDelete}
+                >Delete Comment
+            </button>
         </div>
     )
 
@@ -37,17 +44,23 @@ const CommentItem = ({ comment }) => {
             <div className='comment-author'>{author}</div>
             <div className='comment-body'>{body}</div>
             <div className='comment-date'>{formatDate(createdAt)}</div>
-            {currentUser._id === authorId ? controlButtons : <></>}
+            {currentUser?._id === authorId ? controlButtons : <></>}
         </div>
     );
 
     const updateCommentForm = (
-        <div>
+        <div className='comment-capsule-update'>
+            
             <textarea
+                className='comment-form-body'
                 value={commentBody}
                 onChange={e => setCommentBody(e.currentTarget.value)}
             />
-            <button onClick={handleUpdate}>Update Comment</button>
+            <button 
+                onClick={handleUpdate} 
+                className='form-create-button'
+                >Update Comment
+            </button>
         </div>
     )
 

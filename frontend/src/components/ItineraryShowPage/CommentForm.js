@@ -13,13 +13,21 @@ const CommentForm = () => {
     };
 
     return (
-        <form>
-            <textarea
-                value={commentBody}
-                onChange={e => setCommentBody(e.currentTarget.value)}
-            />
-            <button onClick={handleSubmit}>Create Comment</button>
-        </form>
+        <div className="flex-box">
+            <form className="comment-capsule-update">
+                <div className="comment-form-title">Have anything to share:</div>
+                <textarea
+                    className="comment-form-body"
+                    value={commentBody}
+                    onChange={e => setCommentBody(e.currentTarget.value)}
+                />
+                <button 
+                    onClick={handleSubmit}
+                    className='form-create-button'
+                    >Create Comment
+                </button>
+            </form>
+        </div>
     )
 }
 
