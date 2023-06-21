@@ -55,20 +55,20 @@ Upon saving a personalized itinerary, other users will be able to view, like, an
 
 ## Our Team 
 
-<li style="list-style-type: none;">
-    <img src="frontend/src/assets/itineratorPlane.png" alt="Custom Bullet" width="30" style="vertical-align: middle; margin-right: 10px;"/> 
+<div>
+    <img src="frontend/src/assets/itineratorPlaneLow.png" alt="Custom Bullet" width="30" style="vertical-align: middle; margin-right: 10px;"/> 
     Frontend Lead: <a target="_blank" href="https://github.com/AntonJames-Sistence">Anton James</a>
-</li> 
+</div>
 
-<li style="list-style-type: none;">
-<img src="frontend/src/assets/itineratorPlane.png" alt="Custom Bullet" width="30" style="vertical-align: middle; margin-right: 10px;"/> 
+<div>
+<img src="frontend/src/assets/itineratorPlaneLow.png" alt="Custom Bullet" width="30" style="vertical-align: middle; margin-right: 10px;"/> 
     Flex Lead: <a target="_blank" href="https://github.com/bchoi28">Brandon Choi</a>
-</li>
+</div>
 
-<li style="list-style-type: none;">
-<img src="frontend/src/assets/itineratorPlane.png" alt="Custom Bullet" width="30" style="vertical-align: middle; margin-right: 10px;"/> 
+<div>
+<img src="frontend/src/assets/itineratorPlaneLow.png" alt="Custom Bullet" width="30" style="vertical-align: middle; margin-right: 10px;"/> 
     Backend Lead: <a target="_blank" href="https://github.com/dtannyc1">David Tan</a>
-</li>
+</div>
 
 
 ## Thanks for Reading!
