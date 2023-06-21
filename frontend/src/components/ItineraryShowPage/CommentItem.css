@@ -27,8 +27,8 @@
 .comment-update-box {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     width: 61%;
+    justify-content: space-between;
 }
 
 .comment-author {
