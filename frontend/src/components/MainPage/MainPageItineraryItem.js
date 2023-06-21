@@ -20,8 +20,8 @@ const MainPageItineraryItem = ({ itinerary }) => {
 
     const sliderSettings = {
         dots: false,
-        infinite: true,
-        autoplay: true,
+        infinite: false,
+        autoplay: false,
         speed: 1500,
         slidesToShow: 1,
         slidesToScroll: 1,
