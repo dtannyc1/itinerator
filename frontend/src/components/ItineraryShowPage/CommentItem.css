@@ -14,7 +14,7 @@
     color: #F2C48D;
     border-radius: 10px;
     padding: 10px;
-    width: 61%;
+    
 }
 .comment-capsule-update {
     display: flex;
@@ -27,6 +27,7 @@
 .comment-update-box {
     display: flex;
     flex-direction: column;
+    width: 61%;
     justify-content: space-between;
 }
 
