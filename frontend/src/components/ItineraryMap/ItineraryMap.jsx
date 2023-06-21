@@ -319,11 +319,12 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 }
 
                 let photoURLs = [];
-                if (results.photos) {
-                    results.photos.forEach(photo => {
-                        photoURLs.push(photo.getUrl());
-                    })
-                }
+                // if (results.photos) {
+                //     results.photos.forEach(photo => {
+                //         photoURLs.push(photo.getUrl());
+                //     })
+                // }
+                photoURLs.push(results.photos[0].getUrl());
                 detailedActivity.photoURLs = photoURLs;
 
                 // console.log(JSON.stringify(detailedActivity))

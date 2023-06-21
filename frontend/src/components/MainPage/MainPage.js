@@ -34,7 +34,7 @@ const MainPage = () => {
 
   useEffect(() => {
     let tmpItineraries = Object.values(itineraries).sort(recentSorter);
-    setSortedItineraries(tmpItineraries.slice(0, 9))
+    setSortedItineraries(tmpItineraries.slice(0, 6))
   }, [itineraries])
 
   return (
