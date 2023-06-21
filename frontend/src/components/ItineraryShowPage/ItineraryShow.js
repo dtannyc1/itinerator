@@ -584,8 +584,8 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                                     <button className="nav-button" onClick={handleSaveItinerary}>Save Itinerary</button>
                                 ) : (
                                     <>
-                                        <button className="nav-button" onClick={handleUpdateItinerary}>Edit Itinerary</button>
-                                        <button className="nav-button" onClick={handleDeleteItinerary}>Delete Itinerary</button>
+                                        <button className="nav-button-itinerary" onClick={handleUpdateItinerary}>Edit <p>Itinerary</p></button>
+                                        <button className="nav-button-itinerary" onClick={handleDeleteItinerary}>Delete <p>Itinerary</p></button>
                                     </>
                                 )}
                             </div>}

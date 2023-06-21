@@ -5,7 +5,6 @@ import { selectCurrentUser } from '../../store/session';
 import { useState } from 'react';
 import { deleteComment, updateComment } from '../../store/comments';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 
 const CommentItem = ({ comment }) => {
     const { itineraryId } = useParams();
@@ -49,15 +48,17 @@ const CommentItem = ({ comment }) => {
     );
 
     const updateCommentForm = (
-        <div className='comment-capsule-update'>
+        <div className='comment-update-box'>
+            <div className='comment-author'>{author}</div>
             
             <textarea
-                className='comment-form-body'
+                className='comment-form-body-update'
                 value={commentBody}
                 onChange={e => setCommentBody(e.currentTarget.value)}
             />
             <button 
                 onClick={handleUpdate} 
+                id='comment-update-button'
                 className='form-create-button'
                 >Update Comment
             </button>

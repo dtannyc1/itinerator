@@ -15,9 +15,10 @@ const CommentForm = () => {
     return (
         <div className="flex-box">
             <form className="comment-capsule-update">
-                <div className="comment-form-title">Have anything to share:</div>
+                <div className="comment-form-title">Have anything to share?</div>
                 <textarea
                     className="comment-form-body"
+                    id="comment-form-body-create"
                     value={commentBody}
                     onChange={e => setCommentBody(e.currentTarget.value)}
                 />

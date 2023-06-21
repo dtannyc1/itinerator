@@ -19,7 +19,8 @@
 
 .nav-button,
 .nav-logo,
-.form-create-button {
+.form-create-button,
+.nav-button-itinerary {
     background-color: transparent;
     border: 2px solid #D9CA9C;
     border-radius: 5px;
@@ -30,10 +31,21 @@
     transition: box-shadow 0.3s, color 0.3s, transform 0.2s;
     cursor: pointer;
     font-size: 16px;
-    /* font-family: 'DM Serif Display', serif; */
     font-family: 'Alegreya Sans', sans-serif;
 }
 
+.nav-button-itinerary {
+    font-size: 25px;
+    display: flex;
+    padding: 5px 10px 0px 10px;
+}
+.nav-button-itinerary > p {
+    font-family: 'Satisfy', serif;
+    text-transform: lowercase;
+    margin-left: 5px;
+    position: relative;
+    bottom: 1px;
+}
 
 .nav-logo {
     border: none;
@@ -64,7 +76,8 @@
 }
 
 .nav-button:hover,
-.form-create-button:hover {
+.form-create-button:hover,
+.nav-button-itinerary:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
     color: #D9BA23;
     transform: scale(1.1);
