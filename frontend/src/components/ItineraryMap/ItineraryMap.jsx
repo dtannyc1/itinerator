@@ -94,13 +94,13 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         handleTextSearch()
     }, [map])
 
-    useEffect(() => {
-        if (generatedMarkers) removeGeneratedMarkers();
-        let prevActivity = selectedActivities[selectedActivities.length - 1];
-        if (prevActivity) {
-            handleTextSearch(null, prevActivity, generateRandomType());
-        }
-    }, [selectedActivities])
+    // useEffect(() => {
+    //     if (generatedMarkers) removeGeneratedMarkers();
+    //     let prevActivity = selectedActivities[selectedActivities.length - 1];
+    //     if (prevActivity) {
+    //         handleTextSearch(null, prevActivity, generateRandomType());
+    //     }
+    // }, [selectedActivities])
 
     useEffect(() => {
         if (generatedActivities.length) setMarkers()
@@ -224,13 +224,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     const handleTextSearch = (e, prevActivity, newType, searchRadius) => {
         e?.preventDefault();
 
-        if (generatedActivities.length) {
-            generatedMarkers.current.forEach((marker) => {
-                marker.setMap(null);
-                marker.setVisible(false);
-            })
-            generatedMarkers.current = [];
-        }
+        if (generatedActivities.length) { removeGeneratedMarkers() }
+        generatedMarkers.current = [];
 
         // Create PlacesService instance using the map
         const service = map ? new window.google.maps.places.PlacesService(map) : null;
@@ -334,18 +329,19 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 // console.log(JSON.stringify(detailedActivity))
                 detailedActivity.photoUrl = photoURLs[0];
 
+                // reset generated activities
+                removeGeneratedMarkers();
+                setGeneratedActivities([])
+
                 // save activity
                 setSelectedActivities(prevSelectedActivities => [...prevSelectedActivities, detailedActivity])
+                createSelectedMarker(detailedActivity)
+
                 // move map
                 map.setCenter(activity.location)
                 // reset coordinates for next activity
                 setLat(parseFloat(detailedActivity.lat))
                 setLng(parseFloat(detailedActivity.lng))
-
-                createSelectedMarker(detailedActivity)
-
-                // reset generated activities
-                setGeneratedActivities([])
 
                 // redo search in useEffect for selectedActivities
             }
