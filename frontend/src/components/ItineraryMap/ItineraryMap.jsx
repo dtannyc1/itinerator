@@ -481,7 +481,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         {isLoading ? <LoadingAnimation /> : activitiesChoiceRow}
                     </div>
 
-                    <div className="input-button-capsule">
+                    <div className="input-button-capsule-create">
                         <InstructionsModal />
                         <div>
                             <input
