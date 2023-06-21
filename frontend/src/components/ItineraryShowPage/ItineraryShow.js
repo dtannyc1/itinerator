@@ -13,6 +13,7 @@ import CommentItem from './CommentItem';
 import { createLike, deleteLike } from '../../store/likes';
 import { Modal } from '../context/Modal';
 import LoginForm from '../SessionForms/LoginForm';
+import CommentForm from './CommentForm';
 
 const ItineraryShow = ({ mapOptions = {} }) => {
 
@@ -425,6 +426,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     const commentsSection = (
         <div className='comments-wrap'>
+            
             {itinerary?.comments.map((comment) => {
                 return <CommentItem comment={comment} key={comment._id} />
             })}
@@ -598,15 +600,15 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                                     <button className="nav-button" onClick={handleSaveItinerary}>Save Itinerary</button>
                                 ) : (
                                     <>
-                                        <button className="nav-button" onClick={handleUpdateItinerary}>Edit Itinerary</button>
-                                        <button className="nav-button" onClick={handleDeleteItinerary}>Delete Itinerary</button>
+                                        <button className="nav-button-itinerary" onClick={handleUpdateItinerary}>Edit <p>Itinerary</p></button>
+                                        <button className="nav-button-itinerary" onClick={handleDeleteItinerary}>Delete <p>Itinerary</p></button>
                                     </>
                                 )}
                             </div>}
                     </div>
                 </div>
             </div>
-
+            {currentUser && ( <CommentForm /> )}
             {commentsSection}
         </>
     )

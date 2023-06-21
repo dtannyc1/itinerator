@@ -166,8 +166,8 @@
 .input-button-capsule {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
+    /* justify-content: space-around; */
+    justify-content: end;
     margin-left: 10px;
     margin-right: 10px;
     position: relative;
