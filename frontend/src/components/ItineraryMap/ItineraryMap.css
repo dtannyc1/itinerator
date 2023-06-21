@@ -163,6 +163,20 @@
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
 }
 
+.input-button-capsule-create {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-left: 10px;
+    margin-right: 10px;
+    position: relative;
+}
+
+.input-button-capsule-create>div {
+    display: flex;
+    flex-direction: row;
+}
+
 .input-button-capsule {
     display: flex;
     flex-direction: row;
