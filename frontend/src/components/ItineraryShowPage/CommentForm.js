@@ -8,8 +8,10 @@ const CommentForm = () => {
     const [commentBody, setCommentBody] = useState('');
     const dispatch = useDispatch();
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         dispatch(createComment(itineraryId, commentBody));
+        setCommentBody('');
     };
 
     return (
@@ -22,7 +24,7 @@ const CommentForm = () => {
                     value={commentBody}
                     onChange={e => setCommentBody(e.currentTarget.value)}
                 />
-                <button 
+                <button
                     onClick={handleSubmit}
                     className='form-create-button'
                     >Create Comment

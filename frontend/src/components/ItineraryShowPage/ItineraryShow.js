@@ -426,7 +426,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
 
     const commentsSection = (
         <div className='comments-wrap'>
-            
+
             {itinerary?.comments.map((comment) => {
                 return <CommentItem comment={comment} key={comment._id} />
             })}
