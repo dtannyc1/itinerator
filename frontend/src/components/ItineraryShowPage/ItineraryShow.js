@@ -358,11 +358,12 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     type: activity.type
                 }
                 let photoURLs = [];
-                if (results.photos) {
-                    results.photos.forEach(photo => {
-                        photoURLs.push(photo.getUrl());
-                    })
-                }
+                // if (results.photos) {
+                //     results.photos.forEach(photo => {
+                //         photoURLs.push(photo.getUrl());
+                //     })
+                // }
+                photoURLs.push(results.photos[0].getUrl());
                 detailedActivity.photoURLs = photoURLs;
                 detailedActivity.photoUrl = photoURLs[0];
 
