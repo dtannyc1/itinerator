@@ -155,7 +155,7 @@ While updating an itinerary, upon selecting a generated activity suggestion, the
 
 * #### Generation by Map Interaction
 
-Upon dragging the map to a new location, <span style="color: #fccd89;">**itinerator&trade;**</span> dynamically performs a new search, generated 3 new activities.
+Upon dragging the map to a new location, <span style="color: #fccd89;">**itinerator&trade;**</span> dynamically performs a new search, generating 3 new activities.
 
 ![map-interaction](frontend/src/assets/gif6-map-interaction.gif)
 
