@@ -55,13 +55,11 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
 
-                        // // Use latitude and longitude values in your application
                         setLat(latitude);
                         setLng(longitude);
                     });
                 } else {
-                    // Geolocation is not supported by the browser
-                    // default to App Academy
+                    // if geolocation not supported by browser, default to App Academy
                     setLat(40.7271066);
                     setLng(-73.9947448);
                 }
@@ -107,7 +105,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     }, [generatedActivities])
 
     useEffect(() => {
-        // Redo Search when lng is updated due to a dragend event
+        // redo search when lng is updated due to a dragend event
         if (generatedMarkers) removeGeneratedMarkers();
         handleTextSearch(null, null, type)
     }, [lng])
@@ -227,7 +225,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
         if (generatedActivities.length) { removeGeneratedMarkers() }
         generatedMarkers.current = [];
 
-        // Create PlacesService instance using the map
+        // create PlacesService instance using the map
         const service = map ? new window.google.maps.places.PlacesService(map) : null;
         searchRadius = searchRadius || 500;
         const request = {
@@ -255,7 +253,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     }
 
                     if (activities.length !== number) {
-                        // expand search radius until we find enough suggestions
+                        // expand search radius until enough suggestions are found
                         redoSearch(e, prevActivity, newType, searchRadius)
                     } else {
                         activities.forEach(result => {
@@ -302,7 +300,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
     }
 
     const handleSelectActivity = (activity) => {
-        // get more details about activity
+        // get more details about the activity using Places API
         const service = new window.google.maps.places.PlacesService(map);
         const request = { placeId: activity.place_id }
         service.getDetails(request, (results, status) => {
@@ -326,8 +324,6 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 // }
                 photoURLs.push(results.photos[0].getUrl());
                 detailedActivity.photoURLs = photoURLs;
-
-                // console.log(JSON.stringify(detailedActivity))
                 detailedActivity.photoUrl = photoURLs[0];
 
                 // reset generated activities
@@ -344,7 +340,7 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                 setLat(parseFloat(detailedActivity.lat))
                 setLng(parseFloat(detailedActivity.lng))
 
-                // redo search in useEffect for selectedActivities
+                // redo search in useEffect listening to change in lng
             }
         })
     }
@@ -493,7 +489,8 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                                 className="nav-button"
                                 onClick={handleSaveItinerary}
                                 disabled={!itineraryTitle && currentUser}
-                            ><i className="fa-solid fa-plus"></i>itinerate!</button>
+                            ><i className="fa-solid fa-plus"></i>  <span style={{ marginTop: "1px" }}>itinerate!</span>
+                            </button>
                         </div>
                     </div>
 
