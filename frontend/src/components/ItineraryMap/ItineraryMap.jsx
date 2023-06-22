@@ -450,19 +450,19 @@ const ItineraryMap = ({ mapOptions = {} }) => {
                     <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Park', null)}>
                         <i className="fa-solid fa-tree fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Bowling and Pool', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Bowling and Billiards', null)}>
                         <i className="fa-solid fa-bowling-ball fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Moovie and Theater', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Movie Theater', null)}>
                         <i className="fa-solid fa-clapperboard fa-2xl"></i>
                     </div>
                     <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Cafe', null)}>
                         <i className="fa-solid fa-mug-hot fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Pool and Ice skating', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Swimming Pool and Ice Skating', null)}>
                         <i className="fa-solid fa-person-swimming fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Restaurants', null)}>
+                    <div className="create-page-circle" onClick={e => handleTextSearch(null, null, 'Restaurant', null)}>
                         <i className="fa-solid fa-utensils fa-2xl"></i>
                     </div>
                 </div>

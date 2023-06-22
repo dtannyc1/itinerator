@@ -11,8 +11,9 @@
 * [MVP Features](#mvp-features)
   * [Itinerary Curation: CRUD](#itinerary-curation-create-read-update-destroy)
   * [Google Maps API](#google-maps-api)
-    * [Activity Generation by Preferred Type](#generation-by-preferred-type-selection)
-    * [Activity Generation by Previous Type](#generation-by-previous-type-selection)
+    * [Activity Generation by Preferred Type](#generation-by-preferred-type)
+    * [Activity Generation by Previous Type](#generation-by-previous-type)
+    * [Activity Generation by Randomized Type](#generation-by-randomized-type)
     * [Activity Generation by Map Interaction](#generation-by-map-interaction)
   * [Community Interaction: CRUD](#community-interaction-like--comment-create-read-update-destroy)
 * [Future Functionalities](#future-functionalities)
@@ -45,7 +46,7 @@ Discover hidden gems in your local town or a dream vacation city abroad, pickup 
 
 Right from the splash, <span style="color: #fccd89;">**itinerator&trade;**</span> users start their personalized journey. 
 
-// gif1 - load splash, type chelsea, nyc, hover over icons, click restaurants
+![splash](frontend/src/assets/gif1-splash.gif)
 
     // setting location to perform nearbySearch on component mount
 
@@ -76,21 +77,21 @@ Right from the splash, <span style="color: #fccd89;">**itinerator&trade;**</span
 
 Users can select an unlimited amount of activites, name the itinerary, and save it.
 
-// gif2 - select 3 activities, name itinerary, save itinerary
+![save](frontend/src/assets/gif2-save.gif)
 
 Users can update/destroy their saved itinerary immediately, or from the splash page.
 
-// gif3 - on splash page, scroll down, click on itinerary, make few updates, save, delete.
+![update](frontend/src/assets/gif3-update.gif)
 
 ## Google Maps API
 
-<span style="color: #fccd89;">**itinerator&trade;**</span> utilizes Google Maps API to explore an endless amount of options based on real-time data provided by Google Maps on an interactive and intuitive map interface. Activity recommendations are generated through a combination of 3 methods:
+<span style="color: #fccd89;">**itinerator&trade;**</span> utilizes Google Maps API to explore an endless amount of options based on real-time data provided by Google Maps on an interactive and intuitive map interface. Activity recommendations are generated through a combination of 4 methods:
 
-* #### Generation by Preferred Type Selection
+* #### Generation by Preferred Type
 
 Upon clicking a preferred type icon, 3 new activities will be suggested. If <span style="color: #fccd89;">**itinerator&trade;**</span> cannot find 3 suitable activities of preferred type within a 500m radius, it will continue to increment its search radius by 500m until it does before displaying them to the user.
 
-// gif4 - click on preferred type icon (museum)
+![preferred-type](frontend/src/assets/gif4-preferred-type.gif)
 
     const handleTextSearch = (e, prevActivity, newType, searchRadius) => {
         e?.preventDefault();
@@ -142,23 +143,27 @@ Upon clicking a preferred type icon, 3 new activities will be suggested. If <spa
         }
     }
 
-* #### Generation by Previous Type Selection
+* #### Generation by Previous Type
 
-Upon selecting a generated activity suggestion, the map automatically centers over that selected activity before automating a new nearbySearch, generating 3 new suggestions based on that activity's type.
+While creating an itinerary, upon selecting a generated suggestion, the map centers over that selected activity and generates 3 new suggestions based on that activity's type. Of course, users can choose their own type if they prefer.
 
-// gif5 - click on activity, show 3 newly generated activities
+* #### Generation by Randomized Type
+
+While updating an itinerary, upon selecting a generated activity suggestion, the map centers around that selected activity and performs a nearbySearch, generating 3 new suggestions of a randomized type.
+
+![randomized-type](frontend/src/assets/gif5-randomized-type.gif)
 
 * #### Generation by Map Interaction
 
 Upon dragging the map to a new location, <span style="color: #fccd89;">**itinerator&trade;**</span> dynamically performs a new search, generated 3 new activities.
 
-// gif6 - drag map, show 3 newly generated activities
+![map-interaction](frontend/src/assets/gif6-map-interaction.gif)
 
 ## Community Interaction (Like & Comment): <span style="font-size: small;">`CREATE` `READ` `UPDATE` `DESTROY`</span>
 
 Upon saving a personalized itinerary, other users will be able to view, like, and comment on the itinerary. These interactive features facilitate meaningful interactions within the community, fostering a sense of connection among <span style="color: #fccd89;">**itinerator&trade;**</span> users.
 
-// gif7 liking itinerary, scrolling down, making comment.
+![interaction](frontend/src/assets/gif7-interaction.gif)
 
 ## Future Functionalities
 
@@ -190,7 +195,7 @@ Upon saving a personalized itinerary, other users will be able to view, like, an
 </div>
 
 
-## Thanks for `READ`ing!
+## Thanks for Reading!
 
 <span style="color: #fccd89;">**itinerator&trade;**</span> was brought to fruition from a 4-day sprint. We hope you enjoy our app, have fun, and safe travels. Bon voyage! 
 
