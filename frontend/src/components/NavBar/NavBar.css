@@ -35,9 +35,14 @@
 }
 
 .fa-id-badge {
-    font-size: 18px;
+    font-size: 18.1px;
     position: relative;
-    top: 1px
+    top: 1px;
+}
+
+.nav-login {
+    padding-top: 3.3px;
+    padding-bottom: 4.1px
 }
 
 .nav-button-itinerary {
