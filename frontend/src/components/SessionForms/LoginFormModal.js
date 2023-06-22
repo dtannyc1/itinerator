@@ -7,7 +7,7 @@ const LoginFormModal = () => {
 
     return (
         <>
-            <button className='nav-button' onClick={() => setShowModal(true)}>
+            <button className='nav-button nav-login' onClick={() => setShowModal(true)}>
                 <i className="fa-solid fa-id-badge"></i>
                 &nbsp;Log In
             </button>
