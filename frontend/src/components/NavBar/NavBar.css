@@ -34,12 +34,19 @@
     font-family: 'Alegreya Sans', sans-serif;
 }
 
+.fa-id-badge {
+    font-size: 18px;
+    position: relative;
+    top: 1px
+}
+
 .nav-button-itinerary {
     font-size: 25px;
     display: flex;
     padding: 5px 10px 0px 10px;
 }
-.nav-button-itinerary > p {
+
+.nav-button-itinerary>p {
     font-family: 'Satisfy', serif;
     text-transform: lowercase;
     margin-left: 5px;

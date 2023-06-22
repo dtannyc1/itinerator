@@ -47,11 +47,7 @@ const GetStarted = () => {
                 <i className="fa-solid fa-utensils fa-2xl"></i>
             </div>
 
-            {/* <div className='circle'><i className="fa-solid fa-basketball fa-2xl"></i></div> */}
-            {/* <div className='circle'><i className="fa-solid fa-futbol fa-2xl"></i></div> */}
-
             {error && <div className="splash-location-error-message">{error}</div>}
-            {/* to be styled */}
 
             <input
                 className='search-bar'
