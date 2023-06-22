@@ -97,7 +97,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
         }
     }, [generatedActivities])
 
-    useEffect(()=> {
+    useEffect(() => {
         if (isUpdating) {
             handleTextSearch(null, null, lastType);
         }
@@ -547,7 +547,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Park', null) }}>
                         <i className="fa-solid fa-tree fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Bowling and Pool', null) }}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Bowling', null) }}>
                         <i className="fa-solid fa-bowling-ball fa-2xl"></i>
                     </div>
                     <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Movie and Theater', null) }}>
@@ -556,10 +556,10 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Cafe', null) }}>
                         <i className="fa-solid fa-mug-hot fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Pool and Ice skating', null) }}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Swimming Pool', null) }}>
                         <i className="fa-solid fa-person-swimming fa-2xl"></i>
                     </div>
-                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Restaurants', null) }}>
+                    <div className="create-page-circle" onClick={e => { if (isUpdating) handleTextSearch(null, null, 'Restaurant', null) }}>
                         <i className="fa-solid fa-utensils fa-2xl"></i>
                     </div>
                 </div>
@@ -609,7 +609,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     </div>
                 </div>
             </div>
-            {currentUser && ( <CommentForm /> )}
+            {currentUser && (<CommentForm />)}
             {commentsSection}
         </>
     )
