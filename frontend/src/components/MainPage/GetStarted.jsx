@@ -51,7 +51,7 @@ const GetStarted = () => {
 
             <input
                 className='search-bar'
-                placeholder="enter a city or zip"
+                placeholder="enter location and choose activity"
                 value={location}
                 onChange={handleLocation}
             />
