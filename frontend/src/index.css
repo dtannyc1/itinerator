@@ -16,3 +16,9 @@ body {
     display: flex;
     flex-direction: row;
 }
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
