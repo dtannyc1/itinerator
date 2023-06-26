@@ -62,7 +62,17 @@ const itinerarySchema = new Schema({
         required: true
     },
     title: String,
-    activities: [activitySchema], // array of activities
+    activities: {
+        type: [activitySchema],
+        default: undefined,
+        required: true,
+        validate: {
+            validator: function() {
+                return this.activities.length > 0;
+            },
+            message: "Activities can't be empty"
+        }
+    }, // array of activities
     comments: [commentSchema],
     likes: [likeSchema]
 }, {
