@@ -54,6 +54,11 @@ const GetStarted = () => {
                 placeholder="enter location and choose activity"
                 value={location}
                 onChange={handleLocation}
+                onKeyDown={e => {
+                    if (e.code === 'Enter') {
+                        handleClick('cafe');
+                    }
+                }}
             />
         </div>
     )
