@@ -6,9 +6,17 @@ const REMOVE_ITINERARY = "itineraries/REMOVE_ITINERARY";
 const RECEIVE_ACTIVITY = "itineraries/RECEIVE_ACTIVITY";
 const REMOVE_ACTIVITY = "itineraries/REMOVE_ACTIVITY";
 
+const RECEIVE_USER_ITINERARIES = "user/itineraries/RECEIVE_USER_ITINERARIES";
+
 export const receiveItineraries = (itineraries) => {
     return {
         type: RECEIVE_ITINERARIES,
+        itineraries: itineraries
+    }
+};
+export const receiveUserItineraries = (itineraries) => {
+    return {
+        type: RECEIVE_USER_ITINERARIES,
         itineraries: itineraries
     }
 };
@@ -124,6 +132,8 @@ const itinerariesReducer = (state = {}, action) => {
     let updatedActivities;
     let updatedItinerary;
     switch (action.type) {
+        case RECEIVE_USER_ITINERARIES: // maybe need to refactor this piece, because it works only to get itineraries
+            return {...action.itineraries}
         case RECEIVE_ITINERARIES:
             return { ...nextState, ...action.itineraries }
         case RECEIVE_ITINERARY:

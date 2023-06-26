@@ -8,7 +8,6 @@ import logo from '../../assets/logo_clean.svg';
 
 function NavBar () {
     const currentUser = useSelector(state => state.session.user);
-    console.log(currentUser)
     const dispatch = useDispatch();
 
     const logoutUser = e => {
