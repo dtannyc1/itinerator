@@ -7,7 +7,8 @@ import SignupFormModal from '../SessionForms/SignupFormModal';
 import logo from '../../assets/logo_clean.svg';
 
 function NavBar () {
-    const loggedIn = useSelector(state => !!state.session.user);
+    const currentUser = useSelector(state => state.session.user);
+    console.log(currentUser)
     const dispatch = useDispatch();
 
     const logoutUser = e => {
@@ -16,14 +17,19 @@ function NavBar () {
     }
 
     const getLinks = () => {
-        if (loggedIn) {
+        if (currentUser) {
             return (
                 <div className="links-nav">
+                    <Link to={`/users/${currentUser._id}`}>
+                        <button className='nav-button'>
+                            <i className="fa-solid fa-route"></i>
+                            &nbsp;My Itineraries
+                        </button>
+                    </Link>
                     <button className='nav-button' onClick={logoutUser}>
                         <i className="fa-solid fa-right-from-bracket"></i>
                         &nbsp;Logout
                     </button>
-
                 </div>
             );
         } else {
