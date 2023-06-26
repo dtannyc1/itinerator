@@ -14,7 +14,7 @@
     color: #F2C48D;
     border-radius: 10px;
     padding: 10px;
-    
+
 }
 .comment-capsule-update {
     display: flex;
@@ -33,13 +33,17 @@
 
 .comment-author {
     color: #F2AE2E;
-    margin: 0px 0px 20px 10px;
+    margin: 12px 0px 20px 10px;
     font-size: 20px;
 }
 
 .comment-date {
     text-align: end;
     color: #feddb2;
+    margin: 10px 10px 12px 0px;
+}
+
+.comment-date.comment-date-short{
     margin: 10px 10px 0px 0px;
 }
 
@@ -54,6 +58,10 @@
 
 .comment-body::-webkit-scrollbar {
     display: none;
+}
+
+.comment-body.comment-body-full {
+    height: 80px;
 }
 
 #comment-form-body-create {
@@ -106,7 +114,7 @@
 
 .comment-form-buttons-holder {
     display: flex;
-    /* justify-content: end; */
+    justify-content: space-around;
 }
 
 .flex-box {
