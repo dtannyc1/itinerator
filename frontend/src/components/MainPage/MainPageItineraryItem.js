@@ -16,7 +16,7 @@ export const shuffleArray = (array) => {
 };
 
 const MainPageItineraryItem = ({ itinerary }) => {
-    const { _id, creator, createdAt, activities, title, likes } = itinerary;
+    const { _id, creator, createdAt, activities, title, likes, creatorId } = itinerary;
 
     const sliderSettings = {
         dots: false,
@@ -50,7 +50,7 @@ const MainPageItineraryItem = ({ itinerary }) => {
                     ))}
                 </Slider>
 
-                <div className="main-activity-creator">Shared by:<p>{creator}</p></div>
+                <div className="main-activity-creator">Shared by:<p><Link className="itinerary-link-effect" to={`/users/${itinerary.creatorId}`}>{creator}</Link></p></div>
 
                 <div className='main-likes-holder'>
                     <i className="fa-solid fa-heart fa-lg"></i>

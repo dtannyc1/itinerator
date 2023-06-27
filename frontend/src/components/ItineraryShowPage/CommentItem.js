@@ -5,6 +5,7 @@ import { selectCurrentUser } from '../../store/session';
 import { useState } from 'react';
 import { deleteComment, updateComment } from '../../store/comments';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const CommentItem = ({ comment }) => {
     const { itineraryId } = useParams();
@@ -40,7 +41,7 @@ const CommentItem = ({ comment }) => {
 
     const commentItem = (
         <div className='comment-capsule'>
-            <div className='comment-author'>{author}</div>
+            <div className='comment-author'><Link className="itinerary-link-effect" to={`/users/${authorId}`}>{author}</Link></div>
             <div className={`comment-body${currentUser?._id === authorId ? '' : ' comment-body-full'}`}>{body}</div>
             <div className={`comment-date${currentUser?._id === authorId ? ' comment-date-short' : ''}`}>{formatDate(createdAt)}</div>
             {currentUser?._id === authorId ? controlButtons : <></>}
@@ -49,7 +50,7 @@ const CommentItem = ({ comment }) => {
 
     const updateCommentForm = (
         <div className='comment-update-box'>
-            <div className='comment-author'>{author}</div>
+            <div className='comment-author'><Link className="itinerary-link-effect" to={`/users/${authorId}`}>{author}</Link></div>
 
             <textarea
                 className='comment-form-body-update'
