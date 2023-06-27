@@ -1,4 +1,98 @@
 .user-itineraries-box {
-    height: 500px;
-    width: 500px;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    margin-top: 80px;
+    flex-direction: column;
+    font-family: 'Alegreya Sans', sans-serif;
+}
+
+.user-itineraries-header {
+    font-size: 30px;
+    align-self: center;
+    color: #f2ae2e;
+}
+
+.itineraries-item-holder {
+    display: flex;
+    flex-direction: row;
+    margin: 30px 30px 0px 20px;
+    box-shadow: 0px 2px 15px black;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+    border-radius: 15px;
+    width: 60%;
+    align-self: center;
+    height: 200px;
+    background-color: #256fb5;
+    cursor: pointer;
+}
+.itineraries-item-holder:hover {
+    box-shadow: 0 0 20px #D9CA9C;
+    transform: scale(1.1);
+}
+
+.itineraries-details-holder {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0px 0px 10px;
+    width: 100%;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.user-itinerary-item-img {
+    height: 180px;
+    width: 400px;
+    border-radius: 15px;
+    align-self: center;
+    margin-left: 10px;
+}
+
+.itineraries-details-activities {
+    color: #f8bd5f;
+    font-weight: 400;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.itineraries-details-name {
+    align-self: center;
+    color: #f2ae2e;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.itineraries-details-date {
+    font-weight: 600;
+    color: #D9CA9C;
+    position: relative;
+    bottom: -37%;
+    cursor: pointer;
+}
+
+.user-comments-holder {
+    position: relative;
+    right: 10px;
+    bottom: -20px;
+    color: #D9CA9C;
+    text-align: end;
+    font-size: 24px;
+    cursor: pointer;
+}
+.user-likes-holder {
+    position: relative;
+    right: 10px;
+    top: -320%;
+    color: #f65000;
+    text-align: end;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.user-itinerary-link {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
 }

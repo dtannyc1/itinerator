@@ -511,7 +511,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                             <div className='show-page-creator'><p>Created by</p>{itinerary.creator}</div>
                         </div>
                         <div className='likes-holder'>
-                            <div className={`${liked ? '' : 'liked'}`} >{itinerary.likes.length}</div>
+                            <div className={`${liked ? 'liked' : ''}`} >{itinerary.likes.length}</div>
                             <i className={`fa-solid fa-heart fa-2xl ${liked ? 'liked' : ''}`} onClick={handleLike}></i>
                         </div>
                     </>
