@@ -167,15 +167,9 @@ Upon saving a personalized itinerary, other users will be able to view, like, an
 
 ## Future Functionalities
 
-#### User Profiles
-* User profile pages will display user information, demographics, contact info, and saved itineraries.
-
 #### Expanded Search Capability
 * Users will be able to utilize a search bar during the itinerary creation process to search by any desired keyword.
 * Users will have the option to view the next 3 activities if they did not like any of the first set of suggestions.
-
-#### Amazon Web Services (AWS) S3
-* Users will be able to share their own photos and videos from the activities on their itineraries.
 
 ## Our Team 
 
