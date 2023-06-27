@@ -35,14 +35,15 @@
     display: flex;
     flex-direction: column;
     margin: 10px 0px 0px 10px;
-    width: 100%;
+    width: 70%;
     justify-content: space-between;
     cursor: pointer;
 }
 
 .user-itinerary-item-img {
     height: 180px;
-    width: 400px;
+    width: 30%;
+    object-fit: cover;
     border-radius: 15px;
     align-self: center;
     margin-left: 10px;
@@ -67,14 +68,14 @@
     font-size: 18px;
     color: #D9CA9C;
     position: relative;
-    bottom: -37%;
+    bottom: -35%;
     cursor: pointer;
 }
 
 .user-comments-holder {
     position: relative;
     right: 10px;
-    bottom: -15px;
+    bottom: -16px;
     color: #D9CA9C;
     text-align: end;
     font-size: 20px;
