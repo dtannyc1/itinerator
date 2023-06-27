@@ -93,7 +93,19 @@
     cursor: pointer;
 }
 
-.main-likes-holder>div {
+.show-likes-capsule, .show-comments-capsule {
+    display: flex;
+    flex-direction: row;
+    margin: 0px 10px 0px 0px;
+}
+.show-comments-capsule {
+    color: #D9CA9C;
+}
+
+.show-comments-capsule > div {
+    margin-left: 5px;
     font-size: 16px;
-    cursor: pointer;
+}
+.show-likes-capsule > div {
+    font-size: 16px;
 }
