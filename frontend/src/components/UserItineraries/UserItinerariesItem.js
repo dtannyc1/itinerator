@@ -11,7 +11,7 @@ const UserItinerariesItem = ({itinerary}) => {
               {activities.map((ele, index) => (
                 <span key={ele.name}>
                     &nbsp;
-                    <i className="fa-solid fa-location-dot"></i> 
+                    <i className="pin fa-solid fa-location-dot"></i> 
                     &nbsp;
                     {ele.name}
                     {index !== activities.length - 1 && ","}
@@ -25,7 +25,7 @@ const UserItinerariesItem = ({itinerary}) => {
               {activities.slice(0, 3).map((ele, index) => (
                 <span key={ele.name}>
                     &nbsp;
-                    <i className="fa-solid fa-location-dot"></i> {ele.name}
+                    <i className="pin fa-solid fa-location-dot"></i> {ele.name}
                     {index !== activities.slice(0, 3).length - 1 && ","}
                 </span>
               ))} 

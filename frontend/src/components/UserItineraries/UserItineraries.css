@@ -50,22 +50,21 @@
 
 .itineraries-details-activities {
     color: #f8bd5f;
-    font-weight: 400;
-    font-size: 18px;
+    font-size: 17px;
     cursor: pointer;
 }
 
 .itineraries-details-name {
     align-self: center;
     color: #f2ae2e;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 22px;
+    font-family: italic;
     text-transform: uppercase;
     cursor: pointer;
 }
 
 .itineraries-details-date {
-    font-weight: 600;
+    font-size: 18px;
     color: #D9CA9C;
     position: relative;
     bottom: -37%;
@@ -75,19 +74,19 @@
 .user-comments-holder {
     position: relative;
     right: 10px;
-    bottom: -20px;
+    bottom: -15px;
     color: #D9CA9C;
     text-align: end;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
 }
 .user-likes-holder {
     position: relative;
     right: 10px;
-    top: -320%;
+    top: -370%;
     color: #f65000;
     text-align: end;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
 }
 
@@ -95,4 +94,8 @@
     text-decoration: none;
     display: flex;
     justify-content: center;
+}
+
+.pin {
+    color: #f65000;
 }

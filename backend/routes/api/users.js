@@ -86,4 +86,23 @@ router.get('/', function(req, res, next) {
     });
 });
 
+// get specific user
+router.get('/:id', async function(req, res, next) {
+    const userId = req.params.id;
+    console.log(userId)
+
+    try {
+        const user = await User.findById(userId);
+
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ message: "User not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

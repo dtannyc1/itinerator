@@ -30,9 +30,16 @@
     cursor: pointer;
 }
 
-.itinerary-link {
+.itinerary-link, .itinerary-link-effect {
     text-decoration: none;
     color: inherit;
+    transition: box-shadow 0.3s, color 0.3s, transform 0.2s;
+    z-index: 100;
+}
+.itinerary-link-effect:hover {
+    color: #f65000;
+    /* transform: scale(1.1); */
+    text-shadow: 0 0 5px black;
 }
 
 .main-activity-img {
@@ -49,6 +56,7 @@
 .main-activity-title {
     color: #f2ae2e;
     align-self: center;
+    font-family: italic;
     text-transform: uppercase;
     margin: 5px 0px 5px 0px;
     cursor: pointer;
@@ -85,7 +93,19 @@
     cursor: pointer;
 }
 
-.main-likes-holder>div {
+.show-likes-capsule, .show-comments-capsule {
+    display: flex;
+    flex-direction: row;
+    margin: 0px 10px 0px 0px;
+}
+.show-comments-capsule {
+    color: #D9CA9C;
+}
+
+.show-comments-capsule > div {
+    margin-left: 5px;
     font-size: 16px;
-    cursor: pointer;
+}
+.show-likes-capsule > div {
+    font-size: 16px;
 }

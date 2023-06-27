@@ -8,7 +8,7 @@ import activityTypes from '../ItineraryMap/ActivityTypes';
 import ActivityItem from './ActivityItem';
 import { getCurrentUser } from '../../store/session';
 import { selectCurrentUser } from '../../store/session';
-import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import CommentItem from './CommentItem';
 import { createLike, deleteLike } from '../../store/likes';
 import { Modal } from '../context/Modal';
@@ -508,7 +508,7 @@ const ItineraryShow = ({ mapOptions = {} }) => {
                     <>
                         <div className='title-holder'>
                             <div className='show-page-title'>{itinerary.title}</div>
-                            <div className='show-page-creator'><p>Created by</p>{itinerary.creator}</div>
+                            <div className='show-page-creator'><p>Created by</p><Link className="itinerary-link-effect" to={`/users/${itinerary.creatorId}`}>{itinerary.creator}</Link></div>
                         </div>
                         <div className='likes-holder'>
                             <div className={`${liked ? 'liked' : ''}`} >{itinerary.likes.length}</div>
