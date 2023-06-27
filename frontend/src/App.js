@@ -12,6 +12,7 @@ import ItineraryShowPage from './components/ItineraryShowPage/ItineraryShowPage'
 import { getCurrentUser } from './store/session';
 import { Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
+import UserItineraries from './components/UserItineraries/UserItineraries';
 
 function App() {
     const [loaded, setLoaded] = useState(false);
@@ -26,8 +27,9 @@ function App() {
 
             <Switch>
                 <Route exact path="/" component={MainPage} />
-                <Route exact path="/itineraries/:itineraryId" component={ItineraryShowPage} />
                 <Route exact path="/itinerary" component={ItineraryCreatePage} />
+                <Route exact path="/itineraries/:itineraryId" component={ItineraryShowPage} />
+                <Route exact path="/users/:userId" component={UserItineraries} />
             </Switch>
 
             <Footer />
