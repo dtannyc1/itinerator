@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './SessionForm.css';
 import { signup, clearSessionErrors, login } from '../../store/session';
 
-function SignupForm () {
+function SignupForm() {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -65,7 +65,7 @@ function SignupForm () {
 
     return (
         <div className='flex-column-wrap'>
-            <div className='form-header'>Sign Up Form</div>
+            <div className='form-header'>Sign Up</div>
 
             <form className="session-form" id='signup-form' onSubmit={handleSubmit}>
 
