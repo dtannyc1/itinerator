@@ -47,13 +47,13 @@
     flex-direction: row;
     justify-content: space-around;
     position: absolute;
-    top: -200px;
+    top: -185px;
     width: 100%;
 }
 
 .activity-generated-item {
     cursor: pointer;
-    transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+    transition: box-shadow 0.3s, transform 0.3s;
 }
 
 .activity-generated-item:hover>img {
@@ -69,7 +69,7 @@
 }
 
 .activity-generated-item:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .choice-activity-name {
@@ -200,6 +200,7 @@
 }
 
 .create-page-circle {
+    /* min-width: 50px; */
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -218,11 +219,27 @@
     margin-right: 20px;
 }
 
+@media (max-width: 1440px) {
+    .create-page-circle {
+        width: 65px;
+        height: 65px;
+        margin-right: 15px;
+    }
+}
+
+@media (max-width: 1340px) {
+    .create-page-circle {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+    }
+}
+
 .create-page-circle:hover {
     box-shadow: 0 0 10px #D9CA9C, inset 0 0 30px #D9CA9C;
     color: #0b67b8;
     background-color: rgba(240, 242, 240, 1);
-    transform: translateY(-10px) scale(1.2);
+    transform: translateY(-8px) scale(1.2);
 }
 
 .create-page-circle:active {

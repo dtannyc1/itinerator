@@ -21,14 +21,15 @@
     transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
 }
 
-.team-member-capsule:hover>.footer-name-holder {
+/* .team-member-capsule:hover>.footer-name-holder {
     transform: scale(1.2);
-}
+} */
 
 .footer-name-holder {
     /* font-family: 'DM Serif Display', serif; */
-    font-family: 'Alegreya Sans', sans-serif;
-    font-size: 20px;
+    /* font-family: 'Alegreya Sans', sans-serif; */
+    font-family: 'Satisfy', serif;
+    font-size: 24px;
     color: #F2C48D;
     display: flex;
     justify-content: center;

@@ -39,6 +39,7 @@
     border-radius: 10px;
     height: 33%;
     position: relative;
+    margin-right: 10px
 }
 
 .activity-item-wrap:first-child {
@@ -57,8 +58,7 @@
 .show-page-creator,
 .show-page-title {
     margin: 30px 0px 10px 10px;
-    /* font-family: 'Alegreya Sans', sans-serif; */
-    font-family: italic;
+    font-family: 'Alegreya Sans', sans-serif;
     font-size: 20px;
     color: #F2C48D;
     display: flex;
@@ -68,8 +68,9 @@
 }
 
 .show-page-title {
-    font-size: 26px;
+    font-size: 30px;
     margin: 30px 0px 10px 10px;
+    font-family: 'DM Serif Display', serif;
     text-transform: uppercase;
     color: #f2ae2e;
     display: flex;
@@ -87,6 +88,7 @@
 .show-page-creator>p {
     font-size: 14px;
     margin-right: 10px;
+    font-style: italic;
 }
 
 .show-title-holder {
@@ -107,6 +109,7 @@
     max-height: 25%;
     overflow: hidden;
     text-align: center;
+    padding-bottom: 2px;
 }
 
 .activity-place-address {
@@ -115,6 +118,7 @@
     overflow: hidden;
     text-align: center;
     max-height: 30%;
+    padding-bottom: 2px
 }
 
 .activity-photo {

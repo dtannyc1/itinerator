@@ -26,9 +26,11 @@
     background-color: #256fb5;
     cursor: pointer;
 }
+
 .itineraries-item-holder:hover {
     box-shadow: 0 0 20px #D9CA9C;
     transform: scale(1.1);
+    transition: box-shadow 0.3s, color 0.3s, transform 0.1s;
 }
 
 .itineraries-details-holder {
@@ -59,9 +61,10 @@
     align-self: center;
     color: #f2ae2e;
     font-size: 22px;
-    font-family: italic;
+    font-family: 'DM Serif Display', serif;
     text-transform: uppercase;
     cursor: pointer;
+    letter-spacing: 0.5px;
 }
 
 .itineraries-details-date {
@@ -81,6 +84,7 @@
     font-size: 20px;
     cursor: pointer;
 }
+
 .user-likes-holder {
     position: relative;
     right: 10px;

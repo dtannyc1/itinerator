@@ -3,14 +3,14 @@
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     row-gap: 50px;
-    margin: 50px;
+    margin: 50px 10px
 }
 
 .itinerary-item-wrap {
     height: 300px;
     width: 400px;
     background-color: #23598a;
-    transition: box-shadow 0.3s, color 0.3s, transform 0.5s;
+    transition: box-shadow 0.3s, transform 0.3s;
     /* Slower transform transition when hovering away */
     /* font-family: 'DM Serif Display', serif; */
     font-family: 'Alegreya Sans', sans-serif;
@@ -26,16 +26,19 @@
 .itinerary-item-wrap:hover {
     box-shadow: 0 0 20px #D9CA9C;
     transform: scale(1.1);
-    transition: box-shadow 0.3s, color 0.3s, transform 0.2s;
+    transition: box-shadow 0.qs, transform 0.1s;
     cursor: pointer;
 }
 
-.itinerary-link, .itinerary-link-effect {
+.itinerary-link,
+.itinerary-link-effect {
     text-decoration: none;
     color: inherit;
     transition: box-shadow 0.3s, color 0.3s, transform 0.2s;
     z-index: 100;
+    font-family: 'DM Serif Display', serif;
 }
+
 .itinerary-link-effect:hover {
     color: #f65000;
     /* transform: scale(1.1); */
@@ -56,10 +59,11 @@
 .main-activity-title {
     color: #f2ae2e;
     align-self: center;
-    font-family: italic;
+    font-family: 'DM Serif Display', serif;
     text-transform: uppercase;
     margin: 5px 0px 5px 0px;
     cursor: pointer;
+    letter-spacing: 0.5px;
 }
 
 .main-activity-creator {
@@ -93,22 +97,25 @@
     cursor: pointer;
 }
 
-.show-likes-capsule, .show-comments-capsule {
+.show-likes-capsule,
+.show-comments-capsule {
     display: flex;
     flex-direction: row;
     margin: 0px 10px 0px 0px;
     cursor: pointer;
 }
+
 .show-comments-capsule {
     color: #D9CA9C;
 }
 
-.show-comments-capsule > div {
+.show-comments-capsule>div {
     margin-left: 5px;
     font-size: 16px;
     cursor: pointer;
 }
-.show-likes-capsule > div {
+
+.show-likes-capsule>div {
     font-size: 16px;
     cursor: pointer;
 }
