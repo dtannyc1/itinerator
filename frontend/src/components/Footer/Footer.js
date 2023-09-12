@@ -56,7 +56,7 @@ const Footer = () => {
                     </a>
 
                     <a href='https://wellfound.com/u/brandon-choi-6'
-                        onClick={e => openExternalLink(e, 'https://www.linkedin.com/in/brandonchoi28/')}>
+                        onClick={e => openExternalLink(e, 'https://wellfound.com/u/brandon-choi-6')}>
                         <i className="fa-brands fa-angellist fa-2xl"></i>
                     </a>
 
